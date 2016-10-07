@@ -21,7 +21,7 @@
   window[options.helperName] = window[options.helperName] || {};
 
   function init(opt_options) {
-    delete window[options.helperName];
+    window[options.helperName] = undefined;
     options = merge(options, opt_options);
     window[options.helperName] = window[options.helperName] || {};
     window[options.helperName].options = options;
@@ -133,9 +133,9 @@
 
   function cookie(name, value, opts) {
     if (typeof value === 'undefined')
-      return dp6.getCookie(name);
+      return getCookie(name);
 
-    return dp6.setCookie(name, value, opts);
+    return setCookie(name, value, opts);
   }
 
   function expose() {
@@ -151,15 +151,3 @@
   }
   expose();
 } ());
-
-analyticsHelper.init({
-  helperName: 'nomeCustomizadoDoHelper',
-  debug: {{Debug Mode}} || false,
-  containerID: {{Container ID}} || '',
-  customNamePageview: 'ga_pageview',
-  customNameEvent: 'ga_event'
-});
-
-nomeCustomizadoDoHelper.event('categoria', 'evento', 'acao', {
-  // objeto adicional
-});

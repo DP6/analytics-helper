@@ -20,7 +20,7 @@
 ## API
 ###options
 ####helperName
-Descrição: Nome personalizado que será utilizado 
+Descrição: Nome personalizado que será utilizado no lugar do objeto Analytics Helper
 
 Default: AnalyticsHelper
 
