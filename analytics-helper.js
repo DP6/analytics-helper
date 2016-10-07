@@ -48,21 +48,29 @@
   }
 
   function pageview(path, object) {
-    log.info({ path: path, object: object });
-    dataLayer.push(merge({
-      event: options.customNamePageview,
-      path: path
-    }, object));
+    try {
+      log.info({ path: path, object: object });
+      dataLayer.push(merge({
+        event: options.customNamePageview,
+        path: path
+      }, object));
+    } catch (err) {
+      log.info(err);
+    }
   }
 
   function event(category, action, label, object) {
-    log.info({ category: category, action: action, label: label, object: object });
-    dataLayer.push(merge({
-      event: options.customNameEvent,
-      eventCategory: category,
-      eventAction: action,
-      eventLabel: label
-    }, object));
+    try {
+      log.info({ category: category, action: action, label: label, object: object });
+      dataLayer.push(merge({
+        event: options.customNameEvent,
+        eventCategory: category,
+        eventAction: action,
+        eventLabel: label
+      }, object));
+    } catch (err) {
+      log.info(err);
+    }
   }
 
   function sanitize(str, capitalized) {
@@ -143,3 +151,15 @@
   }
   expose();
 } ());
+
+analyticsHelper.init({
+  helperName: 'nomeCustomizadoDoHelper',
+  debug: {{Debug Mode}} || false,
+  containerID: {{Container ID}} || '',
+  customNamePageview: 'ga_pageview',
+  customNameEvent: 'ga_event'
+});
+
+nomeCustomizadoDoHelper.event('categoria', 'evento', 'acao', {
+  // objeto adicional
+});
