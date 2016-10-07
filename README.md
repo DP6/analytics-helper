@@ -19,13 +19,17 @@
 
 ## API
 ###options
-#####init(opt_options)
-#####helperName
-#####debug
-#####containerID
-#####customNamePageview
-#####customNameEvent
+####helperName
+Descrição: Nome personalizado que será utilizado 
 
+Default: AnalyticsHelper
+
+
+####debug
+####containerID
+####customNamePageview
+####customNameEvent
+###init(opt_options)
 Para configurar o helper será necessário passar o objeto para a função de inicialização da API:
 
 ```js
