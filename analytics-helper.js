@@ -6,6 +6,7 @@
     customNamePageview: 'ga_pageview',
     customNameEvent: 'ga_event'
   };
+
   var log = {
     info: function (info) {
       if (options.debug) {
@@ -18,6 +19,7 @@
       }
     }
   };
+
   window[options.helperName] = window[options.helperName] || {};
 
   function init(opt_options) {
@@ -137,6 +139,22 @@
 
     return setCookie(name, value, opts);
   }
+  
+  function getKey(key, opt_root) {
+    if (!key || typeof key !== 'string') return undefined;
+
+    var result = opt_root || this;
+    var splitKey = key.split('.');
+
+    for (var i = 0; i < splitKey.length; i++) {
+      if (result.hasOwnProperty(splitKey[i])) {
+        result = result[splitKey[i]];
+      } else {
+        return undefined;
+      }
+    }
+    return result;
+  }
 
   function expose() {
     window[options.helperName] = {
@@ -146,8 +164,10 @@
       sanitize: sanitize,
       options: options,
       getDataLayer: getDataLayer,
-      cookie: cookie
+      cookie: cookie,
+      getKey: getKey
     };
   }
+
   expose();
 } ());
