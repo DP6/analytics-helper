@@ -61,13 +61,14 @@
     }
   }
 
-  function event(category, action, label, object) {
+  function event(category, action, label, value, object) {
     try {
       log.info({ category: category, action: action, label: label, object: object });
       dataLayer.push(merge({
         event: options.customNameEvent,
         eventCategory: category,
         eventAction: action,
+        eventValue: action,
         eventLabel: label
       }, object));
     } catch (err) {
@@ -117,9 +118,7 @@
 
   function setCookie(name, value, opts) {
     var exdate, cookie;
-    opts = typeof opts === 'object' ? opts : {
-      exdays: opts
-    };
+    
     cookie = name + "=" + escape(value);
     if (opts.exdays) {
       exdate = new Date();
@@ -143,7 +142,7 @@
   function getKey(key, opt_root) {
     if (!key || typeof key !== 'string') return undefined;
 
-    var result = opt_root || this;
+    var result = opt_root || window;
     var splitKey = key.split('.');
 
     for (var i = 0; i < splitKey.length; i++) {
@@ -171,3 +170,4 @@
 
   expose();
 } ());
+
