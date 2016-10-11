@@ -142,7 +142,7 @@ analyticsHelper.cookie('meuCookie', 'meuValor', {
 }); // meuCookie=meuValor; expires=Sat, 21 Jan 2017 21:21:46 GMT; domain=meudominio.com.br; path=/meu-path
 
 // Recupera um cookie existente
-analyticsHelper.cookie('meuCookie'); // meuCookie=meuValor
+analyticsHelper.cookie('meuCookie'); // meuValor
 ```
 
 <br/>
