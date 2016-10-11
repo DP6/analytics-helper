@@ -147,7 +147,7 @@ analyticsHelper.cookie('meuCookie'); // meuValor
 
 <br/>
 ### getKey(key, opt_root)
-Encontra um objecto pela chave.
+Encontra um objeto ou valor pela chave informada. Caso alguma das chaves em cadeia não existir, a função retorna undefined, evitando assim o lançamento de exceptions. 
  * `key`: String - Chave do object a ser encontrado 
  * `opt_root`: Object - Objeto que possui a chave a ser encontrada (opcional)
 
@@ -162,6 +162,7 @@ var objeto = {
 };
 
 analyticsHelper.getKey('objeto.meuObjeto.meuArray.0.minhaChave'); // encontrei meu valor
+analyticsHelper.getKey('objeto.chaveNaoExistente.meuArray.0.minhaChave'); // undefined
 ```
 
 **Exemplo com objeto-raiz passado por parâmetro**
