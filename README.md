@@ -136,10 +136,10 @@ Cria um cookie ou recupera um existente.
 ```javascript
 // Cria um cookie
 analyticsHelper.cookie('meuCookie', 'meuValor', {
-  exdays: '3', // Dias para expiração
+  exdays: 3, // Dias para expiração
   domain: 'meudominio.com.br', // Domínio que o cookie atribuído
   path: '/meu-path' // Path do cookie
-}); // meuCookie=meuValor; expires=Sat, 21 Jan 2017 21:21:46 GMT; domain=meudominio.com.br; path=/meu-path
+}); // meuCookie=meuValor; expires=Sun, 16 Oct 2016 19:18:17 GMT; domain=meudominio.com.br; path=/meu-path
 
 // Recupera um cookie existente
 analyticsHelper.cookie('meuCookie'); // meuValor
@@ -175,5 +175,5 @@ var objeto = {
   }
 };
 
-analyticsHelper.getKey('meuObjeto.meuArray', objeto); // Object {minhaChave: "encontrei meu valor"}
+analyticsHelper.getKey('meuObjeto.meuArray.0', objeto); // Object {minhaChave: "encontrei meu valor"}
 ```
