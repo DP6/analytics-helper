@@ -68,7 +68,7 @@
         event: options.customNameEvent,
         eventCategory: category,
         eventAction: action,
-        eventValue: action,
+        eventValue: value,
         eventLabel: label
       }, object));
     } catch (err) {
