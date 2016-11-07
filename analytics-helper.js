@@ -63,6 +63,7 @@
 
   function event(category, action, label, value, object) {
     try {
+      object.eventNoInteraction = object.eventNoInteraction || false;
       log.info({ category: category, action: action, label: label, object: object });
       dataLayer.push(merge({
         event: options.customNameEvent,
