@@ -120,6 +120,7 @@
 
   function setCookie(name, value, opts) {
     var exdate, cookie;
+    opts = opts || {};
     
     cookie = name + "=" + escape(value);
     if (opts.exdays) {
