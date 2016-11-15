@@ -4,7 +4,8 @@
     debug: {{Debug Mode}} || false,
     containerID: {{Container ID}} || '',
     customNamePageview: 'ga_pageview',
-    customNameEvent: 'ga_event'
+    customNameEvent: 'ga_event',
+    persistCookie: "analyticsHelper.persist"
   };
 
   var log = {
@@ -157,6 +158,23 @@
     }
     return result;
   }
+  
+  var lastPagePersisted = (function() {
+    var values = getCookie(options.persistCookie);
+    try {
+    	return JSON.parse(values) || {};
+    } catch(e) {
+    	return {};
+    } 
+  })();
+  var thisPagePersisted = {};
+  function persist(key, value) {
+    if (typeof value === 'undefined') {
+      return lastPagePersisted[key];
+    }
+    thisPagePersisted[key] = value;
+    return setCookie(options.persistCookie, JSON.stringify(thisPagePersisted));
+  }
 
   function expose() {
     window[options.helperName] = {
@@ -167,10 +185,10 @@
       options: options,
       getDataLayer: getDataLayer,
       cookie: cookie,
-      getKey: getKey
+      getKey: getKey,
+      persist: persist
     };
   }
 
   expose();
 } ());
-
