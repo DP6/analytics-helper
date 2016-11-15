@@ -177,3 +177,19 @@ var objeto = {
 
 analyticsHelper.getKey('meuObjeto.meuArray.0', objeto); // Object {minhaChave: "encontrei meu valor"}
 ```
+
+<br/>
+### persist(key, value)
+Salva um dado para acessar na próxima página.
+ * `key`: String - Chave do dado
+ * `value`: Any - Valor a salvar
+**Exemplo gravação**
+```javascript
+analyticsHelper.persist("valor1", 123);
+analyticsHelper.persist("valor2", {teste: 42});
+```
+
+**Exemplo consulta na próxima página**
+```javascript
+console.log(analyticsHelper.persist("valor1") + analyticsHelper.persist("valor2"));
+```
