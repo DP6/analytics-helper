@@ -1,0 +1,22 @@
+{
+  "name": "analytics-helper",
+  "version": "1.0.0",
+  "description": "> Biblioteca auxiliar para implementação dos Tag Managers da DP6.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DP6/analytics-helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DP6/analytics-helper/issues"
+  },
+  "homepage": "https://github.com/DP6/analytics-helper#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sync": "^0.1.4",
+    "gulp-beautify": "^2.0.1"
+  }
+}
