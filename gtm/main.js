@@ -1,28 +1,33 @@
 ;(function () {
   var helper = {};
-  //=require options.js
+  //=require globalVars.js
+  
+  //=require initialization.js
 
   //=require gtm-modules.js
   
   /**
-   * Documentation for principal function of this helper
-   * @param {*} tagName 
-   * @param {*} callback 
-   * @param {*} immediate 
+   * Objetivo da função é encapsular o tagueamento no GTM.
+   * Utilizar o scoped no lugar de um try/catch
+   * @param {*} tagName Nome da tag que está chamando a função  
+   * @param {*} callback Função executada no escopo seguro do Helper
+   * @param {*} immediate Se a função recebida no parâmetro callback
+   * deve ser execurada imediatamente ou após o retorno de scoped
    */
-  function scope (id, callback, immediate) {
+  function scoped (tagName, callback, immediate) {
     var safe = function() {
       try {
         callback(helper);
       } catch ($$e) {
         if (console && typeof console.error === 'function')
-          console.error(id, $$e);
+          // TODO Data Quality
+          console.error(tagName, $$e);
       }
     };
     return immediate === false ? safe : safe();
   }
 
-  window[options.helperName] = {
-    scope: scope
+  window.analyticsHelper = {
+    scoped: scoped
   };
 }());
