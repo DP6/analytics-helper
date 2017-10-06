@@ -98,6 +98,7 @@ analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
 ```
 
 <br/>
+
 ### sanitize(str, capitalized)
 Utilizado para limpar textos, como na coleta de texto em seletores.
 * `str`: String - String para ser tratada
@@ -112,6 +113,7 @@ analyticsHelper.sanitize('Minha String Suja', true); // MinhaStringSuja
 ```
 
 <br/>
+
 ### getDataLayer(key)
 Retorna qualquer objeto contido no dataLayer exposto no ambiente.
  * `key`: String - Chave do objeto a ser recuperado
@@ -127,6 +129,7 @@ analyticsHelper.getDataLayer('meuObjeto'); // valor
 ```
 
 <br/>
+
 ### cookie(name, value, opts)
 Cria um cookie ou recupera um existente.
  * `name`: String - Nome do cookie 
@@ -147,6 +150,7 @@ analyticsHelper.cookie('meuCookie'); // meuValor
 ```
 
 <br/>
+
 ### getKey(key, opt_root)
 Encontra um objeto ou valor pela chave informada. Caso alguma das chaves em cadeia não existir, a função retorna undefined, evitando assim o lançamento de exceptions. 
  * `key`: String - Chave do object a ser encontrado 
@@ -180,6 +184,7 @@ analyticsHelper.getKey('meuObjeto.meuArray.0', objeto); // Object {minhaChave: "
 ```
 
 <br/>
+
 ### persist(key, value)
 Salva um dado para acessar na próxima página.
  * `key`: String - Chave do dado
