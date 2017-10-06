@@ -77,6 +77,7 @@ analyticsHelper.pageview('/sucesso-de-compra', {
 });
 ```
 <br/>
+
 ### event(category, action, label, value, object)
 Utilizado para o disparo de eventos.
  * `category`: String - Categoria do evento
