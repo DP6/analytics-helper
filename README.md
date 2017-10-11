@@ -210,9 +210,9 @@ Função recomendada para portar todo o código de uma TAG. Caso aconteça algum
 **Exemplo**
 ```javascript
 analyticsHelper.safeFn('GA - tag aleatoria', function(){
-	analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
-  	dimension1: 'São Paulo'
-	});
+  analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
+    dimension1: 'São Paulo'
+  });
 });
 ```
 <br/>
@@ -233,8 +233,8 @@ Chrome | Firefox | IE | Opera | Safari
 
 **Exemplo**
 ```javascript
-analyticsHelper.on('mousedown', '#botaoX', function(){
-  analyticsHelper.event('categoria', 'action', 'label');
+analyticsHelper.on('mousedown', '#botaoX', function () {
+  analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
 });
 ```
 <br/>
@@ -250,17 +250,15 @@ Verifica se determinado elemento satisfaz dado seletor.
 Dado o elemento apontado pela variável `elem`:
 ```html
 <div class='class1'>
-	<div class='class2'>
-		<div class='class2'>
-			<div class='class3'></div>
-		</div>
-	</div>
+  <div class='class2'>
+    <div class='class3'></div>
+  </div>
 </div>	
 ```
 ```javascript
-analyticsHelper.match(elem,'.class1');//true
-analyticsHelper.match(elem,'.class2');//false
-analyticsHelper.match(elem,'.class');//false
+analyticsHelper.match(elem,'.class1'); // true
+analyticsHelper.match(elem,'.class2'); // false
+analyticsHelper.match(elem,'.class'); // false
 ```
 <br/>
 
@@ -275,20 +273,19 @@ Procura, a partir de dado elemento, pelo elemento pai mais próximo a ele que sa
 Dado o elemento:
 ```html
 <div class='class1'>
-	<div class='class2'>
-		<div class='class2'>
-			<div class='class3'></div>
-		</div>
-	</div>
+  <div class='class2'>
+    <div class='class3'></div>
+  </div>
 </div>	
+
 ```
 Caso procurarmos pelo elemento de classe _class3_ pelos elementos pai de classes _class1_ e _class2_ teremos:
 ```javascript
-var elem = document.querySelector('.class3');// <div class='class3'></div>
+var elem = document.querySelector('.class3'); // <div class='class3'></div>
 
-analyticsHelper.closest(elem,'.class1');//<div class='class1'><div class='class2'>...</div>
-analyticsHelper.closest(elem,'.class2');//<div class='class2'><div class='class3'></div></div>
-analyticsHelper.closest(elem,'.class4');//undefined
+analyticsHelper.closest(elem,'.class1'); // <div class='class1'><div class='class2'>...</div>
+analyticsHelper.closest(elem,'.class2'); // <div class='class2'><div class='class3'></div></div>
+analyticsHelper.closest(elem,'.class4'); // undefined
 ```
 
 <br/>
@@ -307,9 +304,9 @@ Dado o elemento apontado pela variável `elem`:
 ``` 
 Usando a função para verificar a existência das classes class_Y eclass_W:
 ```javascript
-analyticsHelper.hasClass(elem,'class_Y'); //true
-analyticsHelper.hasClass(elem,'class_'); //true
-analyticsHelper.hasClass(elem,'class_W'); //false
+analyticsHelper.hasClass(elem,'class_Y'); // true
+analyticsHelper.hasClass(elem,'class_'); // true
+analyticsHelper.hasClass(elem,'class_W'); // false
 ```
 <br/>
 
@@ -327,9 +324,9 @@ Dado o elemento:
 ``` 
 Usando a função:
 ```javascript
-analyticsHelper.getFullClassName(elem,'Y'); //"class_Y"
-analyticsHelper.getFullClassName(elem,'classY'); //""
-analyticsHelper.getFullClassName(elem,'class'); //"class_X"
+analyticsHelper.getFullClassName(elem,'Y'); // "class_Y"
+analyticsHelper.getFullClassName(elem,'classY'); // ""
+analyticsHelper.getFullClassName(elem,'class'); // "class_X"
 ```
 <br/>
 
@@ -344,7 +341,7 @@ Função que se assemelha a _.on()_, porém com a versatilidade para páginas re
 
 **Exemplo**
 ```javascript
-analyticsHelper.delegate('mousedown', '#botaoX', function(){
-  analyticsHelper.event('categoria', 'action', 'label');
+analyticsHelper.delegate('mousedown', '#botaoX', function () {
+  analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
 });
 ```
