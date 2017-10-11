@@ -199,3 +199,152 @@ analyticsHelper.persist("valor2", {teste: 42});
 ```javascript
 console.log(analyticsHelper.persist("valor1") + analyticsHelper.persist("valor2"));
 ```
+<br/>
+
+### safeFn(id, callback, immediate)
+Função recomendada para portar todo o código de uma TAG. Caso aconteça algum erro, será reportado um erro no console com o nome da TAG.
+* `id`: String - nome da Tag
+* `callback`: function - função a ser executada dentro da safefn
+* `immediate`: Boolean - se for false, retorna a função ao invés de executar
+
+**Exemplo**
+```javascript
+analyticsHelper.safeFn('GA - tag aleatoria', function(){
+	analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
+  	dimension1: 'São Paulo'
+	});
+});
+```
+<br/>
+
+### on(event, selector, callback)
+
+A função on é uma opção para páginas que não contêm jQuery previamente implementado, serve para executar um callback ao executar algum evento em um elemento HTML específico. Ele se baseia na função querySelector do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 8.
+
+**Tabela de Compatibilidade**
+
+Chrome | Firefox | IE | Opera | Safari
+--- | --- | --- | --- | ---
+1 | 3.5 | 8 | 10 | 3.2
+
+* `event`: String - Evento que ira executar o callback, exemplos: 'mousedown', 'click'.
+* `selector`: String - Seletor CSS que irá buscar os elementos que executarão o callback no disparo do evento.
+* `callback`: function - Função executada no disparo do evento.
+
+**Exemplo**
+```javascript
+analyticsHelper.on('mousedown', '#botaoX', function(){
+  analyticsHelper.event('categoria', 'action', 'label');
+});
+```
+<br/>
+
+### match(elm, seletor)
+
+Verifica se determinado elemento satisfaz dado seletor.
+
+* `elm`: element - Elemento pai
+* `seletor`: String - Seletor
+
+**Exemplo**
+Dado o elemento apontado pela variável `elem`:
+```html
+<div class='class1'>
+	<div class='class2'>
+		<div class='class2'>
+			<div class='class3'></div>
+		</div>
+	</div>
+</div>	
+```
+```javascript
+analyticsHelper.match(elem,'.class1');//true
+analyticsHelper.match(elem,'.class2');//false
+analyticsHelper.match(elem,'.class');//false
+```
+<br/>
+
+### closest(elm, seletor)
+
+Procura, a partir de dado elemento, pelo elemento pai mais próximo a ele que satisfaça dado seletor. Caso não haja, retorna _undefined_.
+
+* `elm`: element - Elemento inicial
+* `seletor`: String - Seletor
+
+**Exemplo**
+Dado o elemento:
+```html
+<div class='class1'>
+	<div class='class2'>
+		<div class='class2'>
+			<div class='class3'></div>
+		</div>
+	</div>
+</div>	
+```
+Caso procurarmos pelo elemento de classe _class3_ pelos elementos pai de classes _class1_ e _class2_ teremos:
+```javascript
+var elem = document.querySelector('.class3');// <div class='class3'></div>
+
+analyticsHelper.closest(elem,'.class1');//<div class='class1'><div class='class2'>...</div>
+analyticsHelper.closest(elem,'.class2');//<div class='class2'><div class='class3'></div></div>
+analyticsHelper.closest(elem,'.class4');//undefined
+```
+
+<br/>
+
+### hasClass(e, className)
+
+Procura no atributo _class_ de um dado elemento alguma classe que contenha determinado nome. Caso exista, retorna _true_ caso haja e _false_ caso contrário.
+
+* `e`: element - Elemento no qual se realiza a verificação
+* `className`: string - Classe para qual verifica-se a existência no elemento
+
+**Exemplo**
+Dado o elemento apontado pela variável `elem`:
+```html
+<div class='class_X class_Y class_Z'>...</div>	
+``` 
+Usando a função para verificar a existência das classes class_Y eclass_W:
+```javascript
+analyticsHelper.hasClass(elem,'class_Y'); //true
+analyticsHelper.hasClass(elem,'class_'); //true
+analyticsHelper.hasClass(elem,'class_W'); //false
+```
+<br/>
+
+### getFullClassName(elm, name)
+
+Procura no atributo _class_ de um dado elemento alguma class que contenha determinado nome. Caso exista, retorna a primeira class que satisfaça a busca, caso não exista retorna vazio.
+
+* `elm`: element - Elemento em cujo atributo se realiza a busca
+* `name`: String - Fragmento o qual deseja-se achar em alguma das classes do elemento
+
+**Exemplo**
+Dado o elemento:
+```html
+<div class='class_X class_Y class_Z'>...</div>	
+``` 
+Usando a função:
+```javascript
+analyticsHelper.getFullClassName(elem,'Y'); //"class_Y"
+analyticsHelper.getFullClassName(elem,'classY'); //""
+analyticsHelper.getFullClassName(elem,'class'); //"class_X"
+```
+<br/>
+
+### delegate(event, selector, handler, parent)
+
+Função que se assemelha a _.on()_, porém com a versatilidade para páginas responsivas onde os elementos de interesses não estão presentes inicialmente na página ou são ocultados durante a interação.
+
+* `event`: String - Evento que ira executar o callback, exemplos: 'mousedown', 'click'.
+* `selector`: String - Seletor CSS que irá buscar os elementos que executarão o callback no disparo do evento.
+* `handler`: function - Função executada no disparo do evento.
+* `parent`: element (optional) - Elemento presente inicialmente na página e que não é ocultado. Defaut é o _document_ da página.
+
+**Exemplo**
+```javascript
+analyticsHelper.delegate('mousedown', '#botaoX', function(){
+  analyticsHelper.event('categoria', 'action', 'label');
+});
+```
