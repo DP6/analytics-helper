@@ -209,7 +209,7 @@ Função recomendada para portar todo o código de uma TAG. Caso aconteça algum
 
 **Exemplo**
 ```javascript
-analyticsHelper.safeFn('GA - tag aleatoria', function(){
+analyticsHelper.safeFn('GA - Nome da Tag', function () {
   analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
     dimension1: 'São Paulo'
   });
