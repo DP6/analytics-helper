@@ -23,7 +23,7 @@
 
   window[options.helperName] = window[options.helperName] || {};
 
-  function init(opt_options) {
+  function init (opt_options) {
     window[options.helperName] = undefined;
     options = merge(options, opt_options);
     window[options.helperName] = window[options.helperName] || {};
@@ -31,15 +31,15 @@
     expose();
   }
 
-  function getDataLayer(key) {
+  function getDataLayer (key) {
     return google_tag_manager[options.containerID].dataLayer.get(key);
   }
 
-  function has(obj, key) {
+  function has (obj, key) {
     return hasOwnProperty.call(obj, key);
   }
 
-  function merge(obj, obj2) {
+  function merge (obj, obj2) {
     if (obj2) {
       for (var key in obj2) {
         if (has(obj2, key)) {
@@ -50,7 +50,7 @@
     return obj;
   }
 
-  function pageview(path, object) {
+  function pageview (path, object) {
     try {
       log.info({ path: path, object: object });
       dataLayer.push(merge({
@@ -62,7 +62,7 @@
     }
   }
 
-  function event(category, action, label, value, object) {
+  function event (category, action, label, value, object) {
     try {
       object = object || {};
       object.eventNoInteraction = object.eventNoInteraction || false;
@@ -79,7 +79,7 @@
     }
   }
 
-  function sanitize(str, capitalized) {
+  function sanitize (str, capitalized) {
     var split, i;
     if (!str) return '';
 
@@ -106,7 +106,7 @@
     return str.replace(/_+/g, '_');
   }
 
-  function getCookie(key) {
+  function getCookie (key) {
     key = ('; ' + key + '=');
     var cookie = ('; ' + document.cookie);
     var index = cookie.indexOf(key);
@@ -119,7 +119,7 @@
     return window.unescape(end === -1 ? cookie : cookie.substring(0, end));
   }
 
-  function setCookie(name, value, opts) {
+  function setCookie (name, value, opts) {
     var exdate, cookie;
     opts = opts || {};
     
@@ -136,14 +136,14 @@
     return (document.cookie = cookie);
   }
 
-  function cookie(name, value, opts) {
+  function cookie (name, value, opts) {
     if (typeof value === 'undefined')
       return getCookie(name);
 
     return setCookie(name, value, opts);
   }
   
-  function getKey(key, opt_root) {
+  function getKey (key, opt_root) {
     if (!key || typeof key !== 'string') return undefined;
 
     var result = opt_root || window;
@@ -167,8 +167,10 @@
     	return {};
     } 
   })();
+
   var thisPagePersisted = {};
-  function persist(key, value) {
+
+  function persist (key, value) {
     if (typeof value === 'undefined') {
       return lastPagePersisted[key];
     }
@@ -176,7 +178,120 @@
     return setCookie(options.persistCookie, JSON.stringify(thisPagePersisted));
   }
 
-  function expose() {
+ function safeFn (id, callback, immediate) {
+      var safe = function() {
+        try {
+          callback(window[options.helperName], window.jQuery);
+        } catch ($$e) {
+          if (console && typeof console.error === 'function')
+            console.error(id, $$e);
+        }
+      };
+
+      return immediate === false ? safe : safe();
+  }
+
+    function on (event, selector, callback) {
+      if (typeof jQuery === "function") {
+        var elem = jQuery(selector);
+        if (typeof elem.on === "function") {
+          return elem.on(event, callback);
+        } else if (typeof elem.bind === "function") {
+          return elem.bind(event, callback);
+        }
+      }
+
+      var array;
+      if(typeof selector === "string") {
+        array = document.querySelectorAll(selector);
+      } else if(typeof selector.length === "undefined" || selector === window) {
+        /* window pode ser um Array de frames, caso em que não queremos que seja iterado */
+        array = [selector];
+      } else {
+        array = selector;
+      }
+
+      for (var count = 0; count < array.length; count++) {
+        var elm = array[count];
+        if (typeof elm.addEventListener === "function") {
+          elm.addEventListener(event, callback);
+        } else {
+          elm.attachEvent("on" + event, callback);
+        }
+      }
+    }
+
+    function match (elm, seletor) {
+      if (typeof jQuery === "function") return jQuery(elm).is(seletor);
+      var elms = elm.parentNode.querySelectorAll(seletor);
+
+      for (var i = 0; i < elms.length; i++) {
+        if (elms[i] === elm) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function closest (elm, seletor) {
+      if (typeof jQuery === "function") return jQuery(elm).closest(seletor)[0];
+      var parent = elm.parentNode;
+
+      while (parent != document) {
+        if (this.match(parent, seletor)) {
+          return parent;
+        }
+        parent = parent.parentNode;
+      }
+      return undefined;
+    }
+
+    function hasClass (e, className) {
+      if (e.className.indexOf(className) >= 0) {
+        return true;
+      }
+      return false;
+    }
+
+    function getFullClassName(elm, name) {
+      var classes = elm.className.split(' ');
+
+      for (var i = 0; i < classes.length; i++) {
+        if (classes[i].indexOf(name) != - 1) {
+          return classes[i];
+        }
+      }
+
+      return "";
+    }
+
+    function delegate (event, selector, handler, parent) {
+      if (typeof jQuery === "function") {
+        var elem = jQuery(parent || document);
+        if (typeof elem.on === "function") {
+          return elem.on(event, selector, handler);
+        } else if (typeof elem.delegate === "function") {
+          return elem.delegate(selector, event, handler);
+        }
+      }
+      if (typeof document.addEventListener === "function") {
+        var method = "addEventListener";
+      } else {
+        var method = "attachEvent";
+        event = "on" + event;
+      }
+      (parent || document)[method](event, function (e) {
+        for (var target = e.target; target && target != this; target = target.parentNode) {
+          // loop parent nodes from the target to the delegation node
+          if (match(target, selector)) {
+            handler.call(target, e);
+            break;
+          }
+        }
+      }, false);
+    }
+
+  function expose () {
     window[options.helperName] = {
       init: init,
       pageview: pageview,
