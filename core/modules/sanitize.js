@@ -31,4 +31,3 @@ function sanitize (str, capitalized) {
 
     return str.replace(/_+/g, '_');
   }
-helper.sanitize = sanitize;

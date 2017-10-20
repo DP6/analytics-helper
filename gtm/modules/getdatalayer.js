@@ -8,4 +8,3 @@
 function getDataLayer (key) {
   return google_tag_manager[options.containerID].dataLayer.get(key);
 }
-helper.getDataLayer = getDataLayer;

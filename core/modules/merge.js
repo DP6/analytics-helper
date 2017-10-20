@@ -23,4 +23,3 @@ function merge (obj, obj2) {
   }
   return obj;
 }
-helper.merge = merge;

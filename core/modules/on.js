@@ -9,4 +9,3 @@ function on (event, selector, callback) {
   // TODO
   callback(document.querySelector(selector));
 }
-helper.on = on;

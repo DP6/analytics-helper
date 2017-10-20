@@ -20,4 +20,3 @@ function event (category, action, label, value, object) {
     eventLabel: label
   }, object));
 }
-helper.event = event;

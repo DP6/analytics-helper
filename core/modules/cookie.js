@@ -57,4 +57,3 @@ function cookie (name, value, opts) {
 
   return setCookie(name, value, opts);
 }
-helper.cookie = cookie;

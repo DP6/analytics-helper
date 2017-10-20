@@ -12,4 +12,3 @@ function pageview (path, object) {
     path: path
   }, object));
 }
-helper.pageview = pageview;

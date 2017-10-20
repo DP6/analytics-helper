@@ -34,7 +34,6 @@ function cookie(name, value, opts) {
 
   return setCookie(name, value, opts);
 }
-helper.cookie = cookie;
 
 function getKey(key, opt_root) {
   if (!key || typeof key !== 'string') return undefined;
@@ -66,12 +65,10 @@ function merge(obj, obj2) {
   }
   return obj;
 }
-helper.merge = merge;
 
 function on(event, selector, callback) {
   callback(document.querySelector(selector));
 }
-helper.on = on;
 
 function sanitize(str, capitalized) {
   var split, i;
@@ -99,7 +96,6 @@ function sanitize(str, capitalized) {
 
   return str.replace(/_+/g, '_');
 }
-helper.sanitize = sanitize;
 
 function event(category, action, label, value, object) {
   object = object || {};
@@ -118,12 +114,10 @@ function event(category, action, label, value, object) {
     eventLabel: label
   }, object));
 }
-helper.event = event;
 
 function getDataLayer(key) {
   return google_tag_manager[options.containerID].dataLayer.get(key);
 }
-helper.getDataLayer = getDataLayer;
 
 function pageview(path, object) {
   log.info({
@@ -135,4 +129,3 @@ function pageview(path, object) {
     path: path
   }, object));
 }
-helper.pageview = pageview;
