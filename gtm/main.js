@@ -1,10 +1,9 @@
 ;(function () {
-  var helper = {};
   //=require globalVars.js
   
   //=require initialization.js
 
-  //=require gtm-modules.js
+  //=require tmp/gtm-modules.min.js
 
-  //=require expose.js
+  //=require tmp/expose.min.js
 }());

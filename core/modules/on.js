@@ -1,84 +1,36 @@
-
-/**
- *Executa um callback ao executar algum evento 
- *em um elemento HTML específico.
- * @param {*} event Evento que ira executar o callback, exemplos: 
- *'mousedown', 'click'.
- * @param {*} selector Seletor CSS que irá buscar os elementos 
- *que executarão o callback no disparo do evento.
- * @param {*} callback Função executada no disparo do evento.
- */
-function on (event, selector, callback) {
-<<<<<<< HEAD
-  // TODO
-  callback(document.querySelector(selector));
-}
-=======
-  if (typeof jQuery === "function") {
-    var elem = jQuery(selector);
-    if (typeof elem.on === "function") {
-      return elem.on(event, callback);
-    } else if (typeof elem.bind === "function") {
-      return elem.bind(event, callback);
-    }
-  }
-
-  var array;
-  if(typeof selector === "string") {
-    array = document.querySelectorAll(selector);
-  } else if(typeof selector.length === "undefined" || selector === window) {
-    /* window pode ser um Array de frames, caso em que não queremos que seja iterado */
-    array = [selector];
+function on(id, event, selector, oldCallback, parent) {
+  if (parent) {
+    delegate(id, event, selector, oldCallback, parent);
   } else {
-    array = selector;
-  }
-
-  for (var count = 0; count < array.length; count++) {
-    var elm = array[count];
-    if (typeof elm.addEventListener === "function") {
-      elm.addEventListener(event, callback);
-    } else {
-      elm.attachEvent("on" + event, callback);
-    }
-  }
-}
-
-/**
- *Executa um callback ao executar algum evento 
- *em um elemento HTML específico que possa estar 
- *inicialmente oculto ou se ocultar em uma página responsiva.
- * @param {*} event Evento que ira executar o callback, exemplos: 
- *'mousedown', 'click'.
- * @param {*} selector Seletor CSS que irá buscar os elementos 
- *que executarão o callback no disparo do evento.
- * @param {*} handler Função executada no disparo do evento.
- * @param {*} parent elemento presente inicialmente na página 
- *e que não é ocultado. Defaut é o document da página.
- */
-function delegate (event, selector, handler, parent) {
-  if (typeof jQuery === "function") {
-    var elem = jQuery(parent || document);
-    if (typeof elem.on === "function") {
-      return elem.on(event, selector, handler);
-    } else if (typeof elem.delegate === "function") {
-      return elem.delegate(selector, event, handler);
-    }
-  }
-  if (typeof document.addEventListener === "function") {
-    var method = "addEventListener";
-  } else {
-    var method = "attachEvent";
-    event = "on" + event;
-  }
-  (parent || document)[method](event, function (e) {
-    for (var target = e.target; target && target != this; target = target.parentNode) {
-      // loop parent nodes from the target to the delegation node
-      if (match(target, selector)) {
-        handler.call(target, e);
-        break;
+    var elm;
+    var callback;
+    if (typeof jQuery === "function") {
+      elm = window.jQuery(selector);
+      callback = safeFn(id, oldCallback, { isLocal: true, event: event, selector: selector, immediate: false, elm: elm });
+      if (typeof elm.on === "function") {
+        return elm.on(event, callback);
+      } else if (typeof elm.bind === "function") {
+        return elm.bind(event, callback);
       }
     }
-  }, false);
+
+    var array;
+    if (typeof selector === "string") {
+      array = document.querySelectorAll(selector);
+    } else if (typeof selector.length === "undefined" || selector === window) {
+      array = [selector];
+    } else {
+      array = selector;
+    }
+
+    for (var count = 0; count < array.length; count++) {
+      elm = array[count];
+      callback = safeFn(id, oldCallback, { isLocal: true, event: event, selector: selector, immediate: false, elm: elm });
+      if (typeof elm.addEventListener === "function") {
+        elm.addEventListener(event, callback);
+      } else {
+        elm.attachEvent("on" + event, callback);
+      }
+    }
+  }
 }
-helper.on = on;
->>>>>>> ad5d98840832b915f540be84595f5f5b357f1b87

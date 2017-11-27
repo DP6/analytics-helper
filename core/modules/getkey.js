@@ -1,4 +1,3 @@
-
 /**
  * Recupera o valor de uma chave encadeada de um objeto,
  * tratando o erro de acessar um objeto de undefined em qualquer
@@ -7,13 +6,13 @@
  * @param {*} opt_root Caso houver a necessidade de passar o objeto
  * root deste elemento.
  */
-function getKey (key, opt_root) {
+function getKey(key, opt_root) {
   if (!key || typeof key !== 'string') return undefined;
 
   var result = opt_root || window;
   var splitKey = key.split('.');
 
-  for (var i = 0; i < splitKey.length; i++) {
+  for (var i = 0; i < splitKey.length && result != null; i++) {
     if (result.hasOwnProperty(splitKey[i])) {
       result = result[splitKey[i]];
     } else {

@@ -1,16 +1,15 @@
-
 /**
  * Encontra e retorna o cookie com o valor informado por parâmetro
  * Esta função é utilizada pela função cookie como facilitadora
  * @param {*} key Chave do cookie
  */
-function getCookie (key) {
+function getCookie(key) {
   key = ('; ' + key + '=');
   var cookie = ('; ' + document.cookie);
   var index = cookie.indexOf(key);
   var end;
   if (index === -1) {
-    return null;
+    return '';
   }
   cookie = cookie.substring(index + key.length);
   end = cookie.indexOf(';');
@@ -24,11 +23,11 @@ function getCookie (key) {
  * @param {*} value Valor do cookie
  * @param {*} opts Opções do cookie, como vencimento e domínio
  */
-function setCookie (name, value, opts) {
+function setCookie(name, value, opts) {
   var exdate, cookie;
   opts = opts || {};
-  
-  cookie = name + "=" + escape(value);
+
+  cookie = name + "=" + window.escape(value);
   if (opts.exdays) {
     exdate = new Date();
     exdate.setDate(exdate.getDate() + opts.exdays);
@@ -51,7 +50,7 @@ function setCookie (name, value, opts) {
  * @param {*} value Valor do Cookie
  * @param {*} opts Opções do cookie, como vencimento e domínio
  */
-function cookie (name, value, opts) {
+function cookie(name, value, opts) {
   if (typeof value === 'undefined')
     return getCookie(name);
 

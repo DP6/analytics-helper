@@ -1,19 +1,24 @@
 var options = {
-  debug: {{Debug Mode}} || false,
-  containerID: {{Container ID}} || '',
+  helperName: 'analyticsHelper',
+  dataLayerName: 'dataLayer',
+  debug: ({{Container ID}} || ''),
+  waitQueue: true,
+  sentPageview: false,
+  eventQueue: [],
+  containerID: ({{Container ID}} || ''),
+  exceptionEvent: 'gtm_dataQuality_event',
+  exceptionCategory: 'GTM Exception',
   customNamePageview: 'ga_pageview',
-  customNameEvent: 'ga_event'
+  customNameEvent: 'ga_event',
+  errorSampleRate: 1
 };
+
+var fn = {};
 
 var log = {
   info: function (info) {
     if (options.debug) {
-      console.log('INFO: ', info);
-    }
-  },
-  error: function (error) {
-    if (options.debug) {
-      console.log(error);
+      console.info('INFO: ', info);
     }
   }
 };
