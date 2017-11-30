@@ -1,9 +1,8 @@
 var options = {
   helperName: 'analyticsHelper',
   dataLayerName: 'dataLayer',
-  debug: ({{Container ID}} || ''),
+  debug: ({{Debug Mode}} || ''),
   waitQueue: true,
-  sentPageview: false,
   eventQueue: [],
   containerID: ({{Container ID}} || ''),
   exceptionEvent: 'gtm_dataQuality_event',
@@ -13,6 +12,7 @@ var options = {
   errorSampleRate: 1
 };
 
+var arrConcat = Array.prototype.concat;
 var fn = {};
 
 var log = {

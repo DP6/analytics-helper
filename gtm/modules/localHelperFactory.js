@@ -1,75 +1,75 @@
-function localHelperFactory(id, args) {
-  return {
-    event: function(category, action, label, value, object) {
-      return event(category, action, label, value, object, id);
-    },
-    pageview: function(path, object) {
-      return pageview(path, object, id);
-    },
-    safeFn: function(id, callback, opt) {
-      return safeFn(id, callback, opt);
-    },
-    on: function(event, selector, callback, parent) {
-      return on(id, event, selector, callback, parent);
-    },
-    wrap: function(elm, func, params) {
-      if (typeof elm === 'string') {
-        elm = document.querySelectorAll(elm);
-      }
+  function localHelperFactory(id, args) {
+    var localHelper = {
+      event: function(category, action, label, value, object){
+        return event(category, action, label, value, object, id);
+      },
+      pageview: function(path, object){
+        return pageview(path, object, id);
+      },
+      safeFn: function (id, callback, opt) {
+        return safeFn(id, callback, opt);
+      },
+      on: function (event, selector, callback, parent) {
+        return on(id, event, selector, callback, parent);
+      },
+      wrap: function(elm, func, params){
+        if (typeof elm === 'string'){
+          elm = find(window.document, elm);
+        } else if(elm instanceof HTMLElement){
+          elm = [elm];
+        } else if((elm instanceof Array || elm instanceof NodeList) === false){
+          throw 'wrap: Esperado receber seletor, elemento HTML, NodeList ou Array';
+        }
 
-      if (func && typeof func === 'function') {
-        return internalMap(elm, func, params);
-      }
+        if (func && typeof func === 'function'){
+          return internalMap(elm, func, params);
+        }
 
-      if (typeof elm === 'object' && (elm instanceof HTMLElement || elm instanceof NodeList)) {
         return {
-          hasClass: function(className) {
-            if (elm instanceof NodeList) {
-              return internalMap(elm, hasClass, [className]);
-            } else {
-              return hasClass(elm, className);
+          hasClass: function(className, reduce){
+            var arr = internalMap(elm, hasClass, [className]);
+            if(reduce){
+              return reduceBool(arr);
             }
+            return arr;
           },
-          matches: function(selector) {
-            if (elm instanceof NodeList) {
-              return internalMap(elm, matches, [selector]);
-            } else {
-              return matches(elm, selector);
+          matches: function(selector, reduce){
+            var arr = internalMap(elm, matches, [selector]);
+            if(reduce){
+              return reduceBool(arr);
             }
+            return arr;
           },
-          closest: function(selector) {
-            if (elm instanceof NodeList) {
-              return internalMap(elm, closest, [selector]);
-            } else {
-              return closest(elm, selector);
+          closest: function(selector){
+            return internalMap(elm, closest, [selector]);
+          },
+          text: function(opt){
+            var arr = internalMap(elm, text, [opt]);
+            if(opt && opt.onlyText){
+              return reduceString(arr);
             }
+            return arr;
           },
-          text: function(opt) {
-            if (elm instanceof NodeList) {
-              return internalMap(elm, text, [opt]);
-            } else {
-              return text(elm, opt);
-            }
+          find: function(sel){
+            var elms = internalMap(elm, find, [sel]);
+            return localHelper.wrap(flatten(elms));
           },
-          map: function(func, params) {
+          map: function(func, params){
             return internalMap(elm, func, params);
           },
           nodes: elm
         };
-      } else if (elm) {
-        throw 'Esperado receber seletor, elmento HTML ou NodeList';
-      }
-      return null;
-    },
-    push: function(obj) {
-      return push(obj, id);
-    },
-    sanitize: sanitize,
-    getDataLayer: getDataLayer,
-    cookie: cookie,
-    getKey: getKey,
-    id: id,
-    args: args,
-    fn: fn
-  };
-}
+      },
+      push: function(obj){
+        return push(obj, id);
+      },
+      sanitize: sanitize,
+      getDataLayer: getDataLayer,
+      cookie: cookie,
+      getKey: getKey,
+      id: id,
+      args: args,
+      fn: fn
+    };
+    return localHelper;
+  }
