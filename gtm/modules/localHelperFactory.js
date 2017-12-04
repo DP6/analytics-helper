@@ -12,17 +12,13 @@
       on: function (event, selector, callback, parent) {
         return on(id, event, selector, callback, parent);
       },
-      wrap: function(elm, func, params){
+      wrap: function(elm){
         if (typeof elm === 'string'){
           elm = find(window.document, elm);
         } else if(elm instanceof HTMLElement){
           elm = [elm];
         } else if((elm instanceof Array || elm instanceof NodeList) === false){
           throw 'wrap: Esperado receber seletor, elemento HTML, NodeList ou Array';
-        }
-
-        if (func && typeof func === 'function'){
-          return internalMap(elm, func, params);
         }
 
         return {
@@ -59,9 +55,6 @@
           },
           nodes: elm
         };
-      },
-      push: function(obj){
-        return push(obj, id);
       },
       sanitize: sanitize,
       getDataLayer: getDataLayer,

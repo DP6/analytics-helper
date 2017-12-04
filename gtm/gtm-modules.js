@@ -242,18 +242,6 @@
     }
   }
 
-  function push(obj, id) {
-    var info = {
-      'object': obj,
-      'tag': id
-    };
-    if (options.debug) {
-      log.info(info);
-    }
-
-    window[options.dataLayerName].push(obj);
-  }
-
   function reduceBool(arr) {
     for (var i = 0; i < arr.length; i++) {
       var elm = arr[i];
@@ -370,17 +358,13 @@
       on: function(event, selector, callback, parent) {
         return on(id, event, selector, callback, parent);
       },
-      wrap: function(elm, func, params) {
+      wrap: function(elm) {
         if (typeof elm === 'string') {
           elm = find(window.document, elm);
         } else if (elm instanceof HTMLElement) {
           elm = [elm];
         } else if ((elm instanceof Array || elm instanceof NodeList) === false) {
           throw 'wrap: Esperado receber seletor, elemento HTML, NodeList ou Array';
-        }
-
-        if (func && typeof func === 'function') {
-          return internalMap(elm, func, params);
         }
 
         return {
@@ -417,9 +401,6 @@
           },
           nodes: elm
         };
-      },
-      push: function(obj) {
-        return push(obj, id);
       },
       sanitize: sanitize,
       getDataLayer: getDataLayer,
