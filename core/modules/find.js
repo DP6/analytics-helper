@@ -1,3 +1,3 @@
-    function find(parent, sel){
-      return parent.querySelectorAll(sel);
-    }
+function find(parent, sel) {
+  return parent.querySelectorAll(sel);
+}

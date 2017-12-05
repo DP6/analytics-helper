@@ -13,7 +13,7 @@ function getKey(key, opt_root) {
   var splitKey = key.split('.');
 
   for (var i = 0; i < splitKey.length && result != null; i++) {
-    if (result.hasOwnProperty(splitKey[i])) {
+    if (has(result, splitKey[i])) {
       result = result[splitKey[i]];
     } else {
       return undefined;

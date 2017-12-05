@@ -15,11 +15,13 @@ function event(category, action, label, value, object, id) {
 
     object = object || {};
     object.eventNoInteraction = object.eventNoInteraction || false;
-    var obj = { category: category, action: action, label: label, object: object };
-    if(id){
-      obj.tag = id;
-    }
-    log.info(obj);
+    log('info', {
+      category: category,
+      action: action,
+      label: label,
+      object: object,
+      tag: id
+    });
     window[options.dataLayerName].push(merge({
       event: options.customNameEvent,
       eventCategory: category,
@@ -28,6 +30,6 @@ function event(category, action, label, value, object, id) {
       eventLabel: label
     }, object));
   } catch (err) {
-    log.info(err);
+    log('warn', err);
   }
 }

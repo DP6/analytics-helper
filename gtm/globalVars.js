@@ -1,3 +1,6 @@
+var arrConcat = Array.prototype.concat;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var fn = {};
 var options = {
   helperName: 'analyticsHelper',
   dataLayerName: 'dataLayer',
@@ -10,15 +13,4 @@ var options = {
   customNamePageview: 'ga_pageview',
   customNameEvent: 'ga_event',
   errorSampleRate: 1
-};
-
-var arrConcat = Array.prototype.concat;
-var fn = {};
-
-var log = {
-  info: function (info) {
-    if (options.debug) {
-      console.info('INFO: ', info);
-    }
-  }
 };

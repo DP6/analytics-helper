@@ -6,16 +6,16 @@
  */
 function pageview(path, object, id) {
   try {
-    var obj = { path: path, object: object };
-    if(id){
-      obj.tag = id;
-    }
-    log.info(obj);
+    log('info', {
+      path: path,
+      object: object,
+      id: id
+    });
     window[options.dataLayerName].push(merge({
       event: options.customNamePageview,
       path: path
     }, object));
   } catch (err) {
-    log.info(err);
+    log('warn', err);
   }
 }

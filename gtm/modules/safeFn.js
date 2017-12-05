@@ -1,6 +1,6 @@
   function safeFn(id, callback, opt) {
     opt = opt || {};
-    var safe = function () {
+    var safe = function() {
       try {
         callback.call(this === window ? null : this, localHelperFactory(id, arguments, {
           id: id,
@@ -8,8 +8,8 @@
           selector: (opt.selector || undefined)
         }));
       } catch ($$e) {
-        if(!options.debug){
-          if(Math.random() <= options.errorSampleRate){
+        if (!options.debug) {
+          if (Math.random() <= options.errorSampleRate) {
             window[options.dataLayerName].push({
               event: options.exceptionEvent,
               dataQuality: {
@@ -22,13 +22,12 @@
             });
           }
         } else {
-          var logObj = {
-            exception : $$e,
-            tag : id,
+          log('warn', 'Exception: ', {
+            exception: $$e,
+            tag: id,
             event: (opt.event || undefined),
             selector: (opt.selector || undefined)
-          }
-          console.warn('Exception: ', logObj);
+          });
         }
       }
     };
