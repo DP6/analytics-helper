@@ -389,7 +389,7 @@ Função que retorna um objeto Wrap de todos os elementos que batem com o seleto
 ```javascript
 analyticsHelper.safeFn('Nome da Tag', function(helper){
     var text = helper.wrap('#myId').find('.myClass').text();
-    helper.pageview(text);
+    helper.pageview('/' + helper.sanitize(text));
 });
 ```
 
