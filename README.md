@@ -18,7 +18,7 @@ Se trata de uma variável global dentro do escopo do objeto Helper, visando agru
 ```javascript
 analyticsHelper.fn.minhaFuncao = function (name) {
   console.log(name);
-}
+};
 analyticsHelper.fn.minhaFuncao('DP6'); // DP6
 ```
 
