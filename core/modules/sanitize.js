@@ -1,4 +1,4 @@
-function sanitize(str, capitalized) {
+function sanitize(str, opt) {
   var split, i;
   if (!str) return '';
 
@@ -14,7 +14,7 @@ function sanitize(str, capitalized) {
     .replace(/[ç¢©]/g, 'c')
     .replace(/[^a-z0-9_\-]/g, '_');
 
-  if (capitalized) {
+  if (opt.capitalized) {
     split = str.split(/_+/g);
     for (i = 0; i < split.length; i++) {
       if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);

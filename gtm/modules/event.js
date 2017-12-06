@@ -9,26 +9,23 @@
  */
 function event(category, action, label, value, object, id) {
   try {
-    if (options.sentPageview === false && options.waitQueue) {
-      return options.eventQueue.push(arguments);
+    if (internal._sentPageview === false && options.waitQueue) {
+      return internal._eventQueue.push(arguments);
     }
 
     object = object || {};
     object.eventNoInteraction = object.eventNoInteraction || false;
-    log('info', {
-      category: category,
-      action: action,
-      label: label,
-      object: object,
-      tag: id
-    });
-    window[options.dataLayerName].push(merge({
+    var eventObj = {
       event: options.customNameEvent,
       eventCategory: category,
       eventAction: action,
       eventValue: value,
-      eventLabel: label
-    }, object));
+      eventLabel: label,
+      object: object,
+      tag: id
+    };
+    log('info', eventObj);
+    window[options.dataLayerName].push(merge(eventObj, object));
   } catch (err) {
     log('warn', err);
   }

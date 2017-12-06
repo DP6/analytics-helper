@@ -6,7 +6,6 @@ var options = {
   dataLayerName: 'dataLayer',
   debug: ({{Debug Mode}} || ''),
   waitQueue: true,
-  eventQueue: [],
   containerID: ({{Container ID}} || ''),
   exceptionEvent: 'gtm_dataQuality_event',
   exceptionCategory: 'GTM Exception',
@@ -14,3 +13,8 @@ var options = {
   customNameEvent: 'ga_event',
   errorSampleRate: 1
 };
+
+var internal = {
+  _sentPageview: false,
+  _eventQueue: []
+}
