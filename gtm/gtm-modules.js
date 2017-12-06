@@ -257,7 +257,7 @@ function reduceString(arr) {
   return ret;
 }
 
-function sanitize(str, opt) {
+function sanitize(str, opts) {
   var split, i;
   if (!str) return '';
 
@@ -273,7 +273,7 @@ function sanitize(str, opt) {
     .replace(/[ç¢©]/g, 'c')
     .replace(/[^a-z0-9_\-]/g, '_');
 
-  if (opt.capitalized) {
+  if (opts.capitalized) {
     split = str.split(/_+/g);
     for (i = 0; i < split.length; i++) {
       if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);
@@ -318,7 +318,7 @@ function event(category, action, label, value, object, id) {
       eventValue: value,
       eventLabel: label,
       object: object,
-      tag: id
+      _tag: id
     };
     log('info', eventObj);
     window[options.dataLayerName].push(merge(eventObj, object));
@@ -338,8 +338,8 @@ function localHelperFactory(id, args) {
     pageview: function(path, object) {
       return pageview(path, object, id);
     },
-    safeFn: function(id, callback, opt) {
-      return safeFn(id, callback, opt);
+    safeFn: function(id, callback, opts) {
+      return safeFn(id, callback, opts);
     },
     on: function(event, selector, callback, parent) {
       return on(id, event, selector, callback, parent);
@@ -354,20 +354,20 @@ function localHelperFactory(id, args) {
       }
 
       return {
-        hasClass: function(className, opt) {
+        hasClass: function(className, opts) {
           var arr = internalMap(elm, hasClass, [className]);
-          return (opt && opt.toArray) ? arr : reduceBool(arr);
+          return (opts && opts.toArray) ? arr : reduceBool(arr);
         },
-        matches: function(selector, opt) {
+        matches: function(selector, opts) {
           var arr = internalMap(elm, matches, [selector]);
-          return (opt && opt.toArray) ? arr : reduceBool(arr);
+          return (opts && opts.toArray) ? arr : reduceBool(arr);
         },
         closest: function(selector) {
           return internalMap(elm, closest, [selector]);
         },
-        text: function(opt) {
-          var arr = internalMap(elm, text, [opt]);
-          return (opt && opt.toArray) ? arr : reduceString(arr);
+        text: function(opts) {
+          var arr = internalMap(elm, text, [opts]);
+          return (opts && opts.toArray) ? arr : reduceString(arr);
         },
         find: function(sel) {
           var elms = internalMap(elm, find, [sel]);
@@ -394,7 +394,7 @@ function pageview(path, object, id) {
     log('info', {
       path: path,
       object: object,
-      id: id
+      _tag: id
     });
     window[options.dataLayerName].push(merge({
       event: options.customNamePageview,

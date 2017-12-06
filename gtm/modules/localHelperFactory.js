@@ -6,8 +6,8 @@
       pageview: function(path, object) {
         return pageview(path, object, id);
       },
-      safeFn: function(id, callback, opt) {
-        return safeFn(id, callback, opt);
+      safeFn: function(id, callback, opts) {
+        return safeFn(id, callback, opts);
       },
       on: function(event, selector, callback, parent) {
         return on(id, event, selector, callback, parent);
@@ -22,20 +22,20 @@
         }
 
         return {
-          hasClass: function(className, opt) {
+          hasClass: function(className, opts) {
             var arr = internalMap(elm, hasClass, [className]);
-            return (opt && opt.toArray) ? arr : reduceBool(arr);
+            return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
-          matches: function(selector, opt) {
+          matches: function(selector, opts) {
             var arr = internalMap(elm, matches, [selector]);
-            return (opt && opt.toArray) ? arr : reduceBool(arr);
+            return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
           closest: function(selector) {
             return internalMap(elm, closest, [selector]);
           },
-          text: function(opt) {
-            var arr = internalMap(elm, text, [opt]);
-            return (opt && opt.toArray) ? arr : reduceString(arr);
+          text: function(opts) {
+            var arr = internalMap(elm, text, [opts]);
+            return (opts && opts.toArray) ? arr : arr.join('');
           },
           find: function(sel) {
             var elms = internalMap(elm, find, [sel]);

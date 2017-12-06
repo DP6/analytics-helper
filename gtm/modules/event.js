@@ -22,7 +22,7 @@ function event(category, action, label, value, object, id) {
       eventValue: value,
       eventLabel: label,
       object: object,
-      tag: id
+      _tag: id
     };
     log('info', eventObj);
     window[options.dataLayerName].push(merge(eventObj, object));

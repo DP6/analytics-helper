@@ -9,7 +9,7 @@ function pageview(path, object, id) {
     log('info', {
       path: path,
       object: object,
-      id: id
+      _tag: id
     });
     window[options.dataLayerName].push(merge({
       event: options.customNamePageview,

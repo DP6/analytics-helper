@@ -1,10 +1,11 @@
-#  Referência técnica -- Analytics Helper para o Google Tag Manager
+#  Referência técnica
+> Analytics Helper para o Google Tag Manager
 
-Este documento introduz as APIs e funcionalidades desenvolvidas para o suporte ao Google Tag Manager. São importantes algumas configurações do lado da própria ferramenta para que o código implementado na tag do Analytics Helper tenha o comportamento esperado. Mais detalhes sobre [aqui]().
+Este documento introduz as APIs e funcionalidades desenvolvidas para o suporte ao Google Tag Manager (GTM). São importantes algumas configurações do lado da própria ferramenta para que o código implementado na tag do Analytics Helper tenha o comportamento esperado. Mais detalhes sobre [aqui](https://github.com/DP6/analytics-helper/blob/master/README-GTM-CONFIG.md).
 
 ## Objeto options
 
-Localizado no começo do código *javascript*, o objeto `options` contém as configurações globais do *Analytics Helper*. Os valores padrões servem na maioria dos casos, e devem ser alterados com cautela e de forma consciente.
+O objeto `options` contém as configurações globais do *Analytics Helper*. Os valores padrões servem na maioria dos casos, por isso devem ser alterados com cautela e de forma consciente.
 
 ```javascript
     var options = {
@@ -23,7 +24,7 @@ Localizado no começo do código *javascript*, o objeto `options` contém as con
 
 ### init(opt_options)
 
-Chame esta função para inicializar o Analytics Helper com opções diferentes das padrões. Recebe como argumento o objeto `opt_options`, que possui as seguintes chaves:
+Utilize esta função, de caráter opcional, para inicializar o Analytics Helper com opções diferentes das padrões. Recebe como argumento o objeto `opt_options`, que possui as seguintes chaves:
 
 * `helperName` -- Por padrão `"analyticsHelper"`. 
    Uma string que indentifica o nome da instância do _Analytics Helper_ no objeto _window_ do navegator. O tagueamento não é afetado pela mudança desse valor, se feito pela função `safeFn` (recomendado).
@@ -41,10 +42,10 @@ Chame esta função para inicializar o Analytics Helper com opções diferentes 
   Uma string que deve ser equivalente ao ID do contêiner do GTM onde o *Analytics Helper* foi configurado (GTM-XXXXX). Não deve ser outro valor.
 
 * `exceptionEvent` -- Por padrão `"gtm_dataQuality_event"`.
-  Uma string que identifica o evento enviado à camada de dados caso ocorra alguma exceção no código do GTM. Esta opção suporta a ideia da coleta para um GA de *Data Quality* **(mais detalhes à adicionar)**.
+  Uma string que identifica o evento enviado à camada de dados caso ocorra alguma exceção no código do GTM. Esta opção suporta a ideia da coleta para uma propriedade do Google Analytics de [*Quality Assurence*](https://www.observepoint.com/blog/why-automate-your-web-analytics-qa/) . Para entender melhor o uso desta configuração, [consultar documentação de configuração do GTM](https://github.com/DP6/analytics-helper/blob/master/README-GTM-CONFIG.md).
 
 * `exceptionCategory` -- Por padrão  `"GTM Exception"`.
-  Uma string que indica qual o valor que deve ser preenchido na chave `"event_category"` do evento enviado à camada de dados caso ocorra alguma exceção no código do GTM. Esta opção suporta a ideia da coleta para um GA de *Data Quality* **(mais detalhes à adicionar)**.
+  Uma string que indica qual o valor que deve ser preenchido na chave `"event_category"` do evento enviado à camada de dados caso ocorra alguma exceção no código do GTM. Esta opção suporta a ideia da coleta para uma propriedade do Google Analytics de [*Quality Assurence*](https://www.observepoint.com/blog/why-automate-your-web-analytics-qa/) . Para entender melhor o uso desta configuração, [consultar documentação de configuração do GTM](https://github.com/DP6/analytics-helper/blob/master/README-GTM-CONFIG.md)
 
 * `customNamePageview` -- Por padrão `"ga_pageview"`.
   Uma string que identifica o evento enviado à camada de dados toda vez que a função `pageview` (ver abaixo) for chamada.
@@ -57,39 +58,33 @@ Chame esta função para inicializar o Analytics Helper com opções diferentes 
 
 ## API
 
-### Coleta GA
+### Coleta Google Analytics (GA)
+As funções a seguir possuem especificidades para coleta de dados baseado nas ferramentas GA e GTM. Devido a isso, as funções internas desta API utilizam a variável criada pelo GTM chamada [`dataLayer`](https://developers.google.com/tag-manager/devguide). Para garantir que as funcionalidades das funções estejam corretas, será necessário garantir que o ambiente em questão possua a camada de dados inicializada corretamente.
 
 #### pageview(path, object)
 Utilizada para o disparo de pageview personalizado.
 
 ##### Parâmetros
- * `path` [opcional]: 
-    String - Path do pageview
- * `object` [opcional]: 
-    Object - Objeto que será atribuído ao pageview. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas.
+ * `path` (opcional): String que recebe o path do Pageview personalizado.
+ * `object` (opcional): Objeto que será atribuído ao pageview. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas. Qualquer chave personalizada será inserida como push no dataLayer.
 
 ##### Exemplo de código
 ```javascript
 analyticsHelper.pageview('/post/finalizou-leitura', {
-  'dimension1' : "Area Abetra",
+  'dimension1' : "Área Aberta",
   'dimension2' : "Data Science"
 });
 ```
 
 #### event(category, action, label, value, object)
-Utilizado para o disparo de eventos.
+Utilizada para efetuar disparos de eventos.
 
 ##### Parâmetros
-* `category`[obrigatório]: 
-String - Categoria do evento
-* `action`[obrigatório]: 
-String - Ação do evento
-* `label` [opcional]:
-String - Rótulo do evento
-* `value` [opcional]:
-String - Valor do evento
-* `object` [opcional]: 
-Object - Objeto que será atribuído ao evento. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas.
+* `category`: String que representa a categoria do evento.
+* `action`: String que representa a ação do evento.
+* `label` (opcional): String que pode representar o label do evento.
+* `value` (opcional): Numeric que pode representar o value do evento.
+* `object` (opcional): Objeto que será atribuído ao pageview. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas. Qualquer chave personalizada será inserida como push no dataLayer.
 
 ##### Exemplo de código
 ```javascript
@@ -101,14 +96,13 @@ analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
 ### Utilidades
 
 #### getDataLayer(key)
-Retorna qualquer objeto contido no dataLayer exposto no ambiente.
+Retorna qualquer objeto contido no dataLayer exposto no ambiente. Esta função é um encapsulamento da [macro .get() do GTM](https://developers.google.com/tag-manager/api/v1/reference/accounts/containers/macros). 
 
 ##### Argumentos
-* `key` [obrigatório]: 
-String - Chave do objeto a ser recuperado
+* `key`:  String que representa a chave do objeto a ser recuperado.
 
-##### Retorno
- `Retorno` - **String ou Integer com valor dá variável**
+##### Retorno:
+* **ANY**: O valor recuperado do modelo de dados do GTM.
 
 ##### Exemplo de código
 ```javascript
@@ -124,13 +118,11 @@ analyticsHelper.getDataLayer('meuObjeto'); // valor
 Encontra um objeto ou valor pela chave informada. Caso alguma das chaves em cadeia não existir, a função retorna undefined, evitando assim o lançamento de exceptions.
 
 ##### Argumentos
-* `key` [obrigatório]: 
-String - Chave do object a ser encontrado
-* `opt_root` [opcional]:
-Object - Objeto que possui a chave a ser encontrada
+* `key`: String que representa a chave do objeto a ser encontrado
+* `opt_root` (Opcional):  Objeto que possui a chave a ser encontrada.
 
 ##### Retorno
- `Retorno` - **String, Integer ou Object com o valor encontrado**
+* **ANY**: O valor recuperado do modelo de dados da variável informada.
 
 ##### Exemplo com objeto no escopo global
 ```javascript
@@ -159,19 +151,18 @@ var objeto = {
 analyticsHelper.getKey('meuObjeto.meuArray.0', objeto); // Object {minhaChave: "encontrei meu valor"}
 ```
 
-#### sanitize(text, capitalized)
-Retona um texto sem caracteres especiais, assentos espaços ou letras maiusculas (opcionalmente).
+#### sanitize(text, opts)
+Retorna um texto sem caracteres especiais, assentos espaços ou letras maiúsculas (opcionalmente).
 
 ##### Argumentos
-* `text` [obrigatório]: 
-String - String para ser tratada
-* `captalized` [opcional]:
-Boolean - Define a forma com que a String será tratada.
-    - true: Coloca a String como PascalCase.
-    - false: Coloca a String como lowercase com todos os espaços transformados em underline.
+* `text`: String a ser tratada
+* `opts` (opcional): Objeto com variáveis para configuração da função sanitize.
+	* `capitalized`: Define a forma com que a String será tratada.
+	    - true: Coloca a String como Camel Case;
+	    - false: Coloca a String como Snake Case.
 
 ##### Retorno
- `Retorno` - **String com texto limpo**
+* **String**: O valor recebido por parâmetro e modificado pela função.
 
 ##### Exemplo de código
 ```javascript
@@ -180,21 +171,18 @@ analyticsHelper.sanitize('Minha String Suja', true); // MinhaStringSuja
 ```
 
 #### cookie(name, value, opts)
-Cria um cookie ou retona seu valor.
+Cria um cookie ou retorna seu valor baseado nos parâmetros recebidos na função.
 
 ##### Argumentos
-* `name` [obrigatório]: 
-String - Nome do cookie
-* `value` [opcional]:
-String - Valor do cookie
-* `opts` [opcional]:
-Object - Um objeto que pode conteros seguintes parametros:
-    - exdays [opcional]: Integer - Número de dias para a expiração
-    - domain [opcional]: String - Dominio ao qual o cookie deve ser atribuido
-    - path [opcional]: String - Path do site ao qual o cookie deve ser atribuido
+* `name`: String que representa o nome do cookie;
+* `value`: String que representa o valor do cookie;
+* `opts` (opcional): Objeto com variáveis para configuração da função cookie:
+    - `exdays` (opcional): Numeric que representa a quantidade de dias para a expiração do cookie;
+    - `domain`:  (opcional): String que representa o domínio ao qual o cookie deve ser atribuído;
+    - `path` (opcional): String que representa o path do site ao qual o cookie deve ser atribuído;
 
 ##### Retorno
- `Retorno` - **String com texto do cookie ou a criação de um cookie**
+* **String**:  Valor completo do cookie criado ou recuperado.
 
 ##### Exemplo de criação de cookie
 ```javascript
@@ -212,89 +200,66 @@ analyticsHelper.cookie('meuCookie'); // meuValor
 
 ### SafeFn
 
-Função recomendada para portar todo o código de uma TAG. Caso aconteça algum erro, será reportado um erro no console ou será enviado um evento de exception para um GA específico.
+Função segura do Analytics Helper. O principal conceito por trás da sua utilização é a garantia da não interferência da coleta de dados no comportamento natural do portal de sua utilização, evitando vazamento de logs e erros ao ambiente em questão.	
 
-A função de callback pode receber um parâmetro que dentro de seu escopo representará um novo "helper interno", com uma API estendida (mais detalhes abaixo).
+Para efetivar essa proposta, a função recebe um callback de parâmetro. Dentro do escopo deste callback, é possível receber um objeto de parâmetro com funções estendidas do helper, com o intuito de garantir o encapsulamento de funções sensíveis. Este objeto será representado daqui em diante como "Helper Interno" (mais detalhes na próxima seção).
 
 #### Argumentos da função
-* `id`
-  String que identifica o código em caso de exception.
+* `id`: Deve receber o nome da tag (do GTM) em que o código em questão estiver contido.
+* `callback`: Função de callback que cria o escopo para o ambiente seguro do safeFn. Passa via parâmetro o Helper Interno para utilização.
+* `immediate` (Opcional): Variável booleana, que por default (**true**) executa a função de callback imediatamente. Caso **false**, o retorno do da função será a própria função de callback, que deverá ser executada manualmente quando necessário.
 
-* `callback` 
-  Função a ser executada dentro do escopo seguro, o primeiro parêmetro (Opcional) retorna o helper interno, com outros funções.
-
-* `immediate` (Opcional)
-  Variável booleana, em caso de false, retorna a função ao invés de executa-la.
+#### Retorno
+* **Function** ou **undefined**: Caso o parâmetro `immediate` receba o valor true, o safeFn executa o callback e retorna undefined. Porém se o parâmetro `immediate` ter o valor false, o retorno é a própria função de callback para ser executada posteriormente. 
 
 ##### Exemplo de código
 
 ```javascript
-analyticsHelper.safeFn('GA - Nome da Tag', function (helper) {
+analyticsHelper.safeFn('Nome da Tag do GTM', function (helper) {
   helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
     dimension1: 'São Paulo'
   });
 });
 ```
 
-#### O que é Quality Assurance?
+#### Lançamento de Exceptions
+A função `safeFn` tem um tratamento específico para as Exceptions que ocorrerem dentro do seu escopo seguro. Utilizando as variáveis de personalização do Helper options.debug, options.exceptionEvent, options.exceptionCategory e options.errorSampleRate, a função atribui valores ao dataLayer do GTM, que utilizará a configuração do GTM para o envio de eventos ao Google Analytics. Esta prática é baseada na concepção de [Quality Assurance](https://www.observepoint.com/blog/why-automate-your-web-analytics-qa/).
 
 ### Helper interno
+Objeto com funções internas passados via parâmetro no callback da função `safeFn`.
+
 #### on(event, selector, callback)
 
-A função on serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelector do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 8.
+A função `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 8.
 
 #### Argumentos
-* `event`
-String do evento que ira executar o callback, exemplos: 'mousedown', 'click'.
+* `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
+[Saiba mais](https://mdn.mozilla.org/en-US/docs/Web/Events).
 
-* `selector` 
-String do Seletor CSS que irá buscar os elementos que executarão o callback no disparo do evento.
+* `selector`: String do Seletor CSS que irá buscar os elementos que executarão o callback no disparo do evento.
+[Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 
-* `callback`
-Função executada no disparo do evento.
+* `callback`: Função executada no disparo do evento infomado no parâmetro `event`.
 
 ##### Exemplo de código
 
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper){
   helper.on('mousedown', '#botaoX', function () {
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
   });
 });
 ```
 
-#### push(obj)
-A função push insere o objeto no dataLayer do GTM configurado. Em caso de modo debug, a cada push, é apresentado os dados inseridos e o nome da tag responsável pela inserção.
-
-##### Argumentos
-* `obj`
-Objeto com os dados a serem inseridos.
-
-##### Exemplo de código
-```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
-  helper.push({
-    event: 'myEvent'
-  });
-});
-```
-
-#### wrap(elm, func, params)
-A Função wrap serve de substituto para ambientes sem jQuery, gerando um objeto com algumas das suas funções facilitadoras para manipular o DOM. Além desta utilidade, a função wrap funciona também como um map, bastando enviar uma função como segundo paramêtro.
+#### wrap(elm)
+A função `wrap` provê diversas funções facilitadoras para interações com o DOM no intuito de padronizar e compatibilizar a coleta de dados em ambientes sem o conceito de [camada de dados](https://blog.dp6.com.br/o-que-%C3%A9-a-camada-de-dados-ou-data-layer-80f37fa3429c). A motivação para a elaboração desta função é a não dependências de bibliotecas de mercado, como o jQuery, com o intuito de não depender da instalação das mesmas nos ambientes tagueados. Ao executar a função, um objeto com as funções facilitadoras será retornado.
 
 ##### Argumentos
 * `elm`
-String, elemento HTML ou Array de elementos HTML. Em caso de String, o mesmo é utilizado como seletor CSS, trazendo todos os elementos que cruzarem com o seletor. Caso contrário, o wrap funcionará a partir dos elemento enviados.
-
-* `func` (Opcional)
-Função que executará com base em cada elemento enviado no primeiro paramêtro ou coletado por seu seletor. Recebe o seguinte parâmetro:
-  * `elm`
-    O elemento HTML que está sendo processado pela função.
-
-* `params` (Opcional)
-Parametros da função enviada no segundo parametro.
+String, elemento HTML ou Array de elementos HTML. Em caso de String, o mesmo é utilizado como seletor CSS, trazendo todos os elementos que cruzarem com o seletor. Caso contrário, o wrap funcionará a partir dos elemento enviados para fazer o bind no DOM Tree.
 
 ##### Retorno
+* **Object**: Funções facilitadoras a serem executadas.
 
 ##### Exemplos de código
 ```javascript
@@ -306,36 +271,37 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
   });
 });
 
-// Múltiplos elementos, passando callback
+// Múltiplos elementos
 analyticsHelper.safeFn('Nome da Tag', function(helper){
-  var urls = helper.wrap('a', function(elm){
-    return elm.href;
-  });
+  var urls = helper.wrap('a');
+  console.log(urls); // Array de nodes a.
 });
 ```
 
 ### Objeto Wrap
 
-Objeto gerado pela função wrap, inclui diversas funções que ajudam na manipulação do DOM
+Objeto gerado pela função wrap, inclui diversas funções que ajudam na manipulação do DOM. As funções facilitadoras contidas neste objeto tem como objetivo diminuir a verbosidade do código JavaScript e evitar o uso de bibliotecas dependentes dos ambientes tagueados.
 
 #### Atributo nodes
-Array de elementos HTML ou NodeList que será a base das funções
+Array de elementos HTML ou [NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList) que será a base das funções.
 
-#### hasClass(className, reduce)
+#### hasClass(className, opts)
 Função que verifica se o elemento HTML tem a classe passada por parâmetro.
 
 ##### Argumentos
-* `className`
-String do nome da classe a ser batida com o elemento.
+* `className`: String do nome da classe a ser batida com o elemento.
 
-* `reduce`
-Boolean que em caso de true, retorna um boolean quando qualquer um dos elementos conter a classe.
+* `opts` (opcional): Objeto com variáveis para configuração da função hasClass.
+	* `toArray`: Caso o valor seja true, retorna o array de resultados relacionados à comparação.
+
+##### Retorno
+* **Boolean** ou **Array de Boolean**: Caso o parâmetro `opts`seja informado com o atributo `toArray`recebendo o valor true, o retorno da função será o array o boolean de elementos encontrados. Caso somente o parâmetro `className` seja informado, a função retorno true ou false se encontrar ou não algum elemento com a classe especificada. 
 
 ##### Exemplo de código
 ```javascript
 analyticsHelper.safeFn('Nome da Tag', function(helper){
   helper.on('mousedown', '.button', function () {
-    if(helper.wrap(this).hasClass('myClass' , true)){
+    if(helper.wrap(this).hasClass('myClass')){
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     }
   });
@@ -346,13 +312,13 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 Função que verifica se o elemento HTML confere com o seletor.
 
 ##### Argumentos
-* `selector`
-String do seletor CSS que baterá com o elemento HTML.
+* `selector`String do seletor a ser batido com o elemento.
 
-* `reduce`
-Boolean que em caso de true, retorna um boolean quando qualquer um dos elementos bater com o seletor.
+* `opts` (opcional): Objeto com variáveis para configuração da função matches.
+	* `toArray`: Caso o valor seja true, retorna o array de resultados relacionados à comparação.
 
 ##### Retorno
+* **Boolean** ou **Array de Boolean**: Caso o parâmetro `opts`seja informado com o atributo `toArray`recebendo o valor true, o retorno da função será o array o boolean de elementos encontrados. Caso somente o parâmetro `selector` seja informado, a função retorno true ou false se encontrar ou não algum elemento com a classe especificada. 
 
 ##### Exemplo de código
 ```javascript
@@ -366,13 +332,13 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 ```
 
 #### closest(selector)
-Função que retorna o elemento mais próximo verticalmente com o seletor passado por parâmetro.
+Para cada elemento no conjunto, obtenha o primeiro elemento que corresponde ao seletor, testando o próprio elemento e atravessando seus antepassados ​​na árvore [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model).
 
 ##### Argumentos
-* `selector`
-String do seletor CSS que baterá com o elemento HTML.
+* `selector`: String do seletor CSS que baterá com o elemento HTML.
 
 ##### Retorno
+* **Nodelist**: Os elementos que bateram com o seletor informado.
 
 ##### Exemplo de código
 ```javascript
@@ -386,20 +352,16 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 ```
 
 #### text(opt)
-Função que retorna o texto do elemento
+Função que retorna o texto do elemento.
 
 ##### Argumentos
-* `opt`
-Objeto de configuração que modifica o retorno da função. Os seguintes campos podem ser alterados:
+* `opt`: Objeto com variáveis para configuração da função text.
 
-  * `sanitize`
-Boolean que em caso de true retorna o valor sanitiziado pela função sanitize.
+  * `sanitize`: Boolean que em caso de true retorna o valor sanitiziado pela função sanitize.
 
-  * `onlyFirst`
-Boolean que em caso de true retorna somente o texto direto do elemento e não de todos os seus filhos.
+  * `onlyFirst`: Boolean que em caso de true retorna somente o texto direto do elemento e não de todos os seus filhos.
 
-  * `onlyText`
-Boolean que em caso de true retorna o texto concatenado ao invés de um array de Strings
+  * `onlyText`: Boolean que em caso de true retorna o texto concatenado ao invés de um array de Strings.
 
 ##### Retorno
 
@@ -419,8 +381,7 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 Função que retorna um objeto Wrap de todos os elementos que batem com o seletor.
 
 ##### Argumentos
-* `sel`
-String do seletor CSS que baterá com o elemento HTML.
+* `sel`: String do seletor CSS que baterá com o elemento HTML.
 
 ##### Retorno
 
@@ -433,14 +394,12 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 ```
 
 #### map(func, params)
-Função que executa um código para cada elemento.
+Função que executa um código para cada elemento. Possui o mesmo comportamento da API [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map).
 
 ##### Argumentos
-* `func`
-Função a ser executada, pode receber um parâmetro que será a referência do elemento iterado.
+* `func`: Função a ser executada, pode receber um parâmetro que será a referência do elemento iterado.
 
-* `params`
-Array de parametros utilizados na função.
+* `params`: Array de parâmetros utilizados na função.
 
 #### Exemplo de código
 ```javascript
@@ -448,5 +407,12 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
     var sources = helper.wrap('img').map(function(elm){
         return elm.src;
     });
+    console.log(sources); // Array com os valores do atributo src de cada elemento img.
 });
 ```
+
+#### Créditos
+
+**Obrigado deus !!!**
+
+![alt text](https://ogimg.infoglobo.com.br/in/18001046-646-3f0/FT1086A/420/ronaldinho_barcelona.jpg "Gratidão!")
