@@ -1,5 +1,5 @@
   function on(id, event, selector, oldCallback, parent) {
-    var method, count, array, elm, callback;
+    var count, array, elm, callback;
 
     if (parent) return delegate(id, event, selector, oldCallback, parent);
 

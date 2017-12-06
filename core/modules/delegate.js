@@ -1,7 +1,8 @@
 function delegate(id, event, selector, oldHandler, parent) {
+  var method, elm, handler;
   if (typeof jQuery === "function") {
-    var elm = jQuery(parent || document);
-    var handler = safeFn(id, oldHandler, {
+    elm = jQuery(parent || document);
+    handler = safeFn(id, oldHandler, {
       event: event,
       selector: selector,
       immediate: false
@@ -12,8 +13,6 @@ function delegate(id, event, selector, oldHandler, parent) {
       return elm.delegate(selector, event, handler);
     }
   }
-
-  var method;
 
   if (typeof parent === 'string') {
     parent = document.querySelectorAll(parent);
@@ -26,8 +25,8 @@ function delegate(id, event, selector, oldHandler, parent) {
     event = "on" + event;
   }
 
-  function handler(e) {
-    for (var target = e.target; target && target != this; target = target.parentNode) {
+  handler = function (e) {
+    for (var target = e.target; target && target !== this; target = target.parentNode) {
       if (matches(target, selector)) {
         var handler = safeFn(id, oldHandler, {
           event: event,
@@ -38,7 +37,7 @@ function delegate(id, event, selector, oldHandler, parent) {
         break;
       }
     }
-  }
+  };
 
   if (Object.prototype.toString.call(parent) === '[object NodeList]') {
     for (var parentIndex = 0; parentIndex <= parent.length - 1; parentIndex++) {

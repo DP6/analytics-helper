@@ -1,5 +1,5 @@
-var arrConcat = Array.prototype.concat;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
+var jQuery = window.jQuery;
 var fn = {};
 var options = {
   helperName: 'analyticsHelper',
@@ -13,8 +13,7 @@ var options = {
   customNameEvent: 'ga_event',
   errorSampleRate: 1
 };
-
 var internal = {
   _sentPageview: false,
   _eventQueue: []
-}
+};

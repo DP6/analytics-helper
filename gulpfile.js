@@ -9,39 +9,32 @@ var strip    = require('gulp-strip-comments');
 var minify   = require('gulp-minify');
 var del      = require('del');
 
-gulp.task('gtm-modules', function () {
+gulp.task('gtm-modules', function() {
   return gulp.src(['./core/modules/*.js', './gtm/modules/*js'])
     .pipe(concat('gtm-modules.js'))
-    .pipe(beautify({indent_size: 2}))
+    .pipe(beautify({
+      indent_size: 2
+    }))
     .pipe(strip())
     .on('error', console.log)
-    .pipe(gulp.dest('./gtm'));
+    .pipe(gulp.dest('./tmp'));
 });
 
-gulp.task('compress', function() {
-  return gulp.src(['./gtm/gtm-modules.js', './gtm/expose.js'])
-    .pipe(minify({
-        ext:{
-            src:'.js',
-            min:'.min.js'
-        },
-        exclude: [],
-        ignoreFiles: []
+gulp.task('build-gtm', function() {
+  return gulp.src('./gtm/main.js')
+    .pipe(include({
+      hardFail: true,
+      includePaths: [
+        __dirname + '/tmp',
+        __dirname + '/gtm',
+      ]
     }))
     .on('error', console.log)
-    .pipe(gulp.dest('./gtm/tmp'));
-});
- 
-gulp.task('build-gtm', function () {
-  return gulp.src('./gtm/main.js')
-  .pipe(include())
-  .on('error', console.log)
-  .pipe(gulp.dest('build/gtm'));
+    .pipe(gulp.dest('./build/gtm'));
 });
 
-gulp.task('clean', function () {
-  return del(['gtm/tmp']);
+gulp.task('clean', function() {
+  return del(['./tmp']);
 });
- 
-gulp.task('default', gulpsync.sync(['gtm-modules', 'compress', 'build-gtm', 'clean']));
- 
+
+gulp.task('default', gulpsync.sync(['gtm-modules', 'build-gtm', 'clean']));

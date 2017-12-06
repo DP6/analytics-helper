@@ -5,7 +5,7 @@ function internalMap(elms, func, exArgs){
     elm = elms[index];
     if (elm instanceof HTMLElement === false) throw 'internalMap: Esperado elemento HTML';
     args = [elm].concat(exArgs);
-    ret.push(func.apply(this, args));
+    ret.push(func.apply(null, args));
   }
   return ret;
 }

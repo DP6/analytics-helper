@@ -411,6 +411,13 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 });
 ```
 
+#### Tamanho do Pacote
+| Compactação         | Tamanho (KB) |
+| ------------------- | ------------ |
+| Sem compactação     | 12.73        |
+| Minificado pelo GTM | 6.09         |
+| Com GZip            | 2.45         |
+
 #### Créditos
 
 **Obrigado deus !!!**
