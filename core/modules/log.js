@@ -1,5 +1,5 @@
-function log(type, info) {
+function log(type, info, obj) {
   if (options.debug && typeof getKey('console.' + type) === 'function') {
-    console[type](info);
+    console[type](info, obj);
   }
 }

@@ -22,20 +22,20 @@
         }
 
         return {
-          hasClass: function(className, reduce) {
+          hasClass: function(className, opt) {
             var arr = internalMap(elm, hasClass, [className]);
-            return reduce ? reduceBool(arr) : arr;
+            return (opt && opt.toArray) ? arr : reduceBool(arr);
           },
-          matches: function(selector, reduce) {
+          matches: function(selector, opt) {
             var arr = internalMap(elm, matches, [selector]);
-            return reduce ? reduceBool(arr) : arr;
+            return (opt && opt.toArray) ? arr : reduceBool(arr);
           },
           closest: function(selector) {
             return internalMap(elm, closest, [selector]);
           },
           text: function(opt) {
             var arr = internalMap(elm, text, [opt]);
-            return opt && opt.onlyText ? reduceBool(arr) : arr;
+            return (opt && opt.toArray) ? arr : reduceString(arr);
           },
           find: function(sel) {
             var elms = internalMap(elm, find, [sel]);

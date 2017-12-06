@@ -1,5 +1,6 @@
 function expose() {
   window[options.helperName] = {
+    internal: internal,
     init: init,
     pageview: pageview,
     event: event,

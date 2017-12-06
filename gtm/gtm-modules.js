@@ -169,9 +169,9 @@ function internalMap(elms, func, exArgs) {
   return ret;
 }
 
-function log(type, info) {
+function log(type, info, obj) {
   if (options.debug && typeof getKey('console.' + type) === 'function') {
-    console[type](info);
+    console[type](info, obj);
   }
 }
 
@@ -257,7 +257,7 @@ function reduceString(arr) {
   return ret;
 }
 
-function sanitize(str, capitalized) {
+function sanitize(str, opt) {
   var split, i;
   if (!str) return '';
 
@@ -273,7 +273,7 @@ function sanitize(str, capitalized) {
     .replace(/[ç¢©]/g, 'c')
     .replace(/[^a-z0-9_\-]/g, '_');
 
-  if (capitalized) {
+  if (opt.capitalized) {
     split = str.split(/_+/g);
     for (i = 0; i < split.length; i++) {
       if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);
@@ -305,26 +305,23 @@ function text(elm, opt) {
 }
 function event(category, action, label, value, object, id) {
   try {
-    if (options.sentPageview === false && options.waitQueue) {
-      return options.eventQueue.push(arguments);
+    if (internal._sentPageview === false && options.waitQueue) {
+      return internal._eventQueue.push(arguments);
     }
 
     object = object || {};
     object.eventNoInteraction = object.eventNoInteraction || false;
-    log('info', {
-      category: category,
-      action: action,
-      label: label,
-      object: object,
-      tag: id
-    });
-    window[options.dataLayerName].push(merge({
+    var eventObj = {
       event: options.customNameEvent,
       eventCategory: category,
       eventAction: action,
       eventValue: value,
-      eventLabel: label
-    }, object));
+      eventLabel: label,
+      object: object,
+      tag: id
+    };
+    log('info', eventObj);
+    window[options.dataLayerName].push(merge(eventObj, object));
   } catch (err) {
     log('warn', err);
   }
@@ -357,20 +354,20 @@ function localHelperFactory(id, args) {
       }
 
       return {
-        hasClass: function(className, reduce) {
+        hasClass: function(className, opt) {
           var arr = internalMap(elm, hasClass, [className]);
-          return reduce ? reduceBool(arr) : arr;
+          return (opt && opt.toArray) ? arr : reduceBool(arr);
         },
-        matches: function(selector, reduce) {
+        matches: function(selector, opt) {
           var arr = internalMap(elm, matches, [selector]);
-          return reduce ? reduceBool(arr) : arr;
+          return (opt && opt.toArray) ? arr : reduceBool(arr);
         },
         closest: function(selector) {
           return internalMap(elm, closest, [selector]);
         },
         text: function(opt) {
           var arr = internalMap(elm, text, [opt]);
-          return opt && opt.onlyText ? reduceBool(arr) : arr;
+          return (opt && opt.toArray) ? arr : reduceString(arr);
         },
         find: function(sel) {
           var elms = internalMap(elm, find, [sel]);
