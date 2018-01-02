@@ -1,6 +1,8 @@
 function sanitize(str, opts) {
   var split, i;
+
   if (!str) return '';
+  opts = opts || {};
 
   str = str.toLowerCase()
     .replace(/^\s+/, '')
