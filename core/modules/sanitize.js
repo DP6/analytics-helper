@@ -3,7 +3,7 @@ function sanitize(str, opts) {
 
   if (!str) return '';
   opts = opts || {};
-  
+
   str = str.toLowerCase()
     .replace(/^\s+/, '')
     .replace(/\s+$/, '')
@@ -16,7 +16,7 @@ function sanitize(str, opts) {
     .replace(/[ç¢©]/g, 'c')
     .replace(/[^a-z0-9_\-]/g, '_');
 
-  if (opts && opts.capitalized) {
+  if (opts.capitalized) {
     split = str.split(/_+/g);
     for (i = 0; i < split.length; i++) {
       if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);
