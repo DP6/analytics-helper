@@ -8,6 +8,10 @@
     "url": "git+https://github.com/DP6/analytics-helper.git"
   },
   "author": "",
+  "contributors": [{
+    "name": "Bruno Munhoz",
+    "email": "bpm1993@gmail.com"
+  }],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DP6/analytics-helper/issues"
