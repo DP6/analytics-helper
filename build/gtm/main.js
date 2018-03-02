@@ -318,6 +318,7 @@
   function event(category, action, label, value, object, id) {
     try {
       if (internal._sentPageview === false && options.waitQueue) {
+        log('Info', 'The event '+arguments+" has been add to the queue"); 
         return internal._eventQueue.push(arguments);
       }
   
