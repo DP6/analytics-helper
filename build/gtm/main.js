@@ -339,9 +339,13 @@
     }
   }
   function getDataLayer(key) {
-    return window.google_tag_manager[options.containerID].dataLayer.get(key);
+    try{
+        return window.google_tag_manager[options.containerID].dataLayer.get(key);
+    }catch(err){
+        log('warn', 'Function getDataLayer: Object '+key+' is not defined');
+        return undefined;
+    }
   }
-  
   function localHelperFactory(id, args) {
     var localHelper = {
       event: function(category, action, label, value, object) {
