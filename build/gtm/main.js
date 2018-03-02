@@ -457,7 +457,9 @@
   
     return opt.immediate === false ? safe : safe();
   }
+    
   function expose() {
+  if (!window[options.helperName]) {
     window[options.helperName] = {
       internal: internal,
       init: init,
@@ -469,9 +471,8 @@
       getKey: getKey,
       safeFn: safeFn,
       fn: fn,
-      options: options
     };
-  }
-  
+  };
+
   expose();
 }());
