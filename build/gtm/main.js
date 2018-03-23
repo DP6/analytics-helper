@@ -322,6 +322,7 @@
   function event(category, action, label, value, object, id) {
     try {
       if (internal._sentPageview === false && options.waitQueue) {
+        log('Info', 'The event '+arguments+" has been add to the queue"); 
         return internal._eventQueue.push(arguments);
       }
   
@@ -343,9 +344,13 @@
     }
   }
   function getDataLayer(key) {
-    return window.google_tag_manager[options.containerID].dataLayer.get(key);
+    try{
+        return window.google_tag_manager[options.containerID].dataLayer.get(key);
+    }catch(err){
+        log('warn', 'Function getDataLayer: Object '+key+' is not defined');
+        return undefined;
+    }
   }
-  
   function localHelperFactory(id, args) {
     var localHelper = {
       event: function(category, action, label, value, object) {
@@ -457,7 +462,9 @@
   
     return opt.immediate === false ? safe : safe();
   }
+    
   function expose() {
+  if (!window[options.helperName]) {
     window[options.helperName] = {
       internal: internal,
       init: init,
@@ -469,9 +476,8 @@
       getKey: getKey,
       safeFn: safeFn,
       fn: fn,
-      options: options
     };
-  }
-  
+  };
+
   expose();
 }());

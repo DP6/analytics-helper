@@ -274,7 +274,7 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 // Múltiplos elementos
 analyticsHelper.safeFn('Nome da Tag', function(helper){
   var urls = helper.wrap('a');
-  console.log(urls); // Array de nodes a.
+  console.log(urls.nodes); // Array de nodes a.
 });
 ```
 
