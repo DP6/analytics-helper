@@ -270,8 +270,12 @@
   }
   
   function sanitize(str, opts) {
-    var split, i;
+    var split, i, spacer;
+  
     if (!str) return '';
+    opts = opts || {};
+  
+    spacer = typeof opts.spacer === 'string' ? opts.spacer : '_';
   
     str = str.toLowerCase()
       .replace(/^\s+/, '')
@@ -286,14 +290,14 @@
       .replace(/[^a-z0-9_\-]/g, '_');
   
     if (opts.capitalized) {
-      split = str.split(/_+/g);
+      split = str.replace(/^_+|_+$/g, '').split(/_+/g);
       for (i = 0; i < split.length; i++) {
         if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);
       }
-      return split.join('');
+      return split.join(spacer);
     }
   
-    return str.replace(/_+/g, '_');
+    return str.replace(/^_+|_+$/g, '').replace(/_+/g, spacer);
   }
   
   function text(elm, opt) {
