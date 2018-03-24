@@ -429,12 +429,12 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
 #### Tamanho do Pacote
 | Compactação         | Tamanho (KB) |
 | ------------------- | ------------ |
-| Sem compactação     | 12.73        |
-| Minificado pelo GTM | 6.09         |
-| Com GZip            | 2.45         |
+| Sem compactação     | 14.71        |
+| Minificado pelo GTM | 7.14         |
+| Com GZip            | 2.72         |
 
 #### Créditos
 
 **Obrigado deus !!!**
 
-![alt text](https://ogimg.infoglobo.com.br/in/18001046-646-3f0/FT1086A/420/ronaldinho_barcelona.jpg "Gratidão!")
+!["Gratidão!"](https://ogimg.infoglobo.com.br/in/18001046-646-3f0/FT1086A/420/ronaldinho_barcelona.jpg)

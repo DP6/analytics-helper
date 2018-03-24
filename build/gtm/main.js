@@ -341,9 +341,9 @@
     }
   }
   
-  function setDataLayer(key) {
+  function setDataLayer(key, value) {
     try {
-      return google_tag_manager[options.containerId].dataLayer.set(key);
+      return google_tag_manager[options.containerId].dataLayer.set(key, value);
     } catch ($$e) {
       log('warn', $$e);
     }
