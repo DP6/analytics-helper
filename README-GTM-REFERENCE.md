@@ -11,13 +11,14 @@ O objeto `options` contém as configurações globais do *Analytics Helper*. Os 
     var options = {
       helperName: 'analyticsHelper',
       dataLayerName: 'dataLayer',
-      debug: ({{Container ID}} || ''),
+      debug: ({{Debug Mode}} || false),
       waitQueue: true,
-      containerID: ({{Container ID}} || ''),
+      containerId: ({{Container ID}} || ''),
       exceptionEvent: 'gtm_dataQuality_event',
       exceptionCategory: 'GTM Exception',
       customNamePageview: 'ga_pageview',
       customNameEvent: 'ga_event',
+      customNameTiming: 'ga_timing',
       errorSampleRate: 1
     };
 ```
@@ -36,10 +37,10 @@ Utilize esta função, de caráter opcional, para inicializar o Analytics Helper
   Um booleano que sinaliza para o *Analytics Helper* se o contexto atual é de depuração ou produção. Caso verdadeiro, os eventos serão disparados apenas via `console.log`, sem envios para o GA.
 
 * `waitQueue` -- Por padrão é `true`
-  Um booleano que sinaliza para o *Analytics Helper* se ele deve utilizar uma fila de espera nos eventos. Caso verdadeiro, todos eventos serão empilhados numa estrutura interna até que ocorra o primeiro pageview na página. Recomendamos que essa opção esteja sempre ativada, pois evita inconsistências nos relatórios do GA.
+  Um booleano que sinaliza para o *Analytics Helper* se ele deve utilizar uma fila de espera nos eventos. Caso verdadeiro, todos eventos serão empilhados numa estrutura interna até que ocorra o primeiro pageview na página. Recomendamos que essa opção esteja sempre ativada, pois evita inconsistências nos relatórios do Google Analytics.
 
-* `containerID` -- Por padrão é a variável `{{Container ID}}` do GTM. Se desabilitada, é a string vazia `''`.
-  Uma string que deve ser equivalente ao ID do contêiner do GTM onde o *Analytics Helper* foi configurado (GTM-XXXXX). Não deve ser outro valor.
+* `containerId` -- Por padrão é a variável `{{Container ID}}` do GTM. Se desabilitada, é a string vazia `''`.
+  Uma string que deve ser equivalente ao ID do contêiner do GTM onde o *Analytics Helper* foi configurado (GTM-XXXXX).
 
 * `exceptionEvent` -- Por padrão `"gtm_dataQuality_event"`.
   Uma string que identifica o evento enviado à camada de dados caso ocorra alguma exceção no código do GTM. Esta opção suporta a ideia da coleta para uma propriedade do Google Analytics de [*Quality Assurence*](https://www.observepoint.com/blog/why-automate-your-web-analytics-qa/) . Para entender melhor o uso desta configuração, [consultar documentação de configuração do GTM](https://github.com/DP6/analytics-helper/blob/master/README-GTM-CONFIG.md).
@@ -52,6 +53,9 @@ Utilize esta função, de caráter opcional, para inicializar o Analytics Helper
 
 * `customNameEvent` -- Por padrão `"ga_event"`.
   Uma string que identifica o evento enviado à camada de dados toda vez que a função `event` (ver abaixo) for chamada.
+
+* `customNameTiming` -- Por padrão `"ga_timing"`.
+  Uma string que identifica o evento de timing enviado à camada de dados toda vez que a função `timing` (ver abaixo) for chamada.
 
 * `errorSampleRate` -- Por padrão `1` .
   Deve ser um inteiro entre 0 e 1, que controla o nível de amostragem dos erros enviados ao GA de *Data Quality* **(mais detalhes à adicionar)**. Serve para controlar a coleta em ambientes onde o volume de disparos é muito grande.
@@ -71,11 +75,12 @@ Utilizada para o disparo de pageview personalizado.
 ##### Exemplo de código
 ```javascript
 analyticsHelper.pageview('/post/finalizou-leitura', {
-  'dimension1' : "Área Aberta",
-  'dimension2' : "Data Science"
+  area : 'Aberta',
+  categoria : 'Data Science'
 });
 ```
 
+#### event(category, action, label, object)
 #### event(category, action, label, value, object)
 Utilizada para efetuar disparos de eventos.
 
@@ -83,13 +88,21 @@ Utilizada para efetuar disparos de eventos.
 * `category`: String que representa a categoria do evento.
 * `action`: String que representa a ação do evento.
 * `label` (opcional): String que pode representar o label do evento.
-* `value` (opcional): Numeric que pode representar o value do evento.
-* `object` (opcional): Objeto que será atribuído ao pageview. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas. Qualquer chave personalizada será inserida como push no dataLayer.
+* `object` (opcional): Objeto que será atribuído ao evento. Pode ser utilizado para passar objetos de Enhanced Ecommerce, além de métricas e dimensões personalizadas. Qualquer chave personalizada será inserida como push no dataLayer.
+
+*Importante*: A chave value pode ser passada tanto como o quarto valor da chamada quanto como um parâmetro do objeto `"object"`.
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 'MeuValor', {
-  dimension1: 'São Paulo'
+analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', 0, {
+  cidade: 'São Paulo'
+});
+```
+
+```javascript
+analyticsHelper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo', {
+  eventValue: 0,
+  cidade: 'São Paulo'
 });
 ```
 
@@ -115,16 +128,16 @@ analyticsHelper.getDataLayer('meuObjeto'); // valor
 ```
 
 #### getKey(key, opt_root)
-Encontra um objeto ou valor pela chave informada. Caso alguma das chaves em cadeia não existir, a função retorna undefined, evitando assim o lançamento de exceptions.
+Encontra um objeto ou valor pela chave informada. Caso alguma das chaves em cadeia não existir, a função retorna undefined, evitando assim o lançamento de erros.
 
 ##### Argumentos
 * `key`: String que representa a chave do objeto a ser encontrado
-* `opt_root` (Opcional):  Objeto que possui a chave a ser encontrada.
+* `opt_root` (Opcional):  Objeto que possui a chave a ser encontrada. Por padrão é `window`.
 
 ##### Retorno
 * **ANY**: O valor recuperado do modelo de dados da variável informada.
 
-##### Exemplo com objeto no escopo global
+##### Exemplo de código
 ```javascript
 var objeto = {
   meuObjeto: {
@@ -135,24 +148,12 @@ var objeto = {
 };
 
 analyticsHelper.getKey('objeto.meuObjeto.meuArray.0.minhaChave'); // encontrei meu valor
-analyticsHelper.getKey('objeto.chaveNaoExistente.meuArray.0.minhaChave'); // undefined
-```
-
-##### Exemplo com objeto-raiz passado por parâmetro
-```javascript
-var objeto = {
-  meuObjeto: {
-    meuArray: [{
-      minhaChave: 'encontrei meu valor'
-    }]
-  }
-};
-
-analyticsHelper.getKey('meuObjeto.meuArray.0', objeto); // Object {minhaChave: "encontrei meu valor"}
+analyticsHelper.getKey('meuObjeto.meuArray.0.minhaChave', objeto); // encontrei meu valor
+analyticsHelper.getKey('chaveNaoExistente.meuArray.0.minhaChave', objeto); // undefined
 ```
 
 #### sanitize(text, opts)
-Retorna um texto sem caracteres especiais, assentos espaços ou letras maiúsculas (opcionalmente).
+Retorna um texto sem caracteres especiais, acentuação, espaços ou letras maiúsculas (opcionalmente).
 
 ##### Argumentos
 * `text`: String a ser tratada
@@ -160,6 +161,7 @@ Retorna um texto sem caracteres especiais, assentos espaços ou letras maiúscul
 	* `capitalized`: Define a forma com que a String será tratada.
 	    - true: Coloca a String como Camel Case;
 	    - false: Coloca a String como Snake Case.
+	* `spacer`: Define qual texto será utilizado como separador no lugar de `_`.
 
 ##### Retorno
 * **String**: O valor recebido por parâmetro e modificado pela função.
@@ -167,7 +169,9 @@ Retorna um texto sem caracteres especiais, assentos espaços ou letras maiúscul
 ##### Exemplo de código
 ```javascript
 analyticsHelper.sanitize('Minha String Suja'); // minha_string_suja
-analyticsHelper.sanitize('Minha String Suja', true); // MinhaStringSuja
+analyticsHelper.sanitize('Minha String Suja', {capitalized: true}); // MinhaStringSuja
+analyticsHelper.sanitize('Minha String Suja', {spacer: '-'}); // minha-string-suja
+analyticsHelper.sanitize('Minha String Suja', {capitalized: true, spacer: '-'}); // Minha-String-Suja
 ```
 
 #### cookie(name, value, opts)
@@ -188,9 +192,9 @@ Cria um cookie ou retorna seu valor baseado nos parâmetros recebidos na funçã
 ```javascript
 analyticsHelper.cookie('meuCookie', 'meuValor', {
   exdays: 3, // Dias para expiração
-  domain: 'meudominio.com.br', // Domínio que o cookie atribuído
+  domain: '.meudominio.com.br', // Domínio que o cookie atribuído
   path: '/meu-path' // Path do cookie
-}); // meuCookie=meuValor; expires=Sun, 16 Oct 2016 19:18:17 GMT; domain=meudominio.com.br; path=/meu-path
+}); // meuCookie=meuValor; expires=Sun, 16 Oct 2016 19:18:17 GMT; domain=.meudominio.com.br; path=/meu-path
 ```
 
 ##### Exemplo de recuperar valor de um cookie
@@ -207,7 +211,7 @@ Para efetivar essa proposta, a função recebe um callback de parâmetro. Dentro
 #### Argumentos da função
 * `id`: Deve receber o nome da tag (do GTM) em que o código em questão estiver contido.
 * `callback`: Função de callback que cria o escopo para o ambiente seguro do safeFn. Passa via parâmetro o Helper Interno para utilização.
-* `immediate` (Opcional): Variável booleana, que por default (**true**) executa a função de callback imediatamente. Caso **false**, o retorno do da função será a própria função de callback, que deverá ser executada manualmente quando necessário.
+* `immediate` (Opcional): Variável booleana, que por default (**true**) executa a função de callback imediatamente. Caso **false**, o retorno da função será a própria função segura, que deverá ser executada manualmente quando necessário.
 
 #### Retorno
 * **Function** ou **undefined**: Caso o parâmetro `immediate` receba o valor true, o safeFn executa o callback e retorna undefined. Porém se o parâmetro `immediate` ter o valor false, o retorno é a própria função de callback para ser executada posteriormente. 
@@ -220,6 +224,12 @@ analyticsHelper.safeFn('Nome da Tag do GTM', function (helper) {
     dimension1: 'São Paulo'
   });
 });
+
+var fn = analyticsHelper.safefn('Nome da Tag do GTM', function(helper) {
+  console.log(new Date());
+}, {immediate: false});
+
+setTimeout(fn, 2000)
 ```
 
 #### Lançamento de Exceptions
@@ -230,7 +240,7 @@ Objeto com funções internas passados via parâmetro no callback da função `s
 
 #### on(event, selector, callback)
 
-A função `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 8.
+A função `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 7 ou inferior.
 
 #### Argumentos
 * `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
@@ -245,7 +255,7 @@ A função `on` serve para executar um callback ao executar algum evento em um e
 
 ```javascript
 analyticsHelper.safeFn('Nome da Tag', function (helper){
-  helper.on('mousedown', '#botaoX', function () {
+  helper.on('mousedown', '#botaoX', function (helper) {
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
   });
 });
@@ -255,18 +265,19 @@ analyticsHelper.safeFn('Nome da Tag', function (helper){
 A função `wrap` provê diversas funções facilitadoras para interações com o DOM no intuito de padronizar e compatibilizar a coleta de dados em ambientes sem o conceito de [camada de dados](https://blog.dp6.com.br/o-que-%C3%A9-a-camada-de-dados-ou-data-layer-80f37fa3429c). A motivação para a elaboração desta função é a não dependências de bibliotecas de mercado, como o jQuery, com o intuito de não depender da instalação das mesmas nos ambientes tagueados. Ao executar a função, um objeto com as funções facilitadoras será retornado.
 
 ##### Argumentos
-* `elm`
-String, elemento HTML ou Array de elementos HTML. Em caso de String, o mesmo é utilizado como seletor CSS, trazendo todos os elementos que cruzarem com o seletor. Caso contrário, o wrap funcionará a partir dos elemento enviados para fazer o bind no DOM Tree.
+* `elm` String, elemento HTML ou Array de elementos HTML.
+  + String: o texto é utilizado como seletor CSS, criando um encapsulamento com todos os elementos que cruzarem com o seletor.
+  + Elemento HTML, NodeList ou array de Elementos HMTL: serão utilizados os elementos supridos como base para  o encapsulamento.
 
 ##### Retorno
-* **Object**: Funções facilitadoras a serem executadas.
+* **Object**: Encapsulamento com funções facilitadoras.
 
 ##### Exemplos de código
 ```javascript
 // Apenas um elemento
 analyticsHelper.safeFn('Nome da Tag', function(helper){
   helper.on('mousedown', '#botaoX', function () {
-    var text = helper.wrap(this).text({santize: true});
+    var text = helper.wrap(this).text({sanitize: true});
     helper.event('Categoria', 'Ação', 'Label_' + text);
   });
 });
@@ -324,7 +335,7 @@ Função que verifica se o elemento HTML confere com o seletor.
 ```javascript
 analyticsHelper.safeFn('Nome da Tag', function(helper){
   helper.on('mousedown', '.button', function () {
-    if(helper.wrap(this).matches('.myClass' , true)){
+    if(helper.wrap(this).matches('.myForm .button')){
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     }
   });
@@ -338,7 +349,7 @@ Para cada elemento no conjunto, obtenha o primeiro elemento que corresponde ao s
 * `selector`: String do seletor CSS que baterá com o elemento HTML.
 
 ##### Retorno
-* **Nodelist**: Os elementos que bateram com o seletor informado.
+* **Wrap**: Um encapsulamento com os elementos que bateram com o seletor informado.
 
 ##### Exemplo de código
 ```javascript
@@ -356,12 +367,9 @@ Função que retorna o texto do elemento.
 
 ##### Argumentos
 * `opt`: Objeto com variáveis para configuração da função text.
-
-  * `sanitize`: Boolean que em caso de true retorna o valor sanitiziado pela função sanitize.
-
-  * `onlyFirst`: Boolean que em caso de true retorna somente o texto direto do elemento e não de todos os seus filhos.
-
-  * `onlyText`: Boolean que em caso de true retorna o texto concatenado ao invés de um array de Strings.
+  + `sanitize`: Caso booleano `true`, utilizará o sanitize com as opções padrão. Caso seja um objeto, repassará as opções escolhidas ao sanitize interno.
+  + `onlyFirst`: Boolean que em caso de true retorna somente o texto direto do elemento e não de todos os seus filhos.
+  + `onlyText`: Boolean que em caso de true retorna o texto concatenado ao invés de um array de Strings.
 
 ##### Retorno
 
@@ -373,7 +381,14 @@ analyticsHelper.safeFn('Nome da Tag', function(helper){
         onlyFirst: true, 
         onlyText: true
     });
-    helper.pageview(text);
+
+    var text2 = helper.wrap('#myOtherId').text({
+      sanitize: {
+        spacer: '/',
+        capitalized: false
+      }
+    })
+    helper.pageview('/' + text + '/' + text2);
 });
 ```
 
@@ -388,8 +403,8 @@ Função que retorna um objeto Wrap de todos os elementos que batem com o seleto
 ##### Exemplo de código
 ```javascript
 analyticsHelper.safeFn('Nome da Tag', function(helper){
-    var text = helper.wrap('#myId').find('.myClass').text();
-    helper.pageview('/' + helper.sanitize(text));
+    var text = helper.wrap('#myId').find('.myClass').text({ sanitize: true });
+    helper.pageview('/' + text);
 });
 ```
 

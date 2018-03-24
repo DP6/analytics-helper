@@ -3,13 +3,15 @@
 
     if (parent) return delegate(id, event, selector, oldCallback, parent);
 
+    callback = safeFn(id, oldCallback, {
+      event: event,
+      selector: selector,
+      immediate: false
+    });
+
     if (typeof jQuery === "function") {
       elm = jQuery(selector);
-      callback = safeFn(id, oldCallback, {
-        event: event,
-        selector: selector,
-        immediate: false
-      });
+      
       if (typeof elm.on === "function") {
         return elm.on(event, callback);
       } else if (typeof elm.bind === "function") {
@@ -27,11 +29,7 @@
 
     for (count = 0; count < array.length; count++) {
       elm = array[count];
-      callback = safeFn(id, oldCallback, {
-        event: event,
-        selector: selector,
-        immediate: false
-      });
+      
       if (typeof elm.addEventListener === "function") {
         elm.addEventListener(event, callback);
       } else {

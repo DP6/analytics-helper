@@ -2,8 +2,9 @@
     opt = opt || {};
     var safe = function() {
       try {
-        callback.call(this === window ? null : this, localHelperFactory(id, arguments, {
+        callback.call(this === window ? null : this, localHelperFactory({
           id: id,
+          args: arguments,
           event: (opt.event || undefined),
           selector: (opt.selector || undefined)
         }));

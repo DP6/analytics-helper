@@ -6,15 +6,18 @@
  */
 function pageview(path, object, id) {
   try {
-    log('info', {
-      path: path,
-      object: object,
-      _tag: id
-    });
-    window[options.dataLayerName].push(merge({
+    var result = {
       event: options.customNamePageview,
-      path: path
-    }, object));
+      path: path,
+      _tag: id
+    };
+
+    if (options.gtmCleanup) {
+      result.eventCallback = options.gtmCleanup;
+    }
+    
+    log('info', result, object);
+    window[options.dataLayerName].push(merge(result, object));
   } catch (err) {
     log('warn', err);
   }

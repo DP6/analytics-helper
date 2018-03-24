@@ -1,17 +1,6 @@
 function expose() {
-  window[options.helperName] = {
-    internal: internal,
-    init: init,
-    pageview: pageview,
-    event: event,
-    sanitize: sanitize,
-    getDataLayer: getDataLayer,
-    cookie: cookie,
-    getKey: getKey,
-    safeFn: safeFn,
-    fn: fn,
-    options: options
-  };
+  if (window[options.helperName] && !options.overwriteHelper) return;
+  window[options.helperName] = helper;
 }
 
 expose();

@@ -6,18 +6,37 @@
   var options = {
     helperName: 'analyticsHelper',
     dataLayerName: 'dataLayer',
-    debug: ({{Debug Mode}} || ''),
+    debug: ({{Debug Mode}} || false),
     waitQueue: true,
-    containerID: ({{Container ID}} || ''),
+    containerId: ({{Container ID}} || ''),
     exceptionEvent: 'gtm_dataQuality_event',
     exceptionCategory: 'GTM Exception',
     customNamePageview: 'ga_pageview',
     customNameEvent: 'ga_event',
-    errorSampleRate: 1
+    customNameTiming: 'ga_timing',
+    errorSampleRate: 1,
+    gtmCleanup: function(gtmId) {
+      helper.setDataLayer('ecommerce', undefined);
+      helper.setDataLayer('noInteraction', undefined);
+    }
   };
   var internal = {
-    _sentPageview: false,
-    _eventQueue: []
+    sentPageview: false
+  };
+  var helper = {
+    internal: internal,
+    init: init,
+    pageview: pageview,
+    event: event,
+    timing: timing,
+    sanitize: sanitize,
+    getDataLayer: getDataLayer,
+    setDataLayer: setDataLayer,
+    cookie: cookie,
+    getKey: getKey,
+    safeFn: safeFn,
+    fn: fn,
+    options: options
   };
   function closest(elm, seletor) {
     if ('closest' in elm) return elm.closest(seletor);
@@ -120,8 +139,8 @@
     }
   }
   
-  function find(parent, sel) {
-    return parent.querySelectorAll(sel);
+  function find(element, selector) {
+    return element.querySelectorAll(selector);
   }
   
   function flatten(arrs) {
@@ -170,10 +189,7 @@
   }
   
   function init(opt_options) {
-    window[options.helperName] = undefined;
     options = merge(options, opt_options);
-    window[options.helperName] = window[options.helperName] || {};
-    window[options.helperName].options = options;
     expose();
   }
   
@@ -225,13 +241,15 @@
   
     if (parent) return delegate(id, event, selector, oldCallback, parent);
   
+    callback = safeFn(id, oldCallback, {
+      event: event,
+      selector: selector,
+      immediate: false
+    });
+  
     if (typeof jQuery === "function") {
       elm = jQuery(selector);
-      callback = safeFn(id, oldCallback, {
-        event: event,
-        selector: selector,
-        immediate: false
-      });
+  
       if (typeof elm.on === "function") {
         return elm.on(event, callback);
       } else if (typeof elm.bind === "function") {
@@ -249,11 +267,7 @@
   
     for (count = 0; count < array.length; count++) {
       elm = array[count];
-      callback = safeFn(id, oldCallback, {
-        event: event,
-        selector: selector,
-        immediate: false
-      });
+  
       if (typeof elm.addEventListener === "function") {
         elm.addEventListener(event, callback);
       } else {
@@ -317,53 +331,78 @@
       text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
     }
   
-    return opt.sanitize ? sanitize(text) : text;
+    return opt.sanitize ? sanitize(text, opts.sanitize) : text;
   }
+  function getDataLayer(key) {
+    try {
+      return google_tag_manager[options.containerId].dataLayer.get(key);
+    } catch ($$e) {
+      log('warn', 'Function getDataLayer: Object ' + key + ' is not defined');
+    }
+  }
+  
+  function setDataLayer(key) {
+    try {
+      return google_tag_manager[options.containerId].dataLayer.set(key);
+    } catch ($$e) {
+      log('warn', $$e);
+    }
+  }
+  internal.eventQueue = [];
+  
   function event(category, action, label, value, object, id) {
     try {
-      if (internal._sentPageview === false && options.waitQueue) {
-        log('Info', 'The event '+arguments+" has been add to the queue"); 
-        return internal._eventQueue.push(arguments);
+      if (internal.sentPageview === false && options.waitQueue) {
+        log('Info', 'The event (' + arguments + ') has been add to the queue');
+        return internal.eventQueue.push(arguments);
       }
   
-      object = object || {};
-      object.eventNoInteraction = object.eventNoInteraction || false;
-      var eventObj = {
+      if (value != null && typeof value === 'object') {
+        object = value;
+        value = undefined;
+      } else {
+        object = object || {};
+      }
+  
+      var result = {
         event: options.customNameEvent,
         eventCategory: category,
         eventAction: action,
         eventValue: value,
         eventLabel: label,
-        object: object,
         _tag: id
       };
-      log('info', eventObj);
-      window[options.dataLayerName].push(merge(eventObj, object));
+  
+      if (options.gtmCleanup) {
+        result.eventCallback = options.gtmCleanup;
+      }
+  
+      log('info', result, object);
+      window[options.dataLayerName].push(merge(result, object));
     } catch (err) {
       log('warn', err);
     }
   }
-  function getDataLayer(key) {
-    try{
-        return window.google_tag_manager[options.containerID].dataLayer.get(key);
-    }catch(err){
-        log('warn', 'Function getDataLayer: Object '+key+' is not defined');
-        return undefined;
-    }
-  }
-  function localHelperFactory(id, args) {
+  
+  function localHelperFactory(conf) {
     var localHelper = {
       event: function(category, action, label, value, object) {
-        return event(category, action, label, value, object, id);
+        return event(category, action, label, value, object, conf.id);
       },
       pageview: function(path, object) {
-        return pageview(path, object, id);
+        return pageview(path, object, conf.id);
+      },
+      timing: function(category, variable, value, label, object) {
+        return timing(category, variable, value, label, object, conf.id);
       },
       safeFn: function(id, callback, opts) {
-        return safeFn(id, callback, opts);
+        return safeFn(conf.id, callback, opts);
       },
       on: function(event, selector, callback, parent) {
-        return on(id, event, selector, callback, parent);
+        return on(conf.id, event, selector, callback, parent);
+      },
+      delegate: function(event, selector, callback) {
+        return on(conf.id, event, selector, callback, document.body);
       },
       wrap: function(elm) {
         if (typeof elm === 'string') {
@@ -384,7 +423,7 @@
             return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
           closest: function(selector) {
-            return internalMap(elm, closest, [selector]);
+            return localHelper.wrap(internalMap(elm, closest, [selector]));
           },
           text: function(opts) {
             var arr = internalMap(elm, text, [opts]);
@@ -402,25 +441,31 @@
       },
       sanitize: sanitize,
       getDataLayer: getDataLayer,
+      setDataLayer: setDataLayer,
       cookie: cookie,
       getKey: getKey,
-      id: id,
-      args: args,
-      fn: fn
+      id: conf.id,
+      args: conf.args,
+      fn: fn,
+      _event: conf.event,
+      _selector: conf.selector
     };
     return localHelper;
   }
   function pageview(path, object, id) {
     try {
-      log('info', {
-        path: path,
-        object: object,
-        _tag: id
-      });
-      window[options.dataLayerName].push(merge({
+      var result = {
         event: options.customNamePageview,
-        path: path
-      }, object));
+        path: path,
+        _tag: id
+      };
+  
+      if (options.gtmCleanup) {
+        result.eventCallback = options.gtmCleanup;
+      }
+  
+      log('info', result, object);
+      window[options.dataLayerName].push(merge(result, object));
     } catch (err) {
       log('warn', err);
     }
@@ -430,8 +475,9 @@
     opt = opt || {};
     var safe = function() {
       try {
-        callback.call(this === window ? null : this, localHelperFactory(id, arguments, {
+        callback.call(this === window ? null : this, localHelperFactory({
           id: id,
+          args: arguments,
           event: (opt.event || undefined),
           selector: (opt.selector || undefined)
         }));
@@ -462,22 +508,40 @@
   
     return opt.immediate === false ? safe : safe();
   }
-    
+  internal.timingQueue = [];
+  
+  function timing(category, variable, value, label, object, id) {
+    try {
+      if (internal.sentPageview === false && options.waitQueue) {
+        log('Info', 'The timing event (' + arguments + ') has been add to the queue');
+        return internal.timingQueue.push(arguments);
+      }
+  
+      object = object || {};
+  
+      var result = {
+        event: options.customNameTiming,
+        timingCategory: category,
+        timingVariable: variable,
+        timingValue: value,
+        timingLabel: label,
+        _tag: id
+      };
+  
+      if (options.gtmCleanup) {
+        result.eventCallback = options.gtmCleanup;
+      }
+  
+      log('info', result, object);
+      window[options.dataLayerName].push(merge(result, object));
+    } catch (err) {
+      log('warn', err);
+    }
+  }
   function expose() {
-  if (!window[options.helperName]) {
-    window[options.helperName] = {
-      internal: internal,
-      init: init,
-      pageview: pageview,
-      event: event,
-      sanitize: sanitize,
-      getDataLayer: getDataLayer,
-      cookie: cookie,
-      getKey: getKey,
-      safeFn: safeFn,
-      fn: fn,
-    };
-  };
-
+    if (window[options.helperName] && !options.overwriteHelper) return;
+    window[options.helperName] = helper;
+  }
+  
   expose();
 }());

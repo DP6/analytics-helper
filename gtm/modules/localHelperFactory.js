@@ -1,16 +1,22 @@
-  function localHelperFactory(id, args) {
+  function localHelperFactory(conf) {
     var localHelper = {
       event: function(category, action, label, value, object) {
-        return event(category, action, label, value, object, id);
+        return event(category, action, label, value, object, conf.id);
       },
       pageview: function(path, object) {
-        return pageview(path, object, id);
+        return pageview(path, object, conf.id);
+      },
+      timing: function(category, variable, value, label, object) {
+        return timing(category, variable, value, label, object, conf.id);
       },
       safeFn: function(id, callback, opts) {
-        return safeFn(id, callback, opts);
+        return safeFn(conf.id, callback, opts);
       },
       on: function(event, selector, callback, parent) {
-        return on(id, event, selector, callback, parent);
+        return on(conf.id, event, selector, callback, parent);
+      },
+      delegate: function(event, selector, callback) {
+        return on(conf.id, event, selector, callback, document.body);
       },
       wrap: function(elm) {
         if (typeof elm === 'string') {
@@ -31,7 +37,7 @@
             return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
           closest: function(selector) {
-            return internalMap(elm, closest, [selector]);
+            return localHelper.wrap(internalMap(elm, closest, [selector]));
           },
           text: function(opts) {
             var arr = internalMap(elm, text, [opts]);
@@ -49,11 +55,14 @@
       },
       sanitize: sanitize,
       getDataLayer: getDataLayer,
+      setDataLayer: setDataLayer,
       cookie: cookie,
       getKey: getKey,
-      id: id,
-      args: args,
-      fn: fn
+      id: conf.id,
+      args: conf.args,
+      fn: fn,
+      _event: conf.event,
+      _selector: conf.selector
     };
     return localHelper;
   }

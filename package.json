@@ -8,10 +8,16 @@
     "url": "git+https://github.com/DP6/analytics-helper.git"
   },
   "author": "",
-  "contributors": [{
-    "name": "Bruno Munhoz",
-    "email": "bpm1993@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Bruno Munhoz",
+      "email": "bpm1993@gmail.com"
+    },
+    {
+      "name": "Paulo Brumatti",
+      "email": "paulo8624@gmail.com"
+    }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DP6/analytics-helper/issues"
@@ -24,8 +30,9 @@
     "gulp-concat": "^2.6.1",
     "gulp-include": "^2.3.1",
     "gulp-minify": "^2.1.0",
-    "gulp-strip-comments": "^2.5.1",
+    "gulp-strip-comments": "^2.5.2",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^3.0.0"
-  }
+  },
+  "dependencies": {}
 }
