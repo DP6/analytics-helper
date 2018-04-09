@@ -436,6 +436,13 @@
           map: function(func, params) {
             return internalMap(elm, func, params);
           },
+          on: function(event, parent, callback) {
+            if (typeof parent === "function") {
+              on(conf.id, event, elm, parent);
+            } else {
+              on(conf.id, event, parent, callback, elm);
+            }
+          },
           nodes: elm
         };
       },
@@ -479,7 +486,7 @@
           id: id,
           args: arguments,
           event: (opt.event || undefined),
-          selector: (opt.selector || undefined)
+          selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
         }));
       } catch ($$e) {
         if (!options.debug) {
@@ -491,7 +498,7 @@
                 action: id,
                 label: String($$e),
                 event: (opt.event || undefined),
-                selector: (opt.selector || undefined)
+                selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
               }
             });
           }
@@ -500,7 +507,7 @@
             exception: $$e,
             tag: id,
             event: (opt.event || undefined),
-            selector: (opt.selector || undefined)
+            selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
           });
         }
       }

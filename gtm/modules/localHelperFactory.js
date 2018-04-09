@@ -50,6 +50,13 @@
           map: function(func, params) {
             return internalMap(elm, func, params);
           },
+          on: function(event, parent, callback){
+            if(typeof parent === "function"){
+              on(conf.id, event, elm, parent);
+            } else {
+              on(conf.id, event, parent, callback, elm);
+            }
+          },
           nodes: elm
         };
       },

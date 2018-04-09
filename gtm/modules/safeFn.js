@@ -6,7 +6,7 @@
           id: id,
           args: arguments,
           event: (opt.event || undefined),
-          selector: (opt.selector || undefined)
+          selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
         }));
       } catch ($$e) {
         if (!options.debug) {
@@ -18,7 +18,7 @@
                 action: id,
                 label: String($$e),
                 event: (opt.event || undefined),
-                selector: (opt.selector || undefined)
+                selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
               }
             });
           }
@@ -27,7 +27,7 @@
             exception: $$e,
             tag: id,
             event: (opt.event || undefined),
-            selector: (opt.selector || undefined)
+            selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
           });
         }
       }
