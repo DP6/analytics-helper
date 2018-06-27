@@ -74,6 +74,7 @@ function() {
     analyticsHelper.internal.sentPageview = true;
     while(analyticsHelper.internal.eventQueue.length){
       analyticsHelper.event.apply(analyticsHelper, analyticsHelper.internal.eventQueue.shift());
+    }
     while(analyticsHelper.internal.timingQueue.length){
       analyticsHelper.timing.apply(analyticsHelper, analyticsHelper.internal.timingQueue.shift());
     }
