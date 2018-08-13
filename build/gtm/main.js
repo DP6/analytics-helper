@@ -91,16 +91,16 @@
   
   function delegate(id, event, selector, oldHandler, parent) {
     var method, elm, handler;
-    if (typeof jQuery === "function") {
+    if (typeof jQuery === 'function') {
       elm = jQuery(parent || document);
       handler = safeFn(id, oldHandler, {
         event: event,
         selector: selector,
         immediate: false
       });
-      if (typeof elm.on === "function") {
+      if (typeof elm.on === 'function') {
         return elm.on(event, selector, handler);
-      } else if (typeof elm.delegate === "function") {
+      } else if (typeof elm.delegate === 'function') {
         return elm.delegate(selector, event, handler);
       }
     }
@@ -109,11 +109,11 @@
       parent = document.querySelectorAll(parent);
     }
   
-    if (typeof document.addEventListener === "function") {
-      method = "addEventListener";
+    if (typeof document.addEventListener === 'function') {
+      method = 'addEventListener';
     } else {
-      method = "attachEvent";
-      event = "on" + event;
+      method = 'attachEvent';
+      event = 'on' + event;
     }
   
     handler = function(e) {
@@ -194,8 +194,8 @@
   }
   
   function internalMap(elms, func, exArgs) {
-    var ret = [];
     var elm, args;
+    var ret = [];
     for (var index = 0; index < elms.length; index++) {
       elm = elms[index];
       if (elm instanceof HTMLElement === false) throw 'internalMap: Esperado elemento HTML';
@@ -237,7 +237,7 @@
   }
   
   function on(id, event, selector, oldCallback, parent) {
-    var count, array, elm, callback;
+    var i, array, elm, callback;
   
     if (parent) return delegate(id, event, selector, oldCallback, parent);
   
@@ -247,37 +247,38 @@
       immediate: false
     });
   
-    if (typeof jQuery === "function") {
+    if (typeof jQuery === 'function') {
       elm = jQuery(selector);
   
-      if (typeof elm.on === "function") {
+      if (typeof elm.on === 'function') {
         return elm.on(event, callback);
-      } else if (typeof elm.bind === "function") {
+      } else if (typeof elm.bind === 'function') {
         return elm.bind(event, callback);
       }
     }
   
-    if (typeof selector === "string") {
+    if (typeof selector === 'string') {
       array = document.querySelectorAll(selector);
-    } else if (typeof selector.length === "undefined" || selector === window) {
+    } else if (typeof selector.length === 'undefined' || selector === window) {
       array = [selector];
     } else {
       array = selector;
     }
   
-    for (count = 0; count < array.length; count++) {
-      elm = array[count];
+    for (i = 0; i < array.length; i++) {
+      elm = array[i];
   
-      if (typeof elm.addEventListener === "function") {
+      if (typeof elm.addEventListener === 'function') {
         elm.addEventListener(event, callback);
       } else {
-        elm.attachEvent("on" + event, callback);
+        elm.attachEvent('on' + event, callback);
       }
     }
   }
   
   function reduceBool(arr) {
-    for (var i = 0; i < arr.length; i++) {
+    var i;
+    for (i = 0; i < arr.length; i++) {
       if (arr[i]) return true;
     }
     return false;
@@ -288,9 +289,7 @@
   
     if (!str) return '';
     opts = opts || {};
-  
     spacer = typeof opts.spacer === 'string' ? opts.spacer : '_';
-  
     str = str.toLowerCase()
       .replace(/^\s+/, '')
       .replace(/\s+$/, '')
@@ -314,11 +313,11 @@
     return str.replace(/^_+|_+$/g, '').replace(/_+/g, spacer);
   }
   
-  function text(elm, opt) {
+  function text(elm, opts) {
     var i, text, children;
-    opt = opt || {};
+    opts = opts || {};
   
-    if (opt.onlyFirst) {
+    if (opts.onlyFirst) {
       children = elm.childNodes;
       text = '';
   
@@ -331,7 +330,7 @@
       text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
     }
   
-    return opt.sanitize ? sanitize(text, opts.sanitize) : text;
+    return opts.sanitize ? sanitize(text, opts.sanitize) : text;
   }
   function getDataLayer(key) {
     try {
@@ -485,8 +484,8 @@
         callback.call(this === window ? null : this, localHelperFactory({
           id: id,
           args: arguments,
-          event: (opt.event || undefined),
-          selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
+          event: (typeof opt.event === "string" && opt.event || undefined),
+          selector: (typeof opt.selector === "string" && opt.selector || undefined)
         }));
       } catch ($$e) {
         if (!options.debug) {
@@ -497,8 +496,8 @@
                 category: options.exceptionCategory,
                 action: id,
                 label: String($$e),
-                event: (opt.event || undefined),
-                selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
+                event: (typeof opt.event === "string" && opt.event || undefined),
+                selector: (typeof opt.selector === "string" && opt.selector || undefined)
               }
             });
           }
@@ -506,8 +505,8 @@
           log('warn', 'Exception: ', {
             exception: $$e,
             tag: id,
-            event: (opt.event || undefined),
-            selector: (opt.selector && typeof opt.selector === "string" ? opt.selector : undefined)
+            event: (typeof opt.event === "string" && opt.event || undefined),
+            selector: (typeof opt.selector === "string" && opt.selector || undefined)
           });
         }
       }

@@ -1,8 +1,8 @@
-  function text(elm, opt) {
+  function text(elm, opts) {
     var i, text, children;
-    opt = opt || {};
+    opts = opts || {};
 
-    if (opt.onlyFirst) {
+    if (opts.onlyFirst) {
       children = elm.childNodes;
       text = '';
 
@@ -15,5 +15,5 @@
       text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
     }
 
-    return opt.sanitize ? sanitize(text, opts.sanitize) : text;
+    return opts.sanitize ? sanitize(text, opts.sanitize) : text;
   }

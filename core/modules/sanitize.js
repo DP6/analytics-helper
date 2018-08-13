@@ -3,9 +3,7 @@ function sanitize(str, opts) {
 
   if (!str) return '';
   opts = opts || {};
-
   spacer = typeof opts.spacer === 'string' ? opts.spacer : '_';
-
   str = str.toLowerCase()
     .replace(/^\s+/, '')
     .replace(/\s+$/, '')
