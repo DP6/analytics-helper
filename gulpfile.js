@@ -4,9 +4,7 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 const beautify = require('gulp-beautify');
 const include = require('gulp-include');
-const gulpsync = require('gulp-sync')(gulp);
 const strip = require('gulp-strip-comments');
-const minify = require('gulp-minify');
 const del = require('del');
 
 gulp.task('gtm-modules', () =>
