@@ -26,7 +26,7 @@ describe('Core', () => {
             });
 
             it('should return capitalized String', () => {
-                expect(sanitize('bringing science to digital marketing DP6', { capitalized: true, spacer: ' ' })).to.equal('Bringing Science To Digital Marketing Dp6');
+                expect(sanitize('bringing science to digital marketing DP6', { capitalized: true, spacer: ' ' })).to.equal('Bringing Science To Digital eting Dp6');
             });
         });
     });

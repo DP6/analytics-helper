@@ -57,6 +57,8 @@ function cookie(name, value, opts) {
     return setCookie(name, value, opts);
 }
 
-module.exports = setCookie;
-module.exports = getCookie;
-module.exports = cookie;
+module.exports = {
+    getCookie: getCookie,
+    setCookie: setCookie,
+    cookie: cookie
+};

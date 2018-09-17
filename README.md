@@ -1,5 +1,7 @@
 # Analytics Helper
 
+[![Build Status](https://travis-ci.org/joaquimsn/analytics-helper.svg?branch=master)](https://travis-ci.org/joaquimsn/analytics-helper) [![Coverage Status](https://coveralls.io/repos/github/joaquimsn/analytics-helper/badge.svg?branch=master)](https://coveralls.io/github/joaquimsn/analytics-helper?branch=master)
+
 O Analytics Helper tem como objetivo facilitar a implementação, a manutenção e a padronização de *tags* no contexto de *digital analytics*.
 
 Um exemplo dos esforços envolvidos no suporte à padronização está na implementação de funções similares às da biblioteca jQuery, comumente utilizada em projetos de tagueamento. Deste modo, mesmo na ausência desta, será possível garantir o padrão e qualidade da coleta dos dados (Consultar a tabela de compatibilidade). Caso da jQuery exista, o Analytics Helper simplesmente delega a execução para ela, ou seja, o código nos dois casos será o mesmo.
@@ -21,7 +23,6 @@ analyticsHelper.fn.minhaFuncao = function (name) {
 };
 analyticsHelper.fn.minhaFuncao('DP6'); // DP6
 ```
-
 ### Compatibilidade
 
 O Analytics Helper depende da função nativa `querySelectorAll`. Os navegadores com suporte a essa funcionalidade são:

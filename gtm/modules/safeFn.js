@@ -5,8 +5,8 @@
         callback.call(this === window ? null : this, localHelperFactory({
           id: id,
           args: arguments,
-          event: (opt.event || undefined),
-          selector: (opt.selector || undefined)
+          event: (typeof opt.event === "string" && opt.event || undefined),
+          selector: (typeof opt.selector === "string" && opt.selector || undefined)
         }));
       } catch ($$e) {
         if (!options.debug) {
@@ -17,8 +17,8 @@
                 category: options.exceptionCategory,
                 action: id,
                 label: String($$e),
-                event: (opt.event || undefined),
-                selector: (opt.selector || undefined)
+                event: (typeof opt.event === "string" && opt.event || undefined),
+                selector: (typeof opt.selector === "string" && opt.selector || undefined)
               }
             });
           }
@@ -26,8 +26,8 @@
           log('warn', 'Exception: ', {
             exception: $$e,
             tag: id,
-            event: (opt.event || undefined),
-            selector: (opt.selector || undefined)
+            event: (typeof opt.event === "string" && opt.event || undefined),
+            selector: (typeof opt.selector === "string" && opt.selector || undefined)
           });
         }
       }
