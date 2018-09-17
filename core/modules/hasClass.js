@@ -8,7 +8,9 @@
  * existência no elemento
  */
 function hasClass(e, className) {
-  if ('classList' in e) return e.classList.contains(className);
-  
-  return new RegExp('\\b' + className + '\\b').test(e.className);
+    if ('classList' in e) return e.classList.contains(className);
+
+    return new RegExp('\\b' + className + '\\b').test(e.className);
 }
+
+module.exports = hasClass;

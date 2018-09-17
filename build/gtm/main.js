@@ -52,6 +52,9 @@
     }
     return undefined;
   }
+  
+  
+  module.exports = closest;
   function getCookie(key) {
     key = ('; ' + key + '=');
     var cookie = ('; ' + document.cookie);
@@ -88,6 +91,10 @@
   
     return setCookie(name, value, opts);
   }
+  
+  module.exports = setCookie;
+  module.exports = getCookie;
+  module.exports = cookie;
   
   function delegate(id, event, selector, oldHandler, parent) {
     var method, elm, handler;
@@ -139,9 +146,13 @@
     }
   }
   
+  module.exports = delegate;
+  
   function find(element, selector) {
     return element.querySelectorAll(selector);
   }
+  
+  module.exports = find;
   
   function flatten(arrs) {
     var currentArray, currentElement, i, j;
@@ -163,6 +174,8 @@
   
     return result;
   }
+  
+  module.exports = flatten;
   function getKey(key, opt_root) {
     if (!key || typeof key !== 'string') return undefined;
   
@@ -179,19 +192,27 @@
     return result;
   }
   
+  module.exports = getKey;
+  
   function has(obj, key) {
     return hasOwnProperty.call(obj, key);
   }
+  
+  module.exports = has;
   function hasClass(e, className) {
     if ('classList' in e) return e.classList.contains(className);
   
     return new RegExp('\\b' + className + '\\b').test(e.className);
   }
   
+  module.exports = hasClass;
+  
   function init(opt_options) {
     options = merge(options, opt_options);
     expose();
   }
+  
+  module.exports = init;
   
   function internalMap(elms, func, exArgs) {
     var ret = [];
@@ -205,11 +226,15 @@
     return ret;
   }
   
+  module.exports = internalMap;
+  
   function log(type, info, obj) {
     if (options.debug && typeof getKey('console.' + type) === 'function') {
       console[type](info, obj);
     }
   }
+  
+  module.exports = log;
   
   function matches(elm, seletor) {
     if ('matches' in elm) return elm.matches(seletor);
@@ -225,6 +250,8 @@
     return false;
   }
   
+  module.exports = matches;
+  
   function merge(obj, obj2) {
     if (obj2) {
       for (var key in obj2) {
@@ -235,6 +262,9 @@
     }
     return obj;
   }
+  
+  
+  module.exports = merge;
   
   function on(id, event, selector, oldCallback, parent) {
     var count, array, elm, callback;
@@ -276,12 +306,17 @@
     }
   }
   
+  
+  module.exports = on;
+  
   function reduceBool(arr) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i]) return true;
     }
     return false;
   }
+  
+  module.exports = reduceBool;
   
   function sanitize(str, opts) {
     var split, i, spacer;
@@ -314,6 +349,8 @@
     return str.replace(/^_+|_+$/g, '').replace(/_+/g, spacer);
   }
   
+  module.exports = sanitize;
+  
   function text(elm, opt) {
     var i, text, children;
     opt = opt || {};
@@ -333,6 +370,9 @@
   
     return opt.sanitize ? sanitize(text, opts.sanitize) : text;
   }
+  
+  
+  module.exports = text;
   function getDataLayer(key) {
     try {
       return google_tag_manager[options.containerId].dataLayer.get(key);
