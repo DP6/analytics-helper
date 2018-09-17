@@ -1,10 +1,10 @@
-  function text(elm, opt) {
-      var i, text, children;
-      opt = opt || {};
+  function text(elm, opts) {
+    var i, text, children;
+    opts = opts || {};
 
-      if (opt.onlyFirst) {
-          children = elm.childNodes;
-          text = '';
+    if (opts.onlyFirst) {
+      children = elm.childNodes;
+      text = '';
 
           for (i = 0; i < children.length; i++) {
               if (children[i].nodeType === 3) {
@@ -15,7 +15,7 @@
           text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
       }
 
-      return opt.sanitize ? sanitize(text, opts.sanitize) : text;
+      return opts.sanitize ? sanitize(text, opts.sanitize) : text;
   }
 
 

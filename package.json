@@ -1,71 +1,112 @@
 {
-    "name": "analytics-helper",
-    "version": "1.0.0",
-    "description": "> Biblioteca auxiliar para implementação dos Tag Managers da DP6.",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/DP6/analytics-helper.git"
+  "name": "analytics-helper",
+  "version": "1.0.1",
+  "description": "> Biblioteca auxiliar para implementação dos Tag Managers da DP6.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaquimsn/analytics-helper.git"
+  },
+  "author": "",
+  "contributors": [
+    {
+      "name": "Bruno Munhoz",
+      "email": "bpm1993@gmail.com"
     },
-    "author": "",
-    "contributors": [{
-            "name": "Bruno Munhoz",
-            "email": "bpm1993@gmail.com"
-        },
-        {
-            "name": "Paulo Brumatti",
-            "email": "paulo8624@gmail.com"
-        }
+    {
+      "name": "Paulo Brumatti",
+      "email": "paulo8624@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaquimsn/analytics-helper/issues"
+  },
+  "homepage": "https://github.com/joaquimsn/analytics-helper#readme",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary --reporter=text  mocha test/index.test.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": [
+      80,
+      99
     ],
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/DP6/analytics-helper/issues"
-    },
-    "homepage": "https://github.com/DP6/analytics-helper#readme",
-    "scripts": {
-        "test": "cross-env NODE_ENV=test nyc mocha test/index.test.js"
-    },
-    "nyc": {
-        "check-coverage": true,
-        "per-file": true,
-        "lines": 999,
-        "statements": 99,
-        "functions": 99,
-        "branches": 99,
-        "exclude": ["build", "documentation-images"],
-        "include": [
-            "core/**/*.js",
-            "gtm/*.js",
-            "gtm/**/*.js"
-        ],
-        "reporter": [
-            "lcov",
-            "text-summary",
-            "html"
-        ],
-        "sourceMap": false,
-        "instrument": false
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.0.0",
-        "@babel/preset-env": "^7.0.0",
-        "@babel/register": "^7.0.0",
-        "babel-plugin-istanbul": "^5.0.1",
-        "chai": "^4.1.2",
-        "coveralls": "^3.0.2",
-        "cross-env": "^5.2.0",
-        "del": "^3.0.0",
-        "gulp": "^3.9.1",
-        "gulp-beautify": "^2.0.1",
-        "gulp-concat": "^2.6.1",
-        "gulp-include": "^2.3.1",
-        "gulp-minify": "^2.1.0",
-        "gulp-strip-comments": "^2.5.2",
-        "gulp-sync": "^0.1.4",
-        "gulp-uglify": "^3.0.0",
-        "mocha": "^5.2.0",
-        "nyc": "^13.0.1",
-        "sonarqube-scanner": "^2.1.1"
-    },
-    "dependencies": {}
+    "statements": [
+      90,
+      99
+    ],
+    "functions": [
+      90,
+      99
+    ],
+    "branches": [
+      80,
+      99
+    ],
+    "exclude": [
+      "build",
+      "documentation-images"
+    ],
+    "include": [
+      "core/**/*.js",
+      "gtm/*.js",
+      "gtm/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary",
+      "text"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "release": {
+    "branch": "master",
+    "verifyConditions": [
+      "@semantic-release/github"
+    ],
+    "publish": [
+      "@semantic-release/github"
+    ],
+    "prepare": [],
+    "success": [
+      "@semantic-release/github"
+    ],
+    "fail": [
+      "@semantic-release/github"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-plugin-istanbul": "^5.0.1",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-beautify": "^2.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-include": "^2.3.1",
+<<<<<<< HEAD
+    "gulp-minify": "^2.1.0",
+    "gulp-replace": "^1.0.0",
+=======
+>>>>>>> 0f9f68c... Remoção de plugins sem uso
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-sync": "^0.1.4",
+    "gulp-uglify": "^3.0.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "sonarqube-scanner": "^2.1.1"
+  },
+  "dependencies": {}
 }
