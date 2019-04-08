@@ -69,13 +69,13 @@ A tabela a seguir descreve todas as variáveis do tipo *variável de camada de d
 Caso utilize a opção waitQueue (habilitada por padrão), a seguinte variável de *javascript personalizado* deverá ser criada e adicionada ao campo *hitCallback* em *Fields to Set* nas tags de template de Google Analytics.
 
 ```javascript
-function() {
-  return function(){
+function () {
+  return function () {
     analyticsHelper.internal.sentPageview = true;
-    while(analyticsHelper.internal.eventQueue.length){
+    while (analyticsHelper.internal.eventQueue.length) {
       analyticsHelper.event.apply(analyticsHelper, analyticsHelper.internal.eventQueue.shift());
     }
-    while(analyticsHelper.internal.timingQueue.length){
+    while (analyticsHelper.internal.timingQueue.length) {
       analyticsHelper.timing.apply(analyticsHelper, analyticsHelper.internal.timingQueue.shift());
     }
   };

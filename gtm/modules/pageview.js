@@ -15,7 +15,7 @@ function pageview(path, object, id) {
     if (options.gtmCleanup) {
       result.eventCallback = options.gtmCleanup;
     }
-    
+
     log('info', result, object);
     window[options.dataLayerName].push(merge(result, object));
   } catch (err) {
