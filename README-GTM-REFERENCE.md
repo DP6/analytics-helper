@@ -319,6 +319,31 @@ analyticsHelper.safeFn('Nome da Tag', function (helper) {
 });
 ```
 
+#### log(type, message, object)
+Um wrapper ao redor do Console nativo. Criado para garantir que execute apenas durante Debug Mode e apenas se console[type] existir.
+
+##### Argumentos
+* `type` Tipo de console a ser realizado. Pode ser qualquer tipo suportado pelo console: `log`, `warn`, `error`, `table`, `group`...
+
+* `message` Texto a ser enviado para o console.
+
+* `object` (opcional): Qualquer objeto com mais detalhes do que deve ser enviado para o método escolhido.
+
+##### Retorno
+* **undefined**: Nenhum retorno é enviado ou deverá ser esperado após a execução desta função.
+
+##### Exemplo de código
+```javascript
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  helper.on('mousedown', '.button', function () {
+    if (helper.wrap(this).hasClass('myClass')) {
+      helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
+    } else {
+      helper.log('log', 'Classe "myClass" não encontrada');
+    }
+  });
+});
+```
 #### matches(selector, reduce)
 Função que verifica se o elemento HTML confere com o seletor.
 
