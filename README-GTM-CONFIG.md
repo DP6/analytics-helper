@@ -15,31 +15,32 @@ As tags que utilizarem o objeto analyticsHelper devem configurar esta tag princi
 
 ## Acionadores
 
-Três acionadores do tipo *evento personalizado* devem ser criados.
+Quatro acionadores do tipo *evento personalizado* devem ser criados.
 
-Os nomes dos eventos serão os nomes definidos nos campos: *exceptionEvent*, *customNamePageview* e *customNameEvent*.
-
-Por padrão, os valores destes campos são respectivamente: *gtm_dataQuality_event*, *ga_pageview* e *ga_event*.
+Os nomes dos eventos serão os mesmos nomes utilizados para identificá-los na camada de dados: *gtm_dataQuality_event*, *ga_pageview*, *ga_event* e *ga_timing*.
 
 ![Triggers](documentation-images/event_name.png)
 
 ## Tags de template
 
-Três tags de Universal Analytics devem ser criadas, uma para cada acionador criado acima.
+Quatro tags de Universal Analytics devem ser criadas, uma para cada acionador criado acima.
 
-Estas tags devem ser preenchidas com as variáveis de camada de dados listadas na próxima seção. Estes são os campos mínimos, as tags podem ser estendidas para incluir dimensões personalizadas, dados de ecommerce e outras configurações.
+Estas tags devem ser preenchidas com as variáveis de camada de dados listadas na próxima seção. Estes são os campos padrões, as tags podem ser modificadas  para incluir ou remover dimensões personalizadas, dados de ecommerce e outras configurações.
 
-### Template de Pageview
+### Template de Pageview (+ GA Settings)
 ![Tag de template de Pageview](documentation-images/tag_pageview.png)
 
-### Template de Evento
+### Template de Evento (+ GA Settings)
 ![Tag de template de Evento](documentation-images/tag_event.png)
 
-### Template de Timing
+### Template de Timing (+ GA Settings)
 ![Tag de template de Timing](documentation-images/tag_timing.png)
 
 ### Template de Data Quality
 ![Tag de template de DataQuality](documentation-images/tag_dataquality.png)
+
+### Template de GA Settings
+![Tag de template de GA Settings](documentation-images/var_gasettings.png)
 
 
 ## Variáveis
@@ -59,7 +60,8 @@ A tabela a seguir descreve todas as variáveis do tipo *variável de camada de d
 | timingVariable | Tag de Evento | Variável |
 | timingValue | Tag de Evento | Valor |
 | timingLabel | Tag de Evento | Rótulo |
-| path | Tag de Pageview | Fields to Set -> page |
+| path | GA Settings | Fields to Set -> page |
+| userId | GA Settings | Fields to Set -> userId |
 | dataQuality.category | Tag de Data Quality | Categoria |
 | dataQuality.action | Tag de Data Quality | Ação |
 | dataQuality.label | Tag de Data Quality | Rótulo |
