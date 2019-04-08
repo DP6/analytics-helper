@@ -68,6 +68,7 @@
       id: conf.id,
       args: conf.args,
       fn: fn,
+      log: log,
       _event: conf.event,
       _selector: conf.selector
     };
