@@ -238,9 +238,11 @@ A função `safeFn` tem um tratamento específico para as Exceptions que ocorrer
 ### Helper interno
 Objeto com funções internas passados via parâmetro no callback da função `safeFn`.
 
-#### on(event, selector, callback)
+#### on(event, selector, callback, parent)
 
-A função `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 7 ou inferior.
+O método `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 7 ou inferior.
+
+A presença do quarto argumento, `parent`, transforma a funcionalidade do método `on` na do método [`delegate`](#delegateevent-selector-callback).
 
 #### Argumentos
 * `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
@@ -249,7 +251,9 @@ A função `on` serve para executar um callback ao executar algum evento em um e
 * `selector`: String do Seletor CSS que irá buscar os elementos que executarão o callback no disparo do evento.
 [Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 
-* `callback`: Função executada no disparo do evento infomado no parâmetro `event`.
+* `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
+
+* `parent` (opcional): Elemento raíz a partir de onde o evento deverá ser ouvido.
 
 ##### Exemplo de código
 
@@ -258,6 +262,44 @@ analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '#botaoX', function (helper) {
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
   });
+});
+
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  helper.on('mousedown', '#botaoX', function (helper) {
+    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
+  }, '#caixaY');
+});
+```
+
+#### delegate(event, selector, callback)
+
+O método `delegate` serve para executar um callback ao executar algum evento em um elemento HTML específico. Diferentemente do `on`, ele assume como padrão que o evento deverá ser atrelado ao `document.body` e não ao seletor passado no argumento `selector`, esperando por qualquer evento que ocorra em um elemento que case com o argumento `selector`.
+
+Este método é preferível contra o método `on` nos casos em que o elemento ainda não exista na página ou quando ele pode existir e deixar de existir dependendo da navegação do usuário, como opções de um menu suspenso ou uma lista de scroll infinito.
+
+#### Argumentos
+* `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
+[Saiba mais](https://mdn.mozilla.org/en-US/docs/Web/Events).
+
+* `selector`: String do Seletor CSS ao qual os elementos que acionarem o evento do `body` deverão ser comparados.
+[Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
+
+* `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
+
+##### Exemplo de código
+
+```javascript
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  helper.delegate('mousedown', '#botaoX', function (helper) {
+    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
+  });
+});
+
+// Equivalente a
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  helper.on('mousedown', '#botaoX', function (helper) {
+    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
+  }, document.body);
 });
 ```
 
