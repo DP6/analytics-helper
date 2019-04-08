@@ -19,7 +19,9 @@
         return on(conf.id, event, selector, callback, document.body);
       },
       wrap: function (elm) {
-        if (typeof elm === 'string') {
+        if (typeof elm === 'object' && elm._type === 'wrapped') {
+          return elm;
+        } else  if (typeof elm === 'string') {
           elm = find(window.document, elm);
         } else if (elm instanceof HTMLElement) {
           elm = [elm];
@@ -28,6 +30,7 @@
         }
 
         return {
+          _type: 'wrapped',
           hasClass: function (className, opts) {
             var arr = internalMap(elm, hasClass, [className]);
             return (opts && opts.toArray) ? arr : reduceBool(arr);
