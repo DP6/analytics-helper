@@ -8,15 +8,16 @@
  * que pode ser utilizado para Enhanced Ecommerce, dentre outros.
  */
 internal.timingQueue = [];
+
 function timing(category, variable, value, label, object, id) {
   try {
     if (internal.sentPageview === false && options.waitQueue) {
-      log('Info', 'The timing event (' + arguments + ') has been add to the queue'); 
+      log('Info', 'The timing event (' + arguments + ') has been add to the queue');
       return internal.timingQueue.push(arguments);
     }
 
     object = object || {};
-    
+
     var result = {
       event: options.customNameTiming,
       timingCategory: category,
@@ -29,7 +30,7 @@ function timing(category, variable, value, label, object, id) {
     if (options.gtmCleanup) {
       result.eventCallback = options.gtmCleanup;
     }
-    
+
     log('info', result, object);
     window[options.dataLayerName].push(merge(result, object));
   } catch (err) {

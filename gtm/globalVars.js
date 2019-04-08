@@ -3,25 +3,21 @@ var jQuery = window.jQuery;
 var fn = {};
 
 var options = {
-    helperName: 'analyticsHelper',
-    dataLayerName: 'dataLayer',
-    debug: ({
-        { Debug Mode }
-    } || false),
-    waitQueue: true,
-    containerId: ({
-        { Container ID }
-    } || ''),
-    exceptionEvent: 'gtm_dataQuality_event',
-    exceptionCategory: 'GTM Exception',
-    customNamePageview: 'ga_pageview',
-    customNameEvent: 'ga_event',
-    customNameTiming: 'ga_timing',
-    errorSampleRate: 1,
-    gtmCleanup: function(gtmId) {
-        helper.setDataLayer('ecommerce', undefined);
-        helper.setDataLayer('noInteraction', undefined);
-    }
+  helperName: 'analyticsHelper',
+  dataLayerName: 'dataLayer',
+  debug: ({{Debug Mode}} || false),
+  waitQueue: true,
+  containerId: ({{Container ID}} || ''),
+  exceptionEvent: 'gtm_dataQuality_event',
+  exceptionCategory: 'GTM Exception',
+  customNamePageview: 'ga_pageview',
+  customNameEvent: 'ga_event',
+  customNameTiming: 'ga_timing',
+  errorSampleRate: 1,
+  gtmCleanup: function (gtmId) {
+    helper.setDataLayer('ecommerce', undefined);
+    helper.setDataLayer('noInteraction', undefined);
+  }
 };
 
 var internal = {

@@ -1,24 +1,24 @@
   function localHelperFactory(conf) {
     var localHelper = {
-      event: function(category, action, label, value, object) {
+      event: function (category, action, label, value, object) {
         return event(category, action, label, value, object, conf.id);
       },
-      pageview: function(path, object) {
+      pageview: function (path, object) {
         return pageview(path, object, conf.id);
       },
-      timing: function(category, variable, value, label, object) {
+      timing: function (category, variable, value, label, object) {
         return timing(category, variable, value, label, object, conf.id);
       },
-      safeFn: function(id, callback, opts) {
+      safeFn: function (id, callback, opts) {
         return safeFn(conf.id, callback, opts);
       },
-      on: function(event, selector, callback, parent) {
+      on: function (event, selector, callback, parent) {
         return on(conf.id, event, selector, callback, parent);
       },
-      delegate: function(event, selector, callback) {
+      delegate: function (event, selector, callback) {
         return on(conf.id, event, selector, callback, document.body);
       },
-      wrap: function(elm) {
+      wrap: function (elm) {
         if (typeof elm === 'string') {
           elm = find(window.document, elm);
         } else if (elm instanceof HTMLElement) {
@@ -28,30 +28,30 @@
         }
 
         return {
-          hasClass: function(className, opts) {
+          hasClass: function (className, opts) {
             var arr = internalMap(elm, hasClass, [className]);
             return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
-          matches: function(selector, opts) {
+          matches: function (selector, opts) {
             var arr = internalMap(elm, matches, [selector]);
             return (opts && opts.toArray) ? arr : reduceBool(arr);
           },
-          closest: function(selector) {
+          closest: function (selector) {
             return localHelper.wrap(internalMap(elm, closest, [selector]));
           },
-          text: function(opts) {
+          text: function (opts) {
             var arr = internalMap(elm, text, [opts]);
             return (opts && opts.toArray) ? arr : arr.join('');
           },
-          find: function(sel) {
+          find: function (sel) {
             var elms = internalMap(elm, find, [sel]);
             return localHelper.wrap(flatten(elms));
           },
-          map: function(func, params) {
+          map: function (func, params) {
             return internalMap(elm, func, params);
           },
-          on: function(event, parent, callback){
-            if(typeof parent === "function"){
+          on: function (event, parent, callback) {
+            if (typeof parent === "function") {
               on(conf.id, event, elm, parent);
             } else {
               on(conf.id, event, parent, callback, elm);

@@ -4,10 +4,10 @@
  * Obs: Possui dependência com a ativação da variável 'container ID'
  * @param {*} key 
  */
-function getDataLayer(key) {    
+function getDataLayer(key) {
   try {
     return google_tag_manager[options.containerId].dataLayer.get(key);
-  } catch($$e) {
+  } catch ($$e) {
     log('warn', 'Function getDataLayer: Object ' + key + ' is not defined');
   }
 }
@@ -18,10 +18,10 @@ function getDataLayer(key) {
  * Obs: Possui dependência com a ativação da variável 'container ID'
  * @param {*} key 
  */
-function setDataLayer(key, value) {    
+function setDataLayer(key, value) {
   try {
     return google_tag_manager[options.containerId].dataLayer.set(key, value);
-  } catch($$e) {
+  } catch ($$e) {
     log('warn', $$e);
   }
 }
