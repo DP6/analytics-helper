@@ -8,10 +8,11 @@
  * que pode ser utilizado para Enhanced Ecommerce, dentre outros.
  */
 internal.eventQueue = [];
+
 function event(category, action, label, value, object, id) {
   try {
     if (internal.sentPageview === false && options.waitQueue) {
-      log('Info', 'The event (' + arguments + ') has been add to the queue'); 
+      log('Info', 'The event (' + arguments + ') has been add to the queue');
       return internal.eventQueue.push(arguments);
     }
 
@@ -19,9 +20,9 @@ function event(category, action, label, value, object, id) {
       object = value;
       value = undefined;
     } else {
-      object = object || {};  
+      object = object || {};
     }
-    
+
     var result = {
       event: options.customNameEvent,
       eventCategory: category,

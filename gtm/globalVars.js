@@ -13,7 +13,7 @@ var options = {
   customNameEvent: 'ga_event',
   customNameTiming: 'ga_timing',
   errorSampleRate: 1,
-  gtmCleanup: function(gtmId) {
+  gtmCleanup: function (gtmId) {
     helper.setDataLayer('ecommerce', undefined);
     helper.setDataLayer('noInteraction', undefined);
   }

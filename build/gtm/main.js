@@ -1,4 +1,5 @@
-;(function () {
+;
+(function () {
   'use strict';
   var hasOwnProperty = Object.prototype.hasOwnProperty;
   var jQuery = window.jQuery;
@@ -15,7 +16,7 @@
     customNameEvent: 'ga_event',
     customNameTiming: 'ga_timing',
     errorSampleRate: 1,
-    gtmCleanup: function(gtmId) {
+    gtmCleanup: function (gtmId) {
       helper.setDataLayer('ecommerce', undefined);
       helper.setDataLayer('noInteraction', undefined);
     }

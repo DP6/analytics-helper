@@ -1,6 +1,6 @@
   function safeFn(id, callback, opt) {
     opt = opt || {};
-    var safe = function() {
+    var safe = function () {
       try {
         callback.call(this === window ? null : this, localHelperFactory({
           id: id,

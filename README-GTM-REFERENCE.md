@@ -75,8 +75,8 @@ Utilizada para o disparo de pageview personalizado.
 ##### Exemplo de código
 ```javascript
 analyticsHelper.pageview('/post/finalizou-leitura', {
-  area : 'Aberta',
-  categoria : 'Data Science'
+  area: 'Aberta',
+  categoria: 'Data Science'
 });
 ```
 
@@ -169,9 +169,9 @@ Retorna um texto sem caracteres especiais, acentuação, espaços ou letras mai�
 ##### Exemplo de código
 ```javascript
 analyticsHelper.sanitize('Minha String Suja'); // minha_string_suja
-analyticsHelper.sanitize('Minha String Suja', {capitalized: true}); // MinhaStringSuja
-analyticsHelper.sanitize('Minha String Suja', {spacer: '-'}); // minha-string-suja
-analyticsHelper.sanitize('Minha String Suja', {capitalized: true, spacer: '-'}); // Minha-String-Suja
+analyticsHelper.sanitize('Minha String Suja', { capitalized: true }); // MinhaStringSuja
+analyticsHelper.sanitize('Minha String Suja', { spacer: '-' }); // minha-string-suja
+analyticsHelper.sanitize('Minha String Suja', { capitalized: true, spacer: '-' }); // Minha-String-Suja
 ```
 
 #### cookie(name, value, opts)
@@ -225,9 +225,9 @@ analyticsHelper.safeFn('Nome da Tag do GTM', function (helper) {
   });
 });
 
-var fn = analyticsHelper.safefn('Nome da Tag do GTM', function(helper) {
+var fn = analyticsHelper.safefn('Nome da Tag do GTM', function (helper) {
   console.log(new Date());
-}, {immediate: false});
+}, { immediate: false });
 
 setTimeout(fn, 2000)
 ```
@@ -254,7 +254,7 @@ A função `on` serve para executar um callback ao executar algum evento em um e
 ##### Exemplo de código
 
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function (helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '#botaoX', function (helper) {
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
   });
@@ -275,15 +275,15 @@ A função `wrap` provê diversas funções facilitadoras para interações com 
 ##### Exemplos de código
 ```javascript
 // Apenas um elemento
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '#botaoX', function () {
-    var text = helper.wrap(this).text({sanitize: true});
+    var text = helper.wrap(this).text({ sanitize: true });
     helper.event('Categoria', 'Ação', 'Label_' + text);
   });
 });
 
 // Múltiplos elementos
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   var urls = helper.wrap('a');
   console.log(urls.nodes); // Array de nodes a.
 });
@@ -310,9 +310,9 @@ Função que verifica se o elemento HTML tem a classe passada por parâmetro.
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '.button', function () {
-    if(helper.wrap(this).hasClass('myClass')){
+    if (helper.wrap(this).hasClass('myClass')) {
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     }
   });
@@ -333,9 +333,9 @@ Função que verifica se o elemento HTML confere com o seletor.
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '.button', function () {
-    if(helper.wrap(this).matches('.myForm .button')){
+    if (helper.wrap(this).matches('.myForm .button')) {
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     }
   });
@@ -353,11 +353,10 @@ Para cada elemento no conjunto, obtenha o primeiro elemento que corresponde ao s
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
   helper.on('mousedown', '.button', function () {
-    var text = helper.wrap(this).closest('div.parentDivWithText').text({sanitize: true, onlyFirst: true});
-      helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo' + text);
-    });
+    var text = helper.wrap(this).closest('div.parentDivWithText').text({ sanitize: true, onlyFirst: true });
+    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo' + text);
   });
 });
 ```
@@ -375,20 +374,11 @@ Função que retorna o texto do elemento.
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
-    var text = helper.wrap('#myId').text({
-        sanitize: true, 
-        onlyFirst: true, 
-        onlyText: true
-    });
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  var text = helper.wrap('#myId').text({ sanitize: true, onlyFirst: true, onlyText: true });
 
-    var text2 = helper.wrap('#myOtherId').text({
-      sanitize: {
-        spacer: '/',
-        capitalized: false
-      }
-    })
-    helper.pageview('/' + text + '/' + text2);
+  var text2 = helper.wrap('#myOtherId').text({ sanitize: { spacer: '/', capitalized: false } });
+  helper.pageview('/' + text + '/' + text2);
 });
 ```
 
@@ -402,9 +392,9 @@ Função que retorna um objeto Wrap de todos os elementos que batem com o seleto
 
 ##### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
-    var text = helper.wrap('#myId').find('.myClass').text({ sanitize: true });
-    helper.pageview('/' + text);
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  var text = helper.wrap('#myId').find('.myClass').text({ sanitize: true });
+  helper.pageview('/' + text);
 });
 ```
 
@@ -418,11 +408,9 @@ Função que executa um código para cada elemento. Possui o mesmo comportamento
 
 #### Exemplo de código
 ```javascript
-analyticsHelper.safeFn('Nome da Tag', function(helper){
-    var sources = helper.wrap('img').map(function(elm){
-        return elm.src;
-    });
-    console.log(sources); // Array com os valores do atributo src de cada elemento img.
+analyticsHelper.safeFn('Nome da Tag', function (helper) {
+  var sources = helper.wrap('img').map(function (elm) { return elm.src; });
+  console.log(sources); // Array com os valores do atributo src de cada elemento img.
 });
 ```
 
