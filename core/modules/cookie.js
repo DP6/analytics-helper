@@ -4,8 +4,8 @@
  * @param {*} key Chave do cookie
  */
 function getCookie(key) {
-  key = ('; ' + key + '=');
-  var cookie = ('; ' + document.cookie);
+  key = '; ' + key + '=';
+  var cookie = '; ' + document.cookie;
   var index = cookie.indexOf(key);
   var end;
   if (index === -1) {
@@ -17,7 +17,7 @@ function getCookie(key) {
 }
 
 /**
- * Função utilizada para atribuir um novo cookie 
+ * Função utilizada para atribuir um novo cookie
  * Esta função é utilizada pela função cookie como facilitadora
  * @param {*} name Nome do cookie
  * @param {*} value Valor do cookie
@@ -27,22 +27,22 @@ function setCookie(name, value, opts) {
   var exdate, cookie;
   opts = opts || {};
 
-  cookie = name + "=" + window.escape(value);
+  cookie = name + '=' + window.escape(value);
   if (opts.exdays) {
     exdate = new Date();
     exdate.setDate(exdate.getDate() + opts.exdays);
-    cookie += "; expires=" + exdate.toUTCString();
+    cookie += '; expires=' + exdate.toUTCString();
   }
   if (opts.domain) {
-    cookie += "; domain=" + opts.domain;
+    cookie += '; domain=' + opts.domain;
   }
-  cookie += "; path=" + (opts.path || '/');
+  cookie += '; path=' + (opts.path || '/');
   return (document.cookie = cookie);
 }
 
 /**
  * Função exposta que pode recuperar ou criar um novo cookie
- * Caso somente o primeiro parâmetro 'name' seja informado, 
+ * Caso somente o primeiro parâmetro 'name' seja informado,
  * a função irá procurar um cookie com este parâmetro.
  * Caso o usuário também informe o parâmetro 'value', a função
  * irá criar um novo cookie.
@@ -51,8 +51,7 @@ function setCookie(name, value, opts) {
  * @param {*} opts Opções do cookie, como vencimento e domínio
  */
 function cookie(name, value, opts) {
-  if (typeof value === 'undefined')
-    return getCookie(name);
+  if (typeof value === 'undefined') return getCookie(name);
 
   return setCookie(name, value, opts);
 }

@@ -12,7 +12,8 @@ function text(elm, opts) {
       }
     }
   } else {
-    text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
+    text =
+      elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');
   }
 
   return opts.sanitize ? sanitize(text, opts.sanitize) : text;

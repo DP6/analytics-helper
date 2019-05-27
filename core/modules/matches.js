@@ -1,6 +1,6 @@
 function matches(elm, seletor) {
   if ('matches' in elm) return elm.matches(seletor);
-  if (typeof jQuery === "function") return jQuery(elm).is(seletor);
+  if (typeof jQuery === 'function') return jQuery(elm).is(seletor);
 
   var elms = elm.parentNode.querySelectorAll(seletor);
 
