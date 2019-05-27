@@ -10,7 +10,7 @@ function localHelperFactory(conf) {
       return timing(category, variable, value, label, object, conf.id);
     },
     safeFn: function(id, callback, opts) {
-      return safeFn(conf.id, callback, opts);
+      return safeFn(conf.id + ':' + id, callback, opts);
     },
     on: function(event, selector, callback, parent) {
       return on(conf.id, event, selector, callback, parent);
