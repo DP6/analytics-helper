@@ -9,5 +9,4 @@ function merge(obj, obj2) {
     return obj;
 }
 
-
 module.exports = merge;

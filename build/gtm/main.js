@@ -28,20 +28,21 @@
   };
   
   var helper = {
-      internal: internal,
-      init: init,
-      pageview: pageview,
-      event: event,
-      timing: timing,
-      sanitize: sanitize,
-      getDataLayer: getDataLayer,
-      setDataLayer: setDataLayer,
-      cookie: cookie,
-      getKey: getKey,
-      safeFn: safeFn,
-      fn: fn,
-      options: options
+    internal: internal,
+    init: init,
+    pageview: pageview,
+    event: event,
+    timing: timing,
+    sanitize: sanitize,
+    getDataLayer: getDataLayer,
+    setDataLayer: setDataLayer,
+    cookie: cookie,
+    getKey: getKey,
+    safeFn: safeFn,
+    fn: fn,
+    options: options
   };
+  
   function closest(elm, seletor) {
     if ('closest' in elm) return elm.closest(seletor);
     if (typeof jQuery === 'function') return jQuery(elm).closest(seletor)[0];
@@ -58,8 +59,8 @@
   }
   
   function getCookie(key) {
-    key = ('; ' + key + '=');
-    var cookie = ('; ' + document.cookie);
+    key = '; ' + key + '=';
+    var cookie = '; ' + document.cookie;
     var index = cookie.indexOf(key);
     var end;
     if (index === -1) {
@@ -74,16 +75,16 @@
     var exdate, cookie;
     opts = opts || {};
   
-    cookie = name + "=" + window.escape(value);
+    cookie = name + '=' + window.escape(value);
     if (opts.exdays) {
       exdate = new Date();
       exdate.setDate(exdate.getDate() + opts.exdays);
-      cookie += "; expires=" + exdate.toUTCString();
+      cookie += '; expires=' + exdate.toUTCString();
     }
     if (opts.domain) {
-      cookie += "; domain=" + opts.domain;
+      cookie += '; domain=' + opts.domain;
     }
-    cookie += "; path=" + (opts.path || '/');
+    cookie += '; path=' + (opts.path || '/');
     return (document.cookie = cookie);
   }
   
@@ -207,7 +208,8 @@
     var ret = [];
     for (var index = 0; index < elms.length; index++) {
       elm = elms[index];
-      if (elm instanceof HTMLElement === false) throw 'internalMap: Esperado elemento HTML';
+      if (elm instanceof HTMLElement === false)
+        throw 'internalMap: Esperado elemento HTML';
       args = [elm].concat(exArgs);
       ret.push(func.apply(null, args));
     }
@@ -222,7 +224,7 @@
   
   function matches(elm, seletor) {
     if ('matches' in elm) return elm.matches(seletor);
-    if (typeof jQuery === "function") return jQuery(elm).is(seletor);
+    if (typeof jQuery === 'function') return jQuery(elm).is(seletor);
   
     var elms = elm.parentNode.querySelectorAll(seletor);
   
@@ -298,7 +300,8 @@
     if (!str) return '';
     opts = opts || {};
     spacer = typeof opts.spacer === 'string' ? opts.spacer : '_';
-    str = str.toLowerCase()
+    str = str
+      .toLowerCase()
       .replace(/^\s+/, '')
       .replace(/\s+$/, '')
       .replace(/\s+/g, '_')
@@ -356,6 +359,7 @@
       log('warn', $$e);
     }
   }
+  
   internal.eventQueue = [];
   
   function event(category, action, label, value, object, id) {
@@ -404,7 +408,7 @@
         return timing(category, variable, value, label, object, conf.id);
       },
       safeFn: function(id, callback, opts) {
-        return safeFn(conf.id, callback, opts);
+        return safeFn(conf.id + ':' + id, callback, opts);
       },
       on: function(event, selector, callback, parent) {
         return on(conf.id, event, selector, callback, parent);
@@ -427,18 +431,18 @@
           _type: 'wrapped',
           hasClass: function(className, opts) {
             var arr = internalMap(elm, hasClass, [className]);
-            return (opts && opts.toArray) ? arr : reduceBool(arr);
+            return opts && opts.toArray ? arr : reduceBool(arr);
           },
           matches: function(selector, opts) {
             var arr = internalMap(elm, matches, [selector]);
-            return (opts && opts.toArray) ? arr : reduceBool(arr);
+            return opts && opts.toArray ? arr : reduceBool(arr);
           },
           closest: function(selector) {
             return localHelper.wrap(internalMap(elm, closest, [selector]));
           },
           text: function(opts) {
             var arr = internalMap(elm, text, [opts]);
-            return (opts && opts.toArray) ? arr : arr.join('');
+            return opts && opts.toArray ? arr : arr.join('');
           },
           find: function(sel) {
             var elms = internalMap(elm, find, [sel]);
@@ -448,7 +452,7 @@
             return internalMap(elm, func, params);
           },
           on: function(event, parent, callback) {
-            if (typeof parent === "function") {
+            if (typeof parent === 'function') {
               on(conf.id, event, elm, parent);
             } else {
               on(conf.id, event, parent, callback, elm);
@@ -471,6 +475,7 @@
     };
     return localHelper;
   }
+  
   function pageview(path, object, id) {
     try {
       var result = {
@@ -494,12 +499,15 @@
     opt = opt || {};
     var safe = function() {
       try {
-        callback.call(this === window ? null : this, localHelperFactory({
-          id: id,
-          args: arguments,
-          event: (typeof opt.event === "string" && opt.event || undefined),
-          selector: (typeof opt.selector === "string" && opt.selector || undefined)
-        }));
+        callback.call(
+          this === window ? null : this,
+          localHelperFactory({
+            id: id,
+            args: arguments,
+            event: (typeof opt.event === 'string' && opt.event) || undefined,
+            selector: (typeof opt.selector === 'string' && opt.selector) || undefined
+          })
+        );
       } catch ($$e) {
         if (!options.debug) {
           if (Math.random() <= options.errorSampleRate) {
@@ -509,8 +517,8 @@
                 category: options.exceptionCategory,
                 action: id,
                 label: String($$e),
-                event: (typeof opt.event === "string" && opt.event || undefined),
-                selector: (typeof opt.selector === "string" && opt.selector || undefined)
+                event: (typeof opt.event === 'string' && opt.event) || undefined,
+                selector: (typeof opt.selector === 'string' && opt.selector) || undefined
               }
             });
           }
@@ -518,8 +526,8 @@
           log('warn', 'Exception: ', {
             exception: $$e,
             tag: id,
-            event: (typeof opt.event === "string" && opt.event || undefined),
-            selector: (typeof opt.selector === "string" && opt.selector || undefined)
+            event: (typeof opt.event === 'string' && opt.event) || undefined,
+            selector: (typeof opt.selector === 'string' && opt.selector) || undefined
           });
         }
       }
@@ -532,7 +540,10 @@
   function timing(category, variable, value, label, object, id) {
     try {
       if (internal.sentPageview === false && options.waitQueue) {
-        log('Info', 'The timing event (' + arguments + ') has been add to the queue');
+        log(
+          'Info',
+          'The timing event (' + arguments + ') has been add to the queue'
+        );
         return internal.timingQueue.push(arguments);
       }
   
@@ -563,4 +574,5 @@
   }
   
   expose();
-}());
+  
+})();

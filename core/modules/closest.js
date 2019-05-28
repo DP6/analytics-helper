@@ -13,5 +13,4 @@ function closest(elm, seletor) {
     return undefined;
 }
 
-
 module.exports = closest;
