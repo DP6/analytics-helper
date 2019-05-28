@@ -25,17 +25,17 @@ var internal = {
 };
 
 var helper = {
-    internal: internal,
-    init: init,
-    pageview: pageview,
-    event: event,
-    timing: timing,
-    sanitize: sanitize,
-    getDataLayer: getDataLayer,
-    setDataLayer: setDataLayer,
-    cookie: cookie,
-    getKey: getKey,
-    safeFn: safeFn,
-    fn: fn,
-    options: options
+  internal: internal,
+  init: init,
+  pageview: pageview,
+  event: event,
+  timing: timing,
+  sanitize: sanitize,
+  getDataLayer: getDataLayer,
+  setDataLayer: setDataLayer,
+  cookie: cookie,
+  getKey: getKey,
+  safeFn: safeFn,
+  fn: fn,
+  options: options
 };
