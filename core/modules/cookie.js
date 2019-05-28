@@ -4,20 +4,20 @@
  * @param {*} key Chave do cookie
  */
 function getCookie(key) {
-    key = ('; ' + key + '=');
-    var cookie = ('; ' + document.cookie);
-    var index = cookie.indexOf(key);
-    var end;
-    if (index === -1) {
-        return '';
-    }
-    cookie = cookie.substring(index + key.length);
-    end = cookie.indexOf(';');
-    return window.unescape(end === -1 ? cookie : cookie.substring(0, end));
+  key = '; ' + key + '=';
+  var cookie = '; ' + document.cookie;
+  var index = cookie.indexOf(key);
+  var end;
+  if (index === -1) {
+    return '';
+  }
+  cookie = cookie.substring(index + key.length);
+  end = cookie.indexOf(';');
+  return window.unescape(end === -1 ? cookie : cookie.substring(0, end));
 }
 
 /**
- * Função utilizada para atribuir um novo cookie 
+ * Função utilizada para atribuir um novo cookie
  * Esta função é utilizada pela função cookie como facilitadora
  * @param {*} name Nome do cookie
  * @param {*} value Valor do cookie
@@ -27,22 +27,22 @@ function setCookie(name, value, opts) {
     var exdate, cookie;
     opts = opts || {};
 
-    cookie = name + "=" + window.escape(value);
-    if (opts.exdays) {
-        exdate = new Date();
-        exdate.setDate(exdate.getDate() + opts.exdays);
-        cookie += "; expires=" + exdate.toUTCString();
-    }
-    if (opts.domain) {
-        cookie += "; domain=" + opts.domain;
-    }
-    cookie += "; path=" + (opts.path || '/');
-    return (document.cookie = cookie);
+  cookie = name + '=' + window.escape(value);
+  if (opts.exdays) {
+    exdate = new Date();
+    exdate.setDate(exdate.getDate() + opts.exdays);
+    cookie += '; expires=' + exdate.toUTCString();
+  }
+  if (opts.domain) {
+    cookie += '; domain=' + opts.domain;
+  }
+  cookie += '; path=' + (opts.path || '/');
+  return (document.cookie = cookie);
 }
 
 /**
  * Função exposta que pode recuperar ou criar um novo cookie
- * Caso somente o primeiro parâmetro 'name' seja informado, 
+ * Caso somente o primeiro parâmetro 'name' seja informado,
  * a função irá procurar um cookie com este parâmetro.
  * Caso o usuário também informe o parâmetro 'value', a função
  * irá criar um novo cookie.

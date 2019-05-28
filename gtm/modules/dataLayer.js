@@ -1,8 +1,8 @@
 /**
- * Recupera uma chave do dataLayer utilizando o objeto 
+ * Recupera uma chave do dataLayer utilizando o objeto
  * padrão do GTM 'google_tag_manager'
  * Obs: Possui dependência com a ativação da variável 'container ID'
- * @param {*} key 
+ * @param {*} key
  */
 function getDataLayer(key) {
   try {
@@ -13,10 +13,10 @@ function getDataLayer(key) {
 }
 
 /**
- * Define uma chave do dataLayer utilizando o objeto 
+ * Define uma chave do dataLayer utilizando o objeto
  * padrão do GTM 'google_tag_manager'
  * Obs: Possui dependência com a ativação da variável 'container ID'
- * @param {*} key 
+ * @param {*} key
  */
 function setDataLayer(key, value) {
   try {
