@@ -192,20 +192,10 @@ Retorna um texto sem caracteres especiais, acentuação, espaços ou letras mai�
 analyticsHelper.sanitize('Minha String Suja'); // minha_string_suja
 analyticsHelper.sanitize('Minha String Suja', { capitalized: true }); // MinhaStringSuja
 analyticsHelper.sanitize('Minha String Suja', { spacer: '-' }); // minha-string-suja
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.sanitize('Minha String Suja', { capitalized: true, spacer: '-' }); // Minha-String-Suja
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.sanitize('Minha String Suja', {
   capitalized: true,
   spacer: '-'
 }); // Minha-String-Suja
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 ```
 
 #### cookie(name, value, opts)
@@ -266,14 +256,6 @@ analyticsHelper.safeFn('Nome da Tag do GTM', function(helper) {
   });
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-var fn = analyticsHelper.safefn('Nome da Tag do GTM', function (helper) {
-  console.log(new Date());
-}, { immediate: false });
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 var fn = analyticsHelper.safefn(
   'Nome da Tag do GTM',
   function(helper) {
@@ -281,10 +263,6 @@ var fn = analyticsHelper.safefn(
   },
   { immediate: false }
 );
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 setTimeout(fn, 2000);
 ```
@@ -298,15 +276,6 @@ A função `safeFn` tem um tratamento específico para as Exceptions que ocorrer
 Objeto com funções internas passados via parâmetro no callback da função `safeFn`.
 
 #### on(event, selector, callback, parent)
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-O método `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 7 ou inferior.
-
-A presença do quarto argumento, `parent`, transforma a funcionalidade do método `on` na do método [`delegate`](#delegateevent-selector-callback).
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 O método `on` serve para executar um callback ao executar algum evento em um elemento HTML específico. Em caso de não haver jQuery na página, ele se baseia na função querySelectorAll do javascript, e por conta disso, é preciso ficar atento a compatibilidade dos navegadores. Não é recomendado a utilização desta função em páginas que oferecem suporte a IE 7 ou inferior.
 
@@ -348,66 +317,11 @@ analyticsHelper.safeFn('Nome da Tag', function(helper) {
 #### delegate(event, selector, callback)
 
 O método `delegate` serve para executar um callback ao executar algum evento em um elemento HTML específico. Diferentemente do `on`, ele assume como padrão que o evento deverá ser atrelado ao `document.body` e não ao seletor passado no argumento `selector`, esperando por qualquer evento que ocorra em um elemento que case com o argumento `selector`.
-<<<<<<< HEAD
 
-Este método é preferível contra o método `on` nos casos em que o elemento ainda não exista na página ou quando ele pode existir e deixar de existir dependendo da navegação do usuário, como opções de um menu suspenso ou uma lista de scroll infinito.
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-
-#### Argumentos
-
-- `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
-  [Saiba mais](https://mdn.mozilla.org/en-US/docs/Web/Events).
-
-<<<<<<< HEAD
-* `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
-
-* `parent` (opcional): Elemento raíz a partir de onde o evento deverá ser ouvido.
-=======
-- `selector`: String do Seletor CSS ao qual os elementos que acionarem o evento do `body` deverão ser comparados.
-  [Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
-
-- `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-
-##### Exemplo de código
-
-```javascript
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '#botaoX', function (helper) {
-=======
-analyticsHelper.safeFn('Nome da Tag', function(helper) {
-  helper.delegate('mousedown', '#botaoX', function(helper) {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
-  });
-});
-
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '#botaoX', function (helper) {
-    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
-  }, '#caixaY');
-});
-```
-
-#### delegate(event, selector, callback)
-
-O método `delegate` serve para executar um callback ao executar algum evento em um elemento HTML específico. Diferentemente do `on`, ele assume como padrão que o evento deverá ser atrelado ao `document.body` e não ao seletor passado no argumento `selector`, esperando por qualquer evento que ocorra em um elemento que case com o argumento `selector`.
-
-=======
-
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 Este método é preferível contra o método `on` nos casos em que o elemento ainda não exista na página ou quando ele pode existir e deixar de existir dependendo da navegação do usuário, como opções de um menu suspenso ou uma lista de scroll infinito.
 
 #### Argumentos
 
-<<<<<<< HEAD
-* `selector`: String do Seletor CSS ao qual os elementos que acionarem o evento do `body` deverão ser comparados.
-[Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
-
-* `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
-=======
 - `event`: String do evento que ira executar o callback, exemplos: 'mousedown', 'click', etc.
   [Saiba mais](https://mdn.mozilla.org/en-US/docs/Web/Events).
 
@@ -415,32 +329,17 @@ Este método é preferível contra o método `on` nos casos em que o elemento ai
   [Saiba mais](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors).
 
 - `callback`: Função executada no disparo do evento suprido no parâmetro `event`.
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 ##### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.delegate('mousedown', '#botaoX', function (helper) {
-=======
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.delegate('mousedown', '#botaoX', function(helper) {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
   });
 });
 
 // Equivalente a
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '#botaoX', function (helper) {
-    helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
-  }, document.body);
-=======
-// Equivalente a
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.on(
     'mousedown',
@@ -450,10 +349,6 @@ analyticsHelper.safeFn('Nome da Tag', function(helper) {
     },
     document.body
   );
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 });
 ```
 
@@ -475,33 +370,15 @@ A função `wrap` provê diversas funções facilitadoras para interações com 
 
 ```javascript
 // Apenas um elemento
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '#botaoX', function () {
-=======
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.on('mousedown', '#botaoX', function() {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
-analyticsHelper.safeFn('Nome da Tag', function(helper) {
-  helper.on('mousedown', '#botaoX', function() {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
     var text = helper.wrap(this).text({ sanitize: true });
     helper.event('Categoria', 'Ação', 'Label_' + text);
   });
 });
 
 // Múltiplos elementos
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-=======
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
-analyticsHelper.safeFn('Nome da Tag', function(helper) {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
   var urls = helper.wrap('a');
   console.log(urls.nodes); // Array de nodes a.
 });
@@ -524,12 +401,6 @@ Função que verifica se o elemento HTML tem a classe passada por parâmetro.
 - `className`: String do nome da classe a ser batida com o elemento.
 
 - `opts` (opcional): Objeto com variáveis para configuração da função hasClass. \* `toArray`: Caso o valor seja true, retorna o array de resultados relacionados à comparação.
-<<<<<<< HEAD
-
-##### Retorno
-
-- **Boolean** ou **Array de Boolean**: Caso o parâmetro `opts`seja informado com o atributo `toArray`recebendo o valor true, o retorno da função será o array o boolean de elementos encontrados. Caso somente o parâmetro `className` seja informado, a função retorno true ou false se encontrar ou não algum elemento com a classe especificada.
-=======
 
 ##### Retorno
 
@@ -562,7 +433,6 @@ Um wrapper ao redor do Console nativo. Criado para garantir que execute apenas d
 ##### Retorno
 
 - **undefined**: Nenhum retorno é enviado ou deverá ser esperado após a execução desta função.
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 ##### Exemplo de código
 
@@ -570,42 +440,6 @@ Um wrapper ao redor do Console nativo. Criado para garantir que execute apenas d
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.on('mousedown', '.button', function() {
     if (helper.wrap(this).hasClass('myClass')) {
-<<<<<<< HEAD
-      helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
-    }
-  });
-});
-```
-
-#### log(type, message, object)
-
-Um wrapper ao redor do Console nativo. Criado para garantir que execute apenas durante Debug Mode e apenas se console[type] existir.
-
-##### Argumentos
-
-- `type` Tipo de console a ser realizado. Pode ser qualquer tipo suportado pelo console: `log`, `warn`, `error`, `table`, `group`...
-
-- `message` Texto a ser enviado para o console.
-
-- `object` (opcional): Qualquer objeto com mais detalhes do que deve ser enviado para o método escolhido.
-
-##### Retorno
-
-- **undefined**: Nenhum retorno é enviado ou deverá ser esperado após a execução desta função.
-
-##### Exemplo de código
-
-```javascript
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '.button', function () {
-=======
-analyticsHelper.safeFn('Nome da Tag', function(helper) {
-  helper.on('mousedown', '.button', function() {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-    if (helper.wrap(this).hasClass('myClass')) {
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     } else {
       helper.log('log', 'Classe "myClass" não encontrada');
@@ -614,31 +448,6 @@ analyticsHelper.safeFn('Nome da Tag', function(helper) {
 });
 ```
 
-#### log(type, message, object)
-Um wrapper ao redor do Console nativo. Criado para garantir que execute apenas durante Debug Mode e apenas se console[type] existir.
-
-##### Argumentos
-* `type` Tipo de console a ser realizado. Pode ser qualquer tipo suportado pelo console: `log`, `warn`, `error`, `table`, `group`...
-
-* `message` Texto a ser enviado para o console.
-
-* `object` (opcional): Qualquer objeto com mais detalhes do que deve ser enviado para o método escolhido.
-
-##### Retorno
-* **undefined**: Nenhum retorno é enviado ou deverá ser esperado após a execução desta função.
-
-##### Exemplo de código
-```javascript
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '.button', function () {
-    if (helper.wrap(this).hasClass('myClass')) {
-      helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
-    } else {
-      helper.log('log', 'Classe "myClass" não encontrada');
-    }
-  });
-});
-```
 #### matches(selector, reduce)
 
 Função que verifica se o elemento HTML confere com o seletor.
@@ -656,18 +465,8 @@ Função que verifica se o elemento HTML confere com o seletor.
 ##### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '.button', function () {
-=======
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.on('mousedown', '.button', function() {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
-analyticsHelper.safeFn('Nome da Tag', function(helper) {
-  helper.on('mousedown', '.button', function() {
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
     if (helper.wrap(this).matches('.myForm .button')) {
       helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo');
     }
@@ -690,24 +489,12 @@ Para cada elemento no conjunto, obtenha o primeiro elemento que corresponde ao s
 ##### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  helper.on('mousedown', '.button', function () {
-    var text = helper.wrap(this).closest('div.parentDivWithText').text({ sanitize: true, onlyFirst: true });
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   helper.on('mousedown', '.button', function() {
     var text = helper
       .wrap(this)
       .closest('div.parentDivWithText')
       .text({ sanitize: true, onlyFirst: true });
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
     helper.event('MinhaCategoria', 'MinhaAcao', 'MeuRotulo' + text);
   });
 });
@@ -729,15 +516,6 @@ Função que retorna o texto do elemento.
 ##### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  var text = helper.wrap('#myId').text({ sanitize: true, onlyFirst: true, onlyText: true });
-
-  var text2 = helper.wrap('#myOtherId').text({ sanitize: { spacer: '/', capitalized: false } });
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   var text = helper
     .wrap('#myId')
@@ -746,10 +524,6 @@ analyticsHelper.safeFn('Nome da Tag', function(helper) {
   var text2 = helper
     .wrap('#myOtherId')
     .text({ sanitize: { spacer: '/', capitalized: false } });
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
   helper.pageview('/' + text + '/' + text2);
 });
 ```
@@ -767,22 +541,11 @@ Função que retorna um objeto Wrap de todos os elementos que batem com o seleto
 ##### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  var text = helper.wrap('#myId').find('.myClass').text({ sanitize: true });
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   var text = helper
     .wrap('#myId')
     .find('.myClass')
     .text({ sanitize: true });
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
   helper.pageview('/' + text);
 });
 ```
@@ -800,21 +563,10 @@ Função que executa um código para cada elemento. Possui o mesmo comportamento
 #### Exemplo de código
 
 ```javascript
-<<<<<<< HEAD
-<<<<<<< HEAD
-analyticsHelper.safeFn('Nome da Tag', function (helper) {
-  var sources = helper.wrap('img').map(function (elm) { return elm.src; });
-=======
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 analyticsHelper.safeFn('Nome da Tag', function(helper) {
   var sources = helper.wrap('img').map(function(elm) {
     return elm.src;
   });
-<<<<<<< HEAD
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
-=======
->>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
   console.log(sources); // Array com os valores do atributo src de cada elemento img.
 });
 ```

@@ -1,6 +1,7 @@
 # Analytics Helper
 
-[![Build Status](https://travis-ci.org/DP6/analytics-helper.svg?branch=master)](https://travis-ci.org/DP6/analytics-helper) [![Coverage Status](https://coveralls.io/repos/github/DP6/analytics-helper/badge.svg?branch=master)](https://coveralls.io/github/Dp6/analytics-helper?branch=master)
+[![Build Status](https://travis-ci.org/DP6/analytics-helper.svg?branch=master)](https://travis-ci.org/DP6/analytics-helper) [![Coverage Status](https://coveralls.io/repos/github/DP6/analytics-helper/badge.svg?branch=master)](https://coveralls.io/github/DP6/analytics-helper?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+
 
 O Analytics Helper tem como objetivo facilitar a implementação, a manutenção e a padronização de *tags* no contexto de *digital analytics*.
 
