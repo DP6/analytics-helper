@@ -35,8 +35,6 @@ gulp.task('build-gtm', function() {
   .pipe(gulp.dest('./build/gtm'));
 });
 
-gulp.task('clean', function() {
-  return del(['./tmp']);
-});
+gulp.task('clean', () => del(['./tmp']));
 
 gulp.task('default', gulp.series(['clean', 'gtm-modules', 'build-gtm', 'clean']));

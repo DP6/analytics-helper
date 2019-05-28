@@ -1,9 +1,13 @@
 # Analytics Helper
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 [![Build Status](https://travis-ci.org/joaquimsn/analytics-helper.svg?branch=master)](https://travis-ci.org/joaquimsn/analytics-helper) [![Coverage Status](https://coveralls.io/repos/github/joaquimsn/analytics-helper/badge.svg?branch=master)](https://coveralls.io/github/joaquimsn/analytics-helper?branch=master)
 
 O Analytics Helper tem como objetivo facilitar a implementação, a manutenção e a padronização de *tags* no contexto de *digital analytics*.
+=======
+O Analytics Helper tem como objetivo facilitar a implementação, a manutenção e a padronização de _tags_ no contexto de _digital analytics_.
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 =======
 O Analytics Helper tem como objetivo facilitar a implementação, a manutenção e a padronização de _tags_ no contexto de _digital analytics_.
 >>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241

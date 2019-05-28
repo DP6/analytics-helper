@@ -9,7 +9,7 @@ function safeFn(id, callback, opt) {
           args: arguments,
           event: (typeof opt.event === 'string' && opt.event) || undefined,
           selector:
-          (typeof opt.selector === 'string' && opt.selector) || undefined
+            (typeof opt.selector === 'string' && opt.selector) || undefined
         })
       );
     } catch ($$e) {
@@ -23,7 +23,7 @@ function safeFn(id, callback, opt) {
               label: String($$e),
               event: (typeof opt.event === 'string' && opt.event) || undefined,
               selector:
-              (typeof opt.selector === 'string' && opt.selector) || undefined
+                (typeof opt.selector === 'string' && opt.selector) || undefined
             }
           });
         }
@@ -33,11 +33,11 @@ function safeFn(id, callback, opt) {
           tag: id,
           event: (typeof opt.event === 'string' && opt.event) || undefined,
           selector:
-          (typeof opt.selector === 'string' && opt.selector) || undefined
+            (typeof opt.selector === 'string' && opt.selector) || undefined
         });
       }
     }
   };
-    
+
   return opt.immediate === false ? safe : safe();
 }

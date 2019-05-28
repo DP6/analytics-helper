@@ -15,9 +15,15 @@ As tags que utilizarem o objeto analyticsHelper devem configurar esta tag princi
 ## Acionadores
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Quatro acionadores do tipo *evento personalizado* devem ser criados.
 
 Os nomes dos eventos serão os mesmos nomes utilizados para identificá-los na camada de dados: *gtm_dataQuality_event*, *ga_pageview*, *ga_event* e *ga_timing*.
+=======
+Quatro acionadores do tipo _evento personalizado_ devem ser criados.
+
+Os nomes dos eventos serão os mesmos nomes utilizados para identificá-los na camada de dados: _gtm_dataQuality_event_, _ga_pageview_, _ga_event_ e _ga_timing_.
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 =======
 Quatro acionadores do tipo _evento personalizado_ devem ser criados.
 
@@ -29,6 +35,7 @@ Os nomes dos eventos serão os mesmos nomes utilizados para identificá-los na c
 ## Tags de template
 
 Quatro tags de Universal Analytics devem ser criadas, uma para cada acionador criado acima.
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 Estas tags devem ser preenchidas com as variáveis de camada de dados listadas na próxima seção. Estes são os campos padrões, as tags podem ser modificadas  para incluir ou remover dimensões personalizadas, dados de ecommerce e outras configurações.
@@ -49,11 +56,24 @@ Estas tags devem ser preenchidas com as variáveis de camada de dados listadas n
 ![Tag de template de Pageview](documentation-images/tag_pageview.png)
 
 ### Template de Evento (+ GA Settings)
+=======
+
+Estas tags devem ser preenchidas com as variáveis de camada de dados listadas na próxima seção. Estes são os campos padrões, as tags podem ser modificadas para incluir ou remover dimensões personalizadas, dados de ecommerce e outras configurações.
+
+### Template de Pageview (+ GA Settings)
+
+![Tag de template de Pageview](documentation-images/tag_pageview.png)
+
+### Template de Evento (+ GA Settings)
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 ![Tag de template de Evento](documentation-images/tag_event.png)
 
 ### Template de Timing (+ GA Settings)
 
+<<<<<<< HEAD
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
+=======
 >>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 ![Tag de template de Timing](documentation-images/tag_timing.png)
 
@@ -62,6 +82,7 @@ Estas tags devem ser preenchidas com as variáveis de camada de dados listadas n
 ![Tag de template de DataQuality](documentation-images/tag_dataquality.png)
 
 ### Template de GA Settings
+<<<<<<< HEAD
 <<<<<<< HEAD
 ![Tag de template de GA Settings](documentation-images/var_gasettings.png)
 
@@ -98,6 +119,13 @@ Caso utilize a opção waitQueue (habilitada por padrão), a seguinte variável 
 
 ## Variáveis
 
+=======
+
+![Tag de template de GA Settings](documentation-images/var_gasettings.png)
+
+## Variáveis
+
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 As variáveis padrão _Container ID_ e _Debug Mode_ devem ser habilitadas, pois elas são utilizadas pelo código da _tag principal_.
 
 A tabela a seguir descreve todas as variáveis do tipo _variável de camada de dados_ que deverão ser criadas para o uso nas tags de template do Google Analytics:
@@ -122,6 +150,9 @@ A tabela a seguir descreve todas as variáveis do tipo _variável de camada de d
 | dataQuality.event                   | Tag de Data Quality | Dimensões Personalizadas -> 2 |
 
 Caso utilize a opção waitQueue (habilitada por padrão), a seguinte variável de _javascript personalizado_ deverá ser criada e adicionada ao campo _hitCallback_ em _Fields to Set_ nas tags de template de Google Analytics.
+<<<<<<< HEAD
+>>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
+=======
 >>>>>>> 60857a0af0a8d66b3b33ee32cf24b88330255241
 
 ```javascript
