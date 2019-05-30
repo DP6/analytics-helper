@@ -54,18 +54,9 @@
         return parent;
       }
       parent = parent.parentNode;
-    } <<
-    << << < HEAD
+    }
     return undefined;
   }
-  
-  ===
-  === =
-  parent = parent.parentNode;
-  }
-  return undefined;
-  } >>>
-  >>> > 60857 a0af0a8d66b3b33ee32cf24b88330255241
   
   function getCookie(key) {
     key = '; ' + key + '=';
