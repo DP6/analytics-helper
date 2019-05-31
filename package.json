@@ -89,8 +89,10 @@
         "@babel/register": "^7.0.0",
         "babel-plugin-istanbul": "^5.0.1",
         "chai": "^4.1.2",
+        "commitizen": "^3.1.1",
         "coveralls": "^3.0.2",
         "cross-env": "^5.2.0",
+        "cz-conventional-changelog": "^2.1.0",
         "del": "^3.0.0",
         "gulp": "^4.0.0",
         "gulp-beautify": "^2.0.1",
@@ -105,5 +107,10 @@
         "nyc": "^13.0.1",
         "sonarqube-scanner": "^2.1.1"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
 }
