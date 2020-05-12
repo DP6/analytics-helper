@@ -83,16 +83,16 @@
         ]
     },
     "devDependencies": {
-        "@babel/cli": "^7.8.3",
-        "@babel/core": "^7.8.3",
-        "@babel/preset-env": "^7.8.3",
-        "@babel/register": "^7.8.3",
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
+        "@babel/register": "^7.9.0",
         "babel-plugin-istanbul": "^6.0.0",
         "chai": "^4.2.0",
-        "commitizen": "^4.0.3",
-        "coveralls": "^3.0.9",
-        "cross-env": "^7.0.0",
-        "cz-conventional-changelog": "^3.1.0",
+        "commitizen": "^4.1.2",
+        "coveralls": "^3.1.0",
+        "cross-env": "^7.0.2",
+        "cz-conventional-changelog": "^3.2.0",
         "del": "^5.1.0",
         "gulp": "^4.0.2",
         "gulp-beautify": "^3.0.0",
@@ -102,12 +102,14 @@
         "gulp-replace": "^1.0.0",
         "gulp-strip-comments": "^2.5.2",
         "gulp-uglify": "^3.0.2",
-        "jsdom": "^16.0.1",
-        "mocha": "^7.0.1",
-        "nyc": "^15.0.0",
-        "sonarqube-scanner": "^2.5.0"
+        "jsdom": "^16.2.2",
+        "mocha": "^7.1.2",
+        "nyc": "^15.0.1",
+        "sonarqube-scanner": "^2.6.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "npm-check-updates": "^5.0.0"
+    },
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
