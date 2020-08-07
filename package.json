@@ -24,7 +24,7 @@
     },
     "homepage": "https://github.com/DP6/analytics-helper#readme",
     "scripts": {
-        "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary --reporter=text  mocha test/index.test.js",
+        "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary --reporter=text  mocha test/index.test.js --require @babel/register",
         "coverage": "nyc report --reporter=text-lcov | coveralls"
     },
     "nyc": {
