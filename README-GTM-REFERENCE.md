@@ -581,6 +581,4 @@ analyticsHelper.safeFn('Nome da Tag', function(helper) {
 
 #### Créditos
 
-**Obrigado deus !!!**
-
-!["Gratidão!"](https://ogimg.infoglobo.com.br/in/18001046-646-3f0/FT1086A/420/ronaldinho_barcelona.jpg)
+**DP6 Koopas !!!**
