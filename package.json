@@ -93,7 +93,7 @@
         "coveralls": "^3.1.0",
         "cross-env": "^7.0.2",
         "cz-conventional-changelog": "^3.3.0",
-        "del": "^5.1.0",
+        "del": "^6.0.0",
         "gulp": "^4.0.2",
         "gulp-beautify": "^3.0.0",
         "gulp-concat": "^2.6.1",
